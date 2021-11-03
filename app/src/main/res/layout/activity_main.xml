@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/enterID"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/starTitle"
+        android:layout_width="409dp"
+        android:layout_height="72dp"
+        android:background="@color/cardview_shadow_start_color"
+        android:fontFamily="sans-serif-black"
+        android:text="Star Stats"
+        android:textSize="60sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/tagInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/starTitle" />
+
+    <TextView
+        android:id="@+id/enterTagText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="22dp"
+        android:text="Enter your player tag"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/tagInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/starTitle" />
+
+    <TextView
+        android:id="@+id/hashtag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tagInput"
+        app:layout_constraintEnd_toStartOf="@+id/tagInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tagInput" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="#FB8500"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/tagInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tagInput"
+        app:layout_constraintTop_toTopOf="@+id/tagInput"
+        app:srcCompat="@drawable/search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
