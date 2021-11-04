@@ -19,17 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/tagInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/starTitle" />
-
     <TextView
         android:id="@+id/enterTagText"
         android:layout_width="wrap_content"
@@ -37,44 +26,51 @@
         android:layout_marginTop="27dp"
         android:layout_marginBottom="22dp"
         android:text="Enter your player tag"
-        android:textSize="20sp"
+        android:textSize="38sp"
         app:layout_constraintBottom_toTopOf="@+id/tagInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/starTitle"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/tagInput"
+        android:layout_width="283dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="200dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/starTitle" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search"
+        android:layout_width="61dp"
+        android:layout_height="58dp"
+        android:background="#FB8500"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/tagInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/tagInput"
+        app:layout_constraintTop_toTopOf="@+id/tagInput"
+        app:layout_constraintVertical_bias="0.571"
+        app:srcCompat="@drawable/search" />
 
     <TextView
         android:id="@+id/hashtag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="#"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="@+id/tagInput"
         app:layout_constraintEnd_toStartOf="@+id/tagInput"
+        app:layout_constraintHorizontal_bias="0.318"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tagInput" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/search"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="#FB8500"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/tagInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tagInput"
         app:layout_constraintTop_toTopOf="@+id/tagInput"
-        app:srcCompat="@drawable/search" />
-
-    <TextView
-        android:id="@+id/stats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tagInput" />
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
