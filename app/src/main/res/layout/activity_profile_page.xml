@@ -8,28 +8,7 @@
     android:background="@drawable/background"
     tools:context=".ProfilePage">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/nameBack"
-        android:layout_width="match_parent"
-        android:layout_height="296dp"
-        android:background="@drawable/name_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".ProfilePage">
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="34sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <!--
+    <!--
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/toSearch"
                 android:layout_width="32dp"
@@ -41,5 +20,61 @@
                 app:layout_constraintTop_toTopOf="@+id/name"
                 app:srcCompat="@drawable/search"/>
                 -->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/name_back"
+        android:fontFamily="@font/nougat_extrablack"
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/personalStats"
+        android:layout_width="409dp"
+        android:layout_height="205dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/brawlersScroll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name">
+
+        <TextView
+            android:id="@+id/highestTrophies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nougat_extrablack"
+            android:gravity="center"
+            android:text="TextView"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bsfont"
+            android:gravity="center"
+            android:text="TextView"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/brawlersScroll"
+        android:layout_width="409dp"
+        android:layout_height="433dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></androidx.recyclerview.widget.RecyclerView>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

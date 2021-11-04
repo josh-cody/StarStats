@@ -1,13 +1,17 @@
 package com.example.starstats;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,7 +29,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ProfilePage extends AppCompatActivity {
 
-    TextView name;
+    TextView name, highestTrophies;
+    RecyclerView brawlers;
     FloatingActionButton toSearch;
     static volatile String RESPONSE_FROM_API = "Invalid code!";
     HttpsURLConnection connection;
@@ -35,13 +40,12 @@ public class ProfilePage extends AppCompatActivity {
     String tag;
     JSONObject jsonObject;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
         this.getActionBar().hide();
-        name = findViewById(R.id.name);
+        name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies);
         //toSearch = findViewById(R.id.toSearch);
         Intent intent = getIntent();
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
@@ -53,14 +57,20 @@ public class ProfilePage extends AppCompatActivity {
         apiThread = new ApiThread(tag);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-        try {
-            jsonObject = new JSONObject(RESPONSE_FROM_API);
-            name.setText(jsonObject.getString("name"));
-        } catch (JSONException e) { e.printStackTrace(); }
+        try { setValues(RESPONSE_FROM_API); } catch (JSONException e) { e.printStackTrace(); }
         /*toSearch.setOnClickListener(view -> {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         });*/
+
+    }
+
+    public void setValues(String RESPONSE_FROM_API) throws JSONException {
+        jsonObject = new JSONObject(RESPONSE_FROM_API);
+        name.setText(jsonObject.getString("name"));
+        name.setTextColor(Color.RED);
+        highestTrophies.setText("Highest trophies: " + jsonObject.getString("highestTrophies"));
+
     }
 
     class ApiThread extends Thread implements Runnable {
@@ -91,4 +101,38 @@ public class ProfilePage extends AppCompatActivity {
             return sb.toString();
         }
     }
+
+    /*class BrawlerAdapter extends RecyclerView.Adapter<BrawlerAdapter.ViewHolder> {
+
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            private final TextView textView;
+
+            public ViewHolder(View view) {
+                super(view);
+                textView = view.findViewById(R.id.);
+            }
+
+            public TextView getTextView() {
+                return textView;
+            }
+        }
+
+        @NonNull
+        @Override
+        public BrawlerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_main, parent, false);
+            return new BrawlerAdapter.ViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+    }*/
 }
