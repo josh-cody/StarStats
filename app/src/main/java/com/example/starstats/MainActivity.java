@@ -24,9 +24,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
         setContentView(R.layout.activity_main);
-        if(!pref.getString("tag", "defaulterror").equals("defaulterror")) {
-            goToProfile();
-        }
+        if(!pref.getString("tag", "defaulterror").equals("defaulterror")) {  goToProfile();  }
         mainLayout = findViewById(R.id.enterID); search = findViewById(R.id.search); tagInput = findViewById(R.id.tagInput);
         search.setOnClickListener(view -> {
             tag = getTag();
