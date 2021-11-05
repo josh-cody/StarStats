@@ -61,10 +61,7 @@ public class ProfilePage extends AppCompatActivity {
         //toSearch = findViewById(R.id.toSearch);
         Intent intent = getIntent();
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
-        if(intent.getStringExtra("tag")!=null || intent.getStringExtra("tag").equals(""))
-            tag = intent.getStringExtra("tag");
-        else
-            tag = pref.getString("tag", "");
+        tag = pref.getString("tag", "");
         apiThread = new ApiThread(tag);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
@@ -76,7 +73,6 @@ public class ProfilePage extends AppCompatActivity {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         });*/
-
     }
 
     private void setBrawlerAdapter() {
@@ -88,7 +84,6 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     private void populateBrawlerList() throws JSONException {
-
         JSONArray jsonArray = jsonObject.getJSONArray("brawlers");
         for(int i = 0; i < jsonArray.length() - 1; i++) {
             JSONObject tmpBrawler = (JSONObject) jsonArray.get(i);
