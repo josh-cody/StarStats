@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
         setContentView(R.layout.activity_main);
-        if(!pref.getString("tag", "defaulterror").equals("defaulterror")) {  goToProfile();  }
         mainLayout = findViewById(R.id.enterID); search = findViewById(R.id.search); tagInput = findViewById(R.id.tagInput);
         search.setOnClickListener(view -> {
             tag = getTag();
@@ -32,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
             goToProfile();
         });
     }
+    //TODO: ADD RECENT TAGS
     public void goToProfile() {
         Intent goToProfile = new Intent(this, ProfilePage.class);
         goToProfile.putExtra("tag", getSharedPreferences("def", Context.MODE_PRIVATE).getString("tag",""));

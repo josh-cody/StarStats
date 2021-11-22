@@ -8,19 +8,6 @@
     android:background="@drawable/background"
     tools:context=".ProfilePage">
 
-    <!--
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/toSearch"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:clickable="true"
-                app:layout_constraintBottom_toBottomOf="@+id/name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/name"
-                app:layout_constraintTop_toTopOf="@+id/name"
-                app:srcCompat="@drawable/search"/>
-                -->
-
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
@@ -73,7 +60,7 @@
         android:layout_height="522dp"
         android:layout_margin="8dp"
         android:background="@drawable/roundedco"
-        android:clipToPadding="false"
+        android:clipToPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
