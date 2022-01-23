@@ -53,7 +53,6 @@ public class ProfilePage extends AppCompatActivity {
     HttpURLConnection connection;
     Thread apiThread;
     String tag;
-    volatile Boolean flag;
     JSONObject jsonObject;
 
     @Override
@@ -62,17 +61,11 @@ public class ProfilePage extends AppCompatActivity {
         setContentView(R.layout.activity_profile_page);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         tag = pref.getString("tag", "");
-        System.out.println("tag: "+tag);
-        /*if(tag.equals("") || RESPONSE_FROM_API.equals("Invalid code!")) {
-            Intent noTag = new Intent(this, MainActivity.class);
-            startActivity(noTag);
-        }*/
         this.getActionBar().hide();
         brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
         apiThread = new ApiThread(tag);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-        //if(flag) {Intent errorToHome = new Intent(this, MainActivity.class); startActivity(errorToHome);}
         try { setValues(RESPONSE_FROM_API); } catch (JSONException e) { e.printStackTrace(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
@@ -108,7 +101,6 @@ public class ProfilePage extends AppCompatActivity {
     class ApiThread extends Thread implements Runnable {
         String tag = getSharedPreferences("def", Context.MODE_PRIVATE).getString("tag", "");
         public ApiThread(String tag) {  this.tag = tag;  }
-        //This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: www.supercell.com/fan-content-policy.
         @Override
         public void run() {
             System.out.println("API Thread has started running");
@@ -126,12 +118,10 @@ public class ProfilePage extends AppCompatActivity {
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
                 System.out.println("response: "+ RESPONSE_FROM_API);
-                //flag = false;
             } catch (IOException e) {
                 Looper.prepare();
                 e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                //flag = true;
+                Toast.makeText(getApplicationContext(), "Make sure you enter the correct tag", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -149,7 +139,6 @@ public class ProfilePage extends AppCompatActivity {
     class BrawlerAdapter extends RecyclerView.Adapter<BrawlerAdapter.ViewHolder> {
 
         private ArrayList<Brawler> brawlerList;
-
         public BrawlerAdapter(ArrayList<Brawler> brawlerList) {   this.brawlerList = brawlerList;  }
 
         //Class to hold the view for creating the Brawler cards
