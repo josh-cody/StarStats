@@ -28,12 +28,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -60,7 +64,7 @@ public class ProfilePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
-        tag = pref.getString("tag", "");
+        tag = pref.getString("tag", "default");
         this.getActionBar().hide();
         brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
         apiThread = new ApiThread(tag);
@@ -99,25 +103,25 @@ public class ProfilePage extends AppCompatActivity {
 
     //Thread to make the API call
     class ApiThread extends Thread implements Runnable {
-        String tag = getSharedPreferences("def", Context.MODE_PRIVATE).getString("tag", "");
+        String tag;
         public ApiThread(String tag) {  this.tag = tag;  }
         @Override
         public void run() {
             System.out.println("API Thread has started running");
             try {
                 //Creating request to API
-                String sendingData = "tag="+tag;
-                byte[] postTag = sendingData.getBytes(StandardCharsets.UTF_8);
-                connection = (HttpURLConnection) new URL("http://140.82.61.171:8080/call").openConnection();
+                connection = (HttpURLConnection) new URL("http://192.168.1.12:5000/call").openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
 
-                DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+                String postTag = URLEncoder.encode(this.tag, "UTF-8");
+
+                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
                 wr.write(postTag);
+                wr.flush();
 
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
-                System.out.println("response: "+ RESPONSE_FROM_API);
             } catch (IOException e) {
                 Looper.prepare();
                 e.printStackTrace();
