@@ -45,7 +45,6 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class ProfilePage extends AppCompatActivity {
@@ -53,9 +52,7 @@ public class ProfilePage extends AppCompatActivity {
     TextView name, highestTrophies, currentTrophies;
     RecyclerView brawlers;
     private ArrayList<Brawler> brawlerList;
-    static volatile String RESPONSE_FROM_API = "Invalid code!";
-    HttpURLConnection connection;
-    Thread apiThread;
+    ApiThread apiThread;
     String tag;
     JSONObject jsonObject;
 
@@ -67,10 +64,11 @@ public class ProfilePage extends AppCompatActivity {
         tag = pref.getString("tag", "default");
         this.getActionBar().hide();
         brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
-        apiThread = new ApiThread(tag);
+        apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-        try { setValues(RESPONSE_FROM_API); } catch (JSONException e) { e.printStackTrace(); }
+        System.out.println(pref.getString("response", ""));
+        try { setValues(pref.getString("response", "")); } catch (JSONException e) { e.printStackTrace(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
         setBrawlerAdapter();
@@ -99,45 +97,6 @@ public class ProfilePage extends AppCompatActivity {
         name.setTextColor(Color.BLACK);
         highestTrophies.setText("Highest trophies: " + jsonObject.getString("highestTrophies"));
         currentTrophies.setText("Current trophies: " + jsonObject.getString("trophies"));
-    }
-
-    //Thread to make the API call
-    class ApiThread extends Thread implements Runnable {
-        String tag;
-        public ApiThread(String tag) {  this.tag = tag;  }
-        @Override
-        public void run() {
-            System.out.println("API Thread has started running");
-            try {
-                //Creating request to API
-                connection = (HttpURLConnection) new URL("http://192.168.1.12:5000/call").openConnection();
-                connection.setRequestMethod("POST");
-                connection.setDoOutput(true);
-
-                String postTag = URLEncoder.encode(this.tag, "UTF-8");
-
-                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-                wr.write(postTag);
-                wr.flush();
-
-                InputStream is = connection.getInputStream();
-                RESPONSE_FROM_API = inputStreamToString(is);
-            } catch (IOException e) {
-                Looper.prepare();
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "Make sure you enter the correct tag", Toast.LENGTH_LONG).show();
-            }
-        }
-
-        private String inputStreamToString(InputStream is) throws IOException {
-            InputStreamReader isReader = new InputStreamReader(is);
-            BufferedReader reader = new BufferedReader(isReader);
-            StringBuilder sb = new StringBuilder();
-            String str;
-            while((str = reader.readLine())!=null)
-                sb.append(str);
-            return sb.toString();
-        }
     }
 
     class BrawlerAdapter extends RecyclerView.Adapter<BrawlerAdapter.ViewHolder> {

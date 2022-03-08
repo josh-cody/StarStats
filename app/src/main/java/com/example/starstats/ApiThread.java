@@ -1,0 +1,71 @@
+package com.example.starstats;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Looper;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+//Thread to make the API call
+class ApiThread extends Thread implements Runnable {
+    String tag;
+    int req;
+    HttpURLConnection connection;
+    static String RESPONSE_FROM_API = "Invalid code!";
+    Context context;
+
+    public ApiThread(Context context, String tag, int req) {  this.context = context; this.tag = tag; this.req = req;  }
+    @Override
+    public void run() {
+        SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+
+        System.out.println("API Thread has started running");
+        if(this.req == 1) {
+            try {
+                //Creates request for player data
+                URL server = new URL("http://192.168.1.12:5000/call");
+                connection = (HttpURLConnection) server.openConnection();
+                //connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+                connection.connect();
+
+                String postTag = URLEncoder.encode(this.tag, "UTF-8");
+
+                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());  //TODO: CONNECTION NOT WORKING
+                wr.write(postTag);
+                wr.flush();
+
+                InputStream is = connection.getInputStream();
+                RESPONSE_FROM_API = inputStreamToString(is);
+                edit.putString("response", RESPONSE_FROM_API);
+            } catch (IOException e) {
+                Looper.prepare();
+                e.printStackTrace();
+                Toast.makeText(context.getApplicationContext(), "Make sure you enter the correct tag", Toast.LENGTH_LONG).show();
+            }
+        }
+        else if(this.req == 2) {
+            //Create request for map data
+
+        }
+    }
+
+    private String inputStreamToString(InputStream is) throws IOException {
+        InputStreamReader isReader = new InputStreamReader(is);
+        BufferedReader reader = new BufferedReader(isReader);
+        StringBuilder sb = new StringBuilder();
+        String str;
+        while((str = reader.readLine())!=null)
+            sb.append(str);
+        return sb.toString();
+    }
+}
