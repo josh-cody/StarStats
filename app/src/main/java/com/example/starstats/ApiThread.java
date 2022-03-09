@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -23,6 +24,8 @@ class ApiThread extends Thread implements Runnable {
     Context context;
 
     public ApiThread(Context context, String tag, int req) {  this.context = context; this.tag = tag; this.req = req;  }
+    public ApiThread(Context context, int req) {  this.context = context;  this.req = req;  }
+
     @Override
     public void run() {
         SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
@@ -32,21 +35,21 @@ class ApiThread extends Thread implements Runnable {
         if(this.req == 1) {
             try {
                 //Creates request for player data
-                URL server = new URL("http://192.168.1.12:5000/call");
+                URL server = new URL("http://192.168.1.12:5000/player"); //NOT RUNNING ON SERVER, NEEDS DEPLOYED. APP MUST BE USED ON SAME WIFI NETWORK.
                 connection = (HttpURLConnection) server.openConnection();
-                //connection.setRequestMethod("POST");
+                connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
                 connection.connect();
 
                 String postTag = URLEncoder.encode(this.tag, "UTF-8");
 
-                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());  //TODO: CONNECTION NOT WORKING
+                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
                 wr.write(postTag);
                 wr.flush();
 
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
-                edit.putString("response", RESPONSE_FROM_API);
+                edit.putString("response", RESPONSE_FROM_API).apply();
             } catch (IOException e) {
                 Looper.prepare();
                 e.printStackTrace();
@@ -55,6 +58,16 @@ class ApiThread extends Thread implements Runnable {
         }
         else if(this.req == 2) {
             //Create request for map data
+            try {
+                URL server = new URL("http://192.168.1.12:5000/maps");
+                connection = (HttpURLConnection) server.openConnection();
+                InputStream is = connection.getInputStream();
+                RESPONSE_FROM_API = inputStreamToString(is);
+                edit.putString("mapresponse", RESPONSE_FROM_API).apply();
+            } catch (IOException e) {
+                e.printStackTrace();
+                String tmp = "";
+            }
 
         }
     }

@@ -8,44 +8,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Looper;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
-import javax.net.ssl.HttpsURLConnection;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -67,10 +44,11 @@ public class ProfilePage extends AppCompatActivity {
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-        System.out.println(pref.getString("response", ""));
+
         try { setValues(pref.getString("response", "")); } catch (JSONException e) { e.printStackTrace(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
+        for(Brawler b: brawlerList) { System.out.println("name: "+b.name);}
         setBrawlerAdapter();
     }
 
@@ -141,12 +119,11 @@ public class ProfilePage extends AppCompatActivity {
 
             holder.rank.setImageResource(id1);
 
-            //TODO: fix broken brawler pictures
             Context context = holder.brawlerPortrait.getContext();
             int id = context.getResources().getIdentifier(brawler.name.toLowerCase(Locale.ROOT), "drawable", context.getPackageName());
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
 
-            switch (brawler.name.toLowerCase(Locale.ROOT)) {
+            switch (brawler.name.toLowerCase(Locale.ROOT)) { //TODO: REMOVE SPECIAL CASES BY FORMATTING STRINGS
                 case "el primo":
                     holder.brawlerPortrait.setImageResource(R.drawable.primo);
                     break;

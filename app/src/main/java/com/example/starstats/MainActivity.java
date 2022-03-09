@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(view -> {
             tag = getTag();
             edit.putString("tag", tag).apply();
+            System.out.println("tag: "+pref.getString("tag", "NO TAG"));
             goToProfile();
         });
         toMaps.setOnClickListener(view -> {
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //TODO: ADD RECENT TAGS
     public void goToProfile() {
         Intent goToProfile = new Intent(this, ProfilePage.class);
         goToProfile.putExtra("tag", getSharedPreferences("def", Context.MODE_PRIVATE).getString("tag", ""));
