@@ -62,7 +62,7 @@ public class ProfilePage extends AppCompatActivity {
 
     private void populateBrawlerList() throws JSONException {
         JSONArray jsonArray = jsonObject.getJSONArray("brawlers");
-        for(int i = 0; i < jsonArray.length() - 1; i++) {
+        for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject tmpBrawler = (JSONObject) jsonArray.get(i);
             brawlerList.add(new Brawler(tmpBrawler.getString("name"), tmpBrawler.getInt("power"), tmpBrawler.getInt("trophies"), tmpBrawler.getInt("rank"), tmpBrawler.getInt("highestTrophies")));
         }

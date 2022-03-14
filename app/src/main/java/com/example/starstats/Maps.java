@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,9 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class Maps extends AppCompatActivity {
 
@@ -41,11 +43,9 @@ public class Maps extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("def", Context.MODE_PRIVATE);
 
-        if(pref.getString("mapresponse","").equals("")) { //TODO: USES STORED DATA, WILL NOT UPDATE ONCE CALLED ONCE. NEED TO IMPLEMENT 5MIN TIMER OR SOMETHING.
-            ApiThread apiThread = new ApiThread(getApplicationContext(), 2);
-            apiThread.start();
-            try {   apiThread.join();  } catch (InterruptedException e) { e.printStackTrace();  }
-        }
+        ApiThread apiThread = new ApiThread(getApplicationContext(), 2);
+        apiThread.start();
+        try {   apiThread.join();  } catch (InterruptedException e) { e.printStackTrace();  }
         mapList = new ArrayList<>();
         try { populateMapList(pref.getString("mapresponse", "NO RESPONSE")); } catch (JSONException e) { e.printStackTrace(); }
         try { setMapAdapter(); } catch (JSONException e) { e.printStackTrace(); }
@@ -72,14 +72,17 @@ public class Maps extends AppCompatActivity {
 
     class MapAdapter extends RecyclerView.Adapter<MapAdapter.ViewHolder> {
         ArrayList<ThisMap> mapList;
+        Map<String, String> modes = new HashMap<>();
+
         public MapAdapter(ArrayList<ThisMap> mapList) {this.mapList = mapList;}
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            private final TextView mapName;
+            private final TextView mapName, modeName;
             private final ConstraintLayout mapBack;
+            private final ImageView map;
             public ViewHolder(View view) {
                 super(view);
-                mapName = view.findViewById(R.id.mapName); mapBack = view.findViewById(R.id.mapBack);
+                mapName = view.findViewById(R.id.mapName); mapBack = view.findViewById(R.id.mapBack); modeName = view.findViewById(R.id.modeName); map = view.findViewById(R.id.map);
             }
         }
 
@@ -87,7 +90,22 @@ public class Maps extends AppCompatActivity {
         @Override
         public MapAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.map, parent, false);
+            modes.put("gemGrab","Gem Grab");
+            modes.put("soloShowdown", "Solo Showdown");
+            modes.put("brawlBall","Brawl Ball");
+            modes.put("heist", "Heist");
+            modes.put("duoShowdown","Duo Showdown");
+            modes.put("bounty","Bounty");
+            modes.put("payload","Payload");
+            modes.put("hotZone","Hot Zone");
             return new ViewHolder(v);
+        }
+
+        public void goToMapZoom(int ID, String mapName, Context context) {
+            Intent i = new Intent(context, MapZoom.class);
+            i.putExtra("mapID", ID);
+            i.putExtra("mapName", mapName);
+            startActivity(i);
         }
 
         @Override
@@ -96,16 +114,22 @@ public class Maps extends AppCompatActivity {
             ThisMap thisMap = mapList.get(position);
             holder.mapName.setText(thisMap.map);
 
+            holder.modeName.setText(modes.get(thisMap.mode));
+
             Context context1 = holder.mapBack.getContext();
             int id1 = context1.getResources().getIdentifier(thisMap.mode.toLowerCase(), "drawable", context1.getPackageName());
             holder.mapBack.setBackgroundResource(id1);
+
+            int id2 = context1.getResources().getIdentifier(thisMap.map.toLowerCase().replaceAll(" ",""), "drawable", context1.getPackageName());
+            holder.map.setImageResource(id2);
+
+            holder.map.setOnClickListener(view -> goToMapZoom(id2, thisMap.map ,context1));
+
         }
 
         @Override
         public int getItemCount() {
             return mapList.size();
         }
-
-
     }
 }
