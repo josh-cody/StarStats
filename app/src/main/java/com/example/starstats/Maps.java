@@ -8,9 +8,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,12 +66,15 @@ public class Maps extends AppCompatActivity {
         }
     }
 
+
+
     public void setMapAdapter() throws JSONException {
         MapAdapter mapAdapter = new MapAdapter(mapList);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
+        for(int a = 0; a < 20; a++) { recyclerView.addItemDecoration(itemDecoration); }
         recyclerView.setAdapter(mapAdapter);
     }
 
@@ -91,13 +99,13 @@ public class Maps extends AppCompatActivity {
         public MapAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.map, parent, false);
             modes.put("gemGrab","Gem Grab");
-            modes.put("soloShowdown", "Solo Showdown");
+            modes.put("soloShowdown", "Showdown");
             modes.put("brawlBall","Brawl Ball");
             modes.put("heist", "Heist");
-            modes.put("duoShowdown","Duo Showdown");
             modes.put("bounty","Bounty");
             modes.put("payload","Payload");
             modes.put("hotZone","Hot Zone");
+            modes.put("basketBrawl", "Basket Brawl");
             return new ViewHolder(v);
         }
 
@@ -112,19 +120,26 @@ public class Maps extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
             ThisMap thisMap = mapList.get(position);
-            holder.mapName.setText(thisMap.map);
+            if(!thisMap.mode.equals("duoShowdown") && !thisMap.mode.equals("roboRumble") && !thisMap.mode.equals("bossFight")) {
+                holder.mapName.setText(thisMap.map);
 
-            holder.modeName.setText(modes.get(thisMap.mode));
+                holder.modeName.setText(modes.get(thisMap.mode));
 
-            Context context1 = holder.mapBack.getContext();
-            int id1 = context1.getResources().getIdentifier(thisMap.mode.toLowerCase(), "drawable", context1.getPackageName());
-            holder.mapBack.setBackgroundResource(id1);
+                Context context1 = holder.mapBack.getContext();
+                int id1 = context1.getResources().getIdentifier(thisMap.mode.toLowerCase(), "drawable", context1.getPackageName());
+                holder.mapBack.setBackgroundResource(id1);
 
-            int id2 = context1.getResources().getIdentifier(thisMap.map.toLowerCase().replaceAll(" ",""), "drawable", context1.getPackageName());
-            holder.map.setImageResource(id2);
 
-            holder.map.setOnClickListener(view -> goToMapZoom(id2, thisMap.map ,context1));
+                //TODO: G.G. MORTUARY
+                int id2 = context1.getResources().getIdentifier(thisMap.map.toLowerCase().replaceAll(" ", ""), "drawable", context1.getPackageName());
+                holder.map.setImageResource(id2);
+                if(thisMap.map.toLowerCase().replaceAll(" ", "").equals("g.g.mortuary")) {holder.map.setImageResource(R.drawable.ggmortuary);}
 
+
+                holder.map.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
+                holder.mapBack.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
+            }
+            else { holder.mapBack.setVisibility(View.GONE); holder.mapBack.setMaxHeight(0); }
         }
 
         @Override
