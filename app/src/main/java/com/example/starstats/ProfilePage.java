@@ -48,7 +48,6 @@ public class ProfilePage extends AppCompatActivity {
         try { setValues(pref.getString("response", "")); } catch (JSONException e) { e.printStackTrace(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
-        for(Brawler b: brawlerList) { System.out.println("name: "+b.name);}
         setBrawlerAdapter();
     }
 

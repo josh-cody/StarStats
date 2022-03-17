@@ -35,38 +35,33 @@ import java.util.Map;
 
 public class Maps extends AppCompatActivity {
 
-    private ScrollView container;
     private RecyclerView recyclerView;
-    private JSONArray jsonArray;
     private ArrayList<ThisMap> mapList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        recyclerView = findViewById(R.id.mapsList); container = findViewById(R.id.mapsScroll);
+        recyclerView = findViewById(R.id.mapsList);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("def", Context.MODE_PRIVATE);
 
         ApiThread apiThread = new ApiThread(getApplicationContext(), 2);
         apiThread.start();
-        try {   apiThread.join();  } catch (InterruptedException e) { e.printStackTrace();  }
+        try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
         mapList = new ArrayList<>();
         try { populateMapList(pref.getString("mapresponse", "NO RESPONSE")); } catch (JSONException e) { e.printStackTrace(); }
         try { setMapAdapter(); } catch (JSONException e) { e.printStackTrace(); }
-
     }
 
     public void populateMapList(String RESPONSE_FROM_API) throws JSONException {
-        jsonArray = new JSONArray(RESPONSE_FROM_API);
+        JSONArray jsonArray = new JSONArray(RESPONSE_FROM_API);
         for(int i = 0; i < jsonArray.length()-1; i++){
             JSONObject t = (JSONObject) jsonArray.get(i);
             JSONObject tmpMap = (JSONObject) t.get("event");
             mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode")));
         }
     }
-
-
 
     public void setMapAdapter() throws JSONException {
         MapAdapter mapAdapter = new MapAdapter(mapList);

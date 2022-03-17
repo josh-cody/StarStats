@@ -24,7 +24,7 @@ class ApiThread extends Thread implements Runnable {
     Context context;
 
     public ApiThread(Context context, String tag, int req) {  this.context = context; this.tag = tag; this.req = req;  }
-    public ApiThread(Context context, int req) {  this.context = context;  this.req = req;  }
+    public ApiThread(Context context, int req) {  this.context = context;  this.req = req; }
 
     @Override
     public void run() {
@@ -49,12 +49,11 @@ class ApiThread extends Thread implements Runnable {
 
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
-                System.out.println(RESPONSE_FROM_API);
                 edit.putString("response", RESPONSE_FROM_API).apply();
             } catch (IOException e) {
                 Looper.prepare();
                 e.printStackTrace();
-                Toast.makeText(context.getApplicationContext(), "Make sure you enter the correct tag", Toast.LENGTH_LONG).show();
+                Toast.makeText(context.getApplicationContext(), "An error occurred", Toast.LENGTH_LONG).show();
             }
         }
         else if(this.req == 2) {
@@ -64,12 +63,9 @@ class ApiThread extends Thread implements Runnable {
                 connection = (HttpURLConnection) server.openConnection();
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
-                System.out.println(RESPONSE_FROM_API);
-                System.out.println(connection.getResponseCode());
                 edit.putString("mapresponse", RESPONSE_FROM_API).apply();
             } catch (IOException e) {
                 e.printStackTrace();
-                String tmp = "";
             }
 
         }

@@ -24,7 +24,7 @@ public class MapZoom extends AppCompatActivity {
         mapZoom = findViewById(R.id.mapZoom); mapNameTextView = findViewById(R.id.mapNameTextView);
         mapNameTextView.setText(mapName);
         mapZoom.setImageResource(this.mapID);
-        if(mapName.equals("G.G. Mortuary")) {mapZoom.setImageResource(R.drawable.ggmortuary);}
+        if(mapName.equals("G.G. Mortuary")) {mapZoom.setImageResource(R.drawable.ggmortuary); } //TODO: STRING FORMATTING
 
     }
 }
