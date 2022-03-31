@@ -69,7 +69,7 @@ public class Maps extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
-        for(int a = 0; a < 20; a++) { recyclerView.addItemDecoration(itemDecoration); }
+        for(int a = 0; a < 20; a++) { recyclerView.addItemDecoration(itemDecoration); } //TEMPORARY SPACING: INEFFICIENT
         recyclerView.setAdapter(mapAdapter);
     }
 

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Looper;
 import android.widget.Toast;
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +36,7 @@ class ApiThread extends Thread implements Runnable {
         if(this.req == 1) {
             try {
                 //Creates request for player data
-                URL server = new URL("http://192.168.15.62:5000/player"); //NOT RUNNING ON SERVER, NEEDS DEPLOYED. APP MUST BE USED ON SAME WIFI NETWORK.
+                URL server = new URL("http://192.168.1.12:5000/player"); //NOT RUNNING ON SERVER, NEEDS DEPLOYED. APP MUST BE USED ON SAME WIFI NETWORK.
                 connection = (HttpURLConnection) server.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
@@ -59,7 +60,7 @@ class ApiThread extends Thread implements Runnable {
         else if(this.req == 2) {
             //Create request for map data
             try {
-                URL server = new URL("http://192.168.15.62:5000/maps");
+                URL server = new URL("http://192.168.1.12:5000/maps");
                 connection = (HttpURLConnection) server.openConnection();
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);

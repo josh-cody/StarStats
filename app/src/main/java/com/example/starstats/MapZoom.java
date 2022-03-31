@@ -1,11 +1,12 @@
 package com.example.starstats;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MapZoom extends AppCompatActivity {
 
@@ -25,6 +26,6 @@ public class MapZoom extends AppCompatActivity {
         mapNameTextView.setText(mapName);
         mapZoom.setImageResource(this.mapID);
         if(mapName.equals("G.G. Mortuary")) {mapZoom.setImageResource(R.drawable.ggmortuary); } //TODO: STRING FORMATTING
-
     }
+
 }
