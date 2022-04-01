@@ -11,10 +11,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -28,14 +30,15 @@ public class AllBrawlers extends AppCompatActivity {
 
     private RecyclerView brawlers;
     private ArrayList<Brawler> brawlerList;
-
+    private TextView brawlerDescriptionTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_brawlers);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
-        brawlers = findViewById(R.id.allBrawlersRecyclerView);
+        brawlerDescriptionTitle = findViewById(R.id.brawlerDescriptionTitle); brawlers = findViewById(R.id.allBrawlersRecyclerView);
+        brawlerDescriptionTitle.setText("Tap on a brawler to learn more!");
         ApiThread apiThread = new ApiThread(getApplicationContext(), 3);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
@@ -56,7 +59,7 @@ public class AllBrawlers extends AppCompatActivity {
         JSONArray jsonArray = jsonObject.getJSONArray("items");
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject tmpBrawler = (JSONObject) jsonArray.get(i);
-            brawlerList.add(new Brawler(tmpBrawler.getString("name")));
+            brawlerList.add(new Brawler(tmpBrawler.getString("name"), tmpBrawler.get("starPowers").toString(), tmpBrawler.get("gadgets").toString()));
         }
     }
 
@@ -82,8 +85,11 @@ public class AllBrawlers extends AppCompatActivity {
         }
 
 
-        private void goToDescription(Context context, String name) {
+        private void goToDescription(Context context, int nameID, String name, String starpowers, String gadgets) {
             Intent i = new Intent(context, BrawlerDescription.class);
+            i.putExtra("nameID", nameID);
+            i.putExtra("starpowers", starpowers);
+            i.putExtra("gadgets", gadgets);
             i.putExtra("name", name);
             startActivity(i);
         }
@@ -94,17 +100,14 @@ public class AllBrawlers extends AppCompatActivity {
         public void onBindViewHolder(@NonNull AllBrawlers.BrawlersAdapter.ViewHolder holder, int position) {
             Brawler brawler = brawlerList.get(position);
 
-
-            holder.brawlerPortrait.setOnClickListener(view -> {
-                goToDescription(holder.brawlerPortrait.getContext(), brawler.name);
-            });
-
-
-
             String fileNameString = formatStringForFilename(brawler.name.toLowerCase(Locale.ROOT));
             Context context = holder.brawlerPortrait.getContext();
             int id = context.getResources().getIdentifier(fileNameString, "drawable", context.getPackageName());
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
+
+            holder.brawlerPortrait.setOnClickListener(view -> {
+                goToDescription(holder.brawlerPortrait.getContext(), id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
+            });
         }
 
         private String formatStringForFilename(String input) {

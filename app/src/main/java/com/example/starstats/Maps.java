@@ -68,8 +68,6 @@ public class Maps extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
-        for(int a = 0; a < 20; a++) { recyclerView.addItemDecoration(itemDecoration); } //TEMPORARY SPACING: INEFFICIENT
         recyclerView.setAdapter(mapAdapter);
     }
 
@@ -82,10 +80,10 @@ public class Maps extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView mapName, modeName;
             private final ConstraintLayout mapBack;
-            private final ImageView map;
+            private final ImageView map, background;
             public ViewHolder(View view) {
                 super(view);
-                mapName = view.findViewById(R.id.mapName); mapBack = view.findViewById(R.id.mapBack); modeName = view.findViewById(R.id.modeName); map = view.findViewById(R.id.map);
+                background = view.findViewById(R.id.background); mapName = view.findViewById(R.id.mapName); mapBack = view.findViewById(R.id.mapBack); modeName = view.findViewById(R.id.modeName); map = view.findViewById(R.id.map);
             }
         }
 
@@ -122,7 +120,7 @@ public class Maps extends AppCompatActivity {
 
                 Context context1 = holder.mapBack.getContext();
                 int id1 = context1.getResources().getIdentifier(thisMap.mode.toLowerCase(), "drawable", context1.getPackageName());
-                holder.mapBack.setBackgroundResource(id1);
+                holder.background.setImageResource(id1);
 
 
                 String filenameString = formatStringForFilename(thisMap.map.toLowerCase(Locale.ROOT));
@@ -130,7 +128,7 @@ public class Maps extends AppCompatActivity {
                 holder.map.setImageResource(id2);
 
                 holder.map.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
-                holder.mapBack.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
+                holder.background.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
             }
             else { holder.mapBack.setVisibility(View.GONE); holder.mapBack.setMaxHeight(0); }
         }

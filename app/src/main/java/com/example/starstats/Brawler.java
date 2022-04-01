@@ -1,7 +1,7 @@
 package com.example.starstats;
 
 public class Brawler {
-    String name;
+    String name, jsonStarpowers, jsonGadgets;
     int powerLevel, trophies, rank, highestBrawler;
     public Brawler(String name, int powerLevel, int trophies, int rank, int highestBrawler) {
         this.name = name;
@@ -10,7 +10,12 @@ public class Brawler {
         this.rank = rank;
         this.highestBrawler = highestBrawler;
     }
-    public Brawler(String name) {this.name = name;}
+    public Brawler(String name, String jsonStarpowers, String jsonGadgets)
+    {
+        this.name = name;
+        this.jsonGadgets = jsonGadgets;
+        this.jsonStarpowers = jsonStarpowers;
+    }
 
     public void setBrawlerName(String name) { this.name = name; }
 
