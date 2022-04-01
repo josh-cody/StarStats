@@ -125,16 +125,22 @@ public class Maps extends AppCompatActivity {
                 holder.mapBack.setBackgroundResource(id1);
 
 
-                //TODO: G.G. MORTUARY
-                int id2 = context1.getResources().getIdentifier(thisMap.map.toLowerCase().replaceAll(" ", ""), "drawable", context1.getPackageName());
+                String filenameString = formatStringForFilename(thisMap.map.toLowerCase(Locale.ROOT));
+                int id2 = context1.getResources().getIdentifier(filenameString, "drawable", context1.getPackageName());
                 holder.map.setImageResource(id2);
-                if(thisMap.map.toLowerCase().replaceAll(" ", "").equals("g.g.mortuary")) {holder.map.setImageResource(R.drawable.ggmortuary);}
-
 
                 holder.map.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
                 holder.mapBack.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
             }
             else { holder.mapBack.setVisibility(View.GONE); holder.mapBack.setMaxHeight(0); }
+        }
+
+        private String formatStringForFilename(String input) {
+            input = input.replaceAll(" ", "");
+            input = input.replaceAll("\\.", "");
+            input = input.replaceAll("-", "");
+            input = input.replaceAll("8", "e");
+            return input;
         }
 
         @Override

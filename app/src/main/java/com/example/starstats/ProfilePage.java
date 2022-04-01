@@ -117,25 +117,20 @@ public class ProfilePage extends AppCompatActivity {
 
             holder.rank.setImageResource(id1);
 
+            String filenameString = formatStringForFilename(brawler.name.toLowerCase(Locale.ROOT));
             Context context = holder.brawlerPortrait.getContext();
-            int id = context.getResources().getIdentifier(brawler.name.toLowerCase(Locale.ROOT), "drawable", context.getPackageName());
+            int id = context.getResources().getIdentifier(filenameString, "drawable", context.getPackageName());
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
-
-            switch (brawler.name.toLowerCase(Locale.ROOT)) { //TODO: REMOVE SPECIAL CASES BY FORMATTING STRINGS
-                case "el primo":
-                    holder.brawlerPortrait.setImageResource(R.drawable.primo);
-                    break;
-                case "8-bit":
-                    holder.brawlerPortrait.setImageResource(R.drawable.ebit);
-                    break;
-                case "mr. p":
-                    holder.brawlerPortrait.setImageResource(R.drawable.mrp);
-                    break;
-                case "colonel ruffs":
-                    holder.brawlerPortrait.setImageResource(R.drawable.colonelruffs);
-                    break;
-            }
         }
+
+        private String formatStringForFilename(String input) {
+            input = input.replaceAll(" ", "");
+            input = input.replaceAll("\\.", "");
+            input = input.replaceAll("-", "");
+            input = input.replaceAll("8", "e");
+            return input;
+        }
+
         @Override
         public int getItemCount() {
             return brawlerList.size();

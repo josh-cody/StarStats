@@ -39,7 +39,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nougat_extrablack"
             android:gravity="center"
-            android:text="TextView"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
@@ -49,7 +48,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/bsfont"
             android:gravity="center"
-            android:text="TextView"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
     </LinearLayout>
@@ -58,25 +56,18 @@
         android:id="@+id/brawlersScroll"
         android:layout_width="match_parent"
         android:layout_height="521dp"
-        android:layout_margin="0dp"
         android:padding="4dp"
         android:background="@color/blue"
         android:clipToPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_weight=".65">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="7dp"
-
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="9dp"
             android:orientation="vertical" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

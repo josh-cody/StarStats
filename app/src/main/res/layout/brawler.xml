@@ -5,8 +5,10 @@
     android:id="@+id/layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="0dp"
-    android:layout_marginRight="4dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="4dp"
     android:background="@color/white"
     android:backgroundTint="#F3E9DD"
     android:orientation="vertical">
