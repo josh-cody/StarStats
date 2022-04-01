@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout mainLayout, buttonsLayout;
     String tag;
-    Button toMaps;
+    Button toMaps, toBrawlers;
     FloatingActionButton search;
     EditText tagInput;
     TextView disclaimer;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
         setContentView(R.layout.activity_main);
-        buttonsLayout = findViewById(R.id.buttonsLayout); toMaps = findViewById(R.id.toMaps); mainLayout = findViewById(R.id.enterID); search = findViewById(R.id.search); tagInput = findViewById(R.id.tagInput); disclaimer = findViewById(R.id.disclaimer);
+        toBrawlers =  findViewById(R.id.toBrawlers); buttonsLayout = findViewById(R.id.buttonsLayout); toMaps = findViewById(R.id.toMaps); mainLayout = findViewById(R.id.enterID); search = findViewById(R.id.search); tagInput = findViewById(R.id.tagInput); disclaimer = findViewById(R.id.disclaimer);
         disclaimer.setText("This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: www.supercell.com/fan-content-policy.");
 
         search.setOnClickListener(view -> {
@@ -40,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
         toMaps.setOnClickListener(view -> {
             goToMaps();
         });
+        toBrawlers.setOnClickListener(view -> {
+            goToBrawlers();
+        });
+    }
+
+    public void goToBrawlers() {
+        Intent goToBrawlers = new Intent(this, AllBrawlers.class);
+        startActivity(goToBrawlers);
     }
 
     public void goToProfile() {

@@ -68,7 +68,18 @@ class ApiThread extends Thread implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+        }
+        else if (this.req == 3) {
+            try{
+                URL server = new URL("http://192.168.1.12:5000/brawlers");
+                connection = (HttpURLConnection) server.openConnection();
+                InputStream is = connection.getInputStream();
+                RESPONSE_FROM_API = inputStreamToString(is);
+                edit.putString("brawlerresponse", RESPONSE_FROM_API).apply();
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

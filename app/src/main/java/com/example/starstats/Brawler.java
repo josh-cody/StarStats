@@ -10,6 +10,7 @@ public class Brawler {
         this.rank = rank;
         this.highestBrawler = highestBrawler;
     }
+    public Brawler(String name) {this.name = name;}
 
     public void setBrawlerName(String name) { this.name = name; }
 

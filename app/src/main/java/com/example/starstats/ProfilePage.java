@@ -44,7 +44,6 @@ public class ProfilePage extends AppCompatActivity {
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-
         try { setValues(pref.getString("response", "")); } catch (JSONException e) { e.printStackTrace(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
