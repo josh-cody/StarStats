@@ -14,7 +14,7 @@
         android:fontFamily="@font/nougat_extrablack"
         android:layout_height="50sp"
         android:text="TextView"
-        android:background="@color/black"
+        android:background="#8000"
         android:textColor="@color/white"
         android:gravity="center"
         app:autoSizeMaxTextSize="200sp"

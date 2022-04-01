@@ -30,13 +30,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class Maps extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<ThisMap> mapList;
+    private Set<String> inViewHolder = new HashSet<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,7 @@ public class Maps extends AppCompatActivity {
 
     public void populateMapList(String RESPONSE_FROM_API) throws JSONException {
         JSONArray jsonArray = new JSONArray(RESPONSE_FROM_API);
-        for(int i = 0; i < jsonArray.length()-1; i++){
+        for(int i = 0; i < 9; i++){
             JSONObject t = (JSONObject) jsonArray.get(i);
             JSONObject tmpMap = (JSONObject) t.get("event");
             mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode")));
@@ -98,6 +102,7 @@ public class Maps extends AppCompatActivity {
             modes.put("bounty","Bounty");
             modes.put("payload","Payload");
             modes.put("hotZone","Hot Zone");
+            modes.put("knockout", "Knockout");
             modes.put("basketBrawl", "Basket Brawl");
             return new ViewHolder(v);
         }
@@ -113,7 +118,9 @@ public class Maps extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
             ThisMap thisMap = mapList.get(position);
-            if(!thisMap.mode.equals("duoShowdown") && !thisMap.mode.equals("roboRumble") && !thisMap.mode.equals("bossFight")) {
+
+            if(!thisMap.mode.equals("duoShowdown") && !thisMap.mode.equals("roboRumble") && !thisMap.mode.equals("bossFight") && !inViewHolder.contains(thisMap.mode)) {
+                inViewHolder.add(thisMap.mode);
                 holder.mapName.setText(thisMap.map);
 
                 holder.modeName.setText(modes.get(thisMap.mode));
@@ -138,6 +145,7 @@ public class Maps extends AppCompatActivity {
             input = input.replaceAll("\\.", "");
             input = input.replaceAll("-", "");
             input = input.replaceAll("8", "e");
+            input = input.replaceAll("'", "");
             return input;
         }
 
