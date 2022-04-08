@@ -95,19 +95,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:text="STAR POWER 1:"
-                        android:fontFamily="@font/nougat_extrablack"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        app:autoSizeMaxTextSize="200sp"
-                        app:autoSizeMinTextSize="16sp"
-                        app:autoSizeStepGranularity="1sp"
-                        app:autoSizeTextType="uniform"/>
-
-                    <TextView
                         android:id="@+id/starpower1"
                         android:fontFamily="@font/nougat_extrablack"
                         android:textSize="40dp"
@@ -116,23 +103,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/starpower1desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:fontFamily="@font/nougat_extrablack"
+                        android:gravity="center"
+                        android:text="STAR POWER 1:"
+                        android:textColor="@color/white"
+                        app:autoSizeMaxTextSize="200sp"
+                        app:autoSizeMinTextSize="16sp"
+                        app:autoSizeStepGranularity="1sp"
+                        app:autoSizeTextType="uniform" />
+
                     <View
                         android:id="@+id/divider"
                         android:layout_width="match_parent"
                         android:layout_height="20dp"
                         />
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:gravity="center"
-                        android:fontFamily="@font/nougat_extrablack"
-                        android:text="STAR POWER 2:"
-                        android:textColor="@color/white"
-                        app:autoSizeMaxTextSize="200sp"
-                        app:autoSizeMinTextSize="16sp"
-                        app:autoSizeStepGranularity="1sp"
-                        app:autoSizeTextType="uniform"/>
 
                     <TextView
                         android:id="@+id/starpower2"
@@ -143,6 +132,19 @@
                         android:layout_width="match_parent"
                         android:text="TextView"
                         android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/starpower2desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:fontFamily="@font/nougat_extrablack"
+                        android:gravity="center"
+                        android:text="STAR POWER 2:"
+                        android:textColor="@color/white"
+                        app:autoSizeMaxTextSize="200sp"
+                        app:autoSizeMinTextSize="16sp"
+                        app:autoSizeStepGranularity="1sp"
+                        app:autoSizeTextType="uniform" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -166,7 +168,7 @@
             <LinearLayout
                 android:id="@+id/linID2"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@id/linearLayout2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -213,18 +215,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:text="GADGET 1:"
-                        android:gravity="center"
-                        android:fontFamily="@font/nougat_extrablack"
-                        android:textColor="@color/white"
-                        app:autoSizeMaxTextSize="200sp"
-                        app:autoSizeMinTextSize="16sp"
-                        app:autoSizeStepGranularity="1sp"
-                        app:autoSizeTextType="uniform"/>
-
-                    <TextView
                         android:id="@+id/gadget1"
                         android:fontFamily="@font/nougat_extrablack"
                         android:textSize="20dp"
@@ -235,17 +225,17 @@
                         android:layout_height="wrap_content" />
 
                     <TextView
+                        android:id="@+id/gadget1desc"
                         android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:text="GADGET 2:"
-                        android:gravity="center"
-                        android:textColor="@color/white"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/nougat_extrablack"
+                        android:gravity="center"
+                        android:text="GADGET 1:"
+                        android:textColor="@color/white"
                         app:autoSizeMaxTextSize="200sp"
                         app:autoSizeMinTextSize="16sp"
                         app:autoSizeStepGranularity="1sp"
-                        app:autoSizeTextType="uniform"
-                        />
+                        app:autoSizeTextType="uniform" />
 
                     <TextView
                         android:id="@+id/gadget2"
@@ -256,6 +246,19 @@
                         android:gravity="center"
                         android:text="TextView"
                         android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/gadget2desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nougat_extrablack"
+                        android:gravity="center"
+                        android:text="GADGET 2:"
+                        android:textColor="@color/white"
+                        app:autoSizeMaxTextSize="200sp"
+                        app:autoSizeMinTextSize="16sp"
+                        app:autoSizeStepGranularity="1sp"
+                        app:autoSizeTextType="uniform" />
 
                 </LinearLayout>
             </LinearLayout>
