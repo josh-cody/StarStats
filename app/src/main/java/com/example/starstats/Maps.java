@@ -50,6 +50,17 @@ public class Maps extends AppCompatActivity {
         try { setMapAdapter(); } catch (JSONException e) { e.printStackTrace(); }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        toMainActivity();
+    }
+
+    private void toMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+
     public void populateMapList(String RESPONSE_FROM_API) throws JSONException {
         JSONArray jsonArray = new JSONArray(RESPONSE_FROM_API);
         for(int i = 0; i < 9; i++){

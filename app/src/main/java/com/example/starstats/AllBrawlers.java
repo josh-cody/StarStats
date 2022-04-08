@@ -47,6 +47,17 @@ public class AllBrawlers extends AppCompatActivity {
         setBrawlerAdapter();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        toMainActivity();
+    }
+
+    private void toMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+
     private void setBrawlerAdapter() {
         AllBrawlers.BrawlersAdapter adapter = new AllBrawlers.BrawlersAdapter(brawlerList);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3);

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ import java.util.Locale;
 
 public class ProfilePage extends AppCompatActivity {
 
-    TextView name, highestTrophies, currentTrophies;
+    TextView name, highestTrophies, currentTrophies, loading;
     RecyclerView brawlers;
     private ArrayList<Brawler> brawlerList;
     ApiThread apiThread;
@@ -37,17 +38,31 @@ public class ProfilePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+        loading = findViewById(R.id.loading);
+        loading.setVisibility(View.VISIBLE);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         tag = pref.getString("tag", "default");
         this.getActionBar().hide();
-        brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
+        loading.setVisibility(View.GONE);
+        brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
         try { setValues(pref.getString("response", "")); } catch (JSONException e) { e.printStackTrace(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
         setBrawlerAdapter();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        toMainActivity();
+    }
+
+    private void toMainActivity() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
     private void setBrawlerAdapter() {
