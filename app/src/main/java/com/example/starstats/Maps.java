@@ -26,12 +26,17 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Maps extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<ThisMap> mapList;
     private Set<String> inViewHolder = new HashSet<>();
+    private AtomicBoolean isWindowOpen = new AtomicBoolean(false);
+    private MapZoomFragment mapZoomFragment;
+
+
 
 
     @Override
@@ -52,8 +57,14 @@ public class Maps extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        toMainActivity();
+        if(isWindowOpen.get()){
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(mapZoomFragment).commit();
+            isWindowOpen.set(false);
+        }
+        else {
+            super.onBackPressed();
+            toMainActivity();
+        }
     }
 
     private void toMainActivity() {
@@ -69,6 +80,7 @@ public class Maps extends AppCompatActivity {
             mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode")));
         }
     }
+
 
     public void setMapAdapter() throws JSONException {
         MapAdapter mapAdapter = new MapAdapter(mapList);
@@ -110,12 +122,6 @@ public class Maps extends AppCompatActivity {
             return new ViewHolder(v);
         }
 
-        public void goToMapZoom(int ID, String mapName, Context context) {
-            Intent i = new Intent(context, MapZoom.class);
-            i.putExtra("mapID", ID);
-            i.putExtra("mapName", mapName);
-            startActivity(i);
-        }
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -135,8 +141,30 @@ public class Maps extends AppCompatActivity {
                 int id2 = context1.getResources().getIdentifier(filenameString, "drawable", context1.getPackageName());
                 holder.map.setImageResource(id2);
 
-                holder.map.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
-                holder.background.setOnClickListener(view -> goToMapZoom(id2, thisMap.map, context1));
+
+                holder.map.setOnClickListener(view -> {
+                    if(!isWindowOpen.get()) {
+                        mapZoomFragment = MapZoomFragment.newInstance(id2, thisMap.map);
+                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView3, mapZoomFragment).commit();
+                        isWindowOpen.set(true);
+                    }
+                    else {
+                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(mapZoomFragment).commit();
+                        isWindowOpen.set(false);
+                    }
+                });
+
+                holder.background.setOnClickListener(view -> {
+                    if(!isWindowOpen.get()) {
+                        mapZoomFragment = MapZoomFragment.newInstance(id2, thisMap.map);
+                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView3, mapZoomFragment).commit();
+                        isWindowOpen.set(true);
+                    }
+                    else {
+                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(mapZoomFragment).commit();
+                        isWindowOpen.set(false);
+                    }
+                });
             }
             else { holder.mapBack.setVisibility(View.GONE); holder.mapBack.setMaxHeight(0); }
         }
