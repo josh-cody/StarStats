@@ -1,20 +1,19 @@
 package com.example.starstats;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,13 +21,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
-public class BrawlerDescription extends AppCompatActivity {
+public class BrawlerDescriptionFragment extends Fragment {
+    private static final String ARG_PARAM1 = "nameID";
+    private static final String ARG_PARAM2 = "name";
+    private static final String ARG_PARAM3 = "starpowers";
+    private static final String ARG_PARAM4 = "gadgets";
 
     private ImageView brawlerPortraitDescriptiom;
     private TextView brawlerName, starpower1, starpower2, description, gadget1, gadget2, starpower1desc, starpower2desc, gadget1desc, gadget2desc;
@@ -41,14 +39,37 @@ public class BrawlerDescription extends AppCompatActivity {
     private LinearLayout linearLayout, linearLayout2, linID, linID2;
 
 
+    public BrawlerDescriptionFragment() {}
+
+    public static BrawlerDescriptionFragment newInstance(int nameID, String name, String starpowers, String gadgets) {
+        BrawlerDescriptionFragment fragment = new BrawlerDescriptionFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_PARAM1, nameID);
+        args.putString(ARG_PARAM2, name);
+        args.putString(ARG_PARAM3, starpowers);
+        args.putString(ARG_PARAM4, gadgets);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_brawler_description);
-        Intent i = getIntent();
-        Gson gson = new Gson();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_brawler_description, container, false);
+        starpower1desc = v.findViewById(R.id.starpower1desc); starpower2desc = v.findViewById(R.id.starpower2desc); gadget1desc = v.findViewById(R.id.gadget1desc); gadget2desc = v.findViewById(R.id.gadget2desc); linID2 = v.findViewById(R.id.linID2); linID = v.findViewById(R.id.linID); linearLayout2 = v.findViewById(R.id.linearLayout2); cardView2 = v.findViewById(R.id.cardView2); imageButton2 = v.findViewById(R.id.imageButton2); linearLayout = v.findViewById(R.id.linearLayout); cardView = v.findViewById(R.id.cardView); imageButton = v.findViewById(R.id.imageButton); gadget1 = v.findViewById(R.id.gadget1); gadget2 = v.findViewById(R.id.gadget2); description =  v.findViewById(R.id.description); brawlerPortraitDescriptiom = v.findViewById(R.id.brawlerPortraitDescription); brawlerName = v.findViewById(R.id.brawlerName); starpower1 = v.findViewById(R.id.starpower1); starpower2 = v.findViewById(R.id.starpower2);
+        nameID = getArguments().getInt(ARG_PARAM1);
+        name = getArguments().getString(ARG_PARAM2);
+        starpowers = getArguments().getString(ARG_PARAM3);
+        gadgets = getArguments().getString(ARG_PARAM4);
+
         try {
-            InputStream is = getApplicationContext().getAssets().open("starpowers.json");
+            InputStream is = getContext().getAssets().open("starpowers.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -59,7 +80,7 @@ public class BrawlerDescription extends AppCompatActivity {
             e.printStackTrace();
         }
         try {
-            InputStream is = getApplicationContext().getAssets().open("gadgets.json");
+            InputStream is = getContext().getAssets().open("gadgets.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -70,12 +91,6 @@ public class BrawlerDescription extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        name = i.getStringExtra("name");
-        nameID = i.getIntExtra("nameID", 0);
-        starpowers = i.getStringExtra("starpowers");
-        gadgets = i.getStringExtra("gadgets");
-        starpower1desc = findViewById(R.id.starpower1desc); starpower2desc = findViewById(R.id.starpower2desc); gadget1desc = findViewById(R.id.gadget1desc); gadget2desc = findViewById(R.id.gadget2desc); linID2 = findViewById(R.id.linID2); linID = findViewById(R.id.linID); linearLayout2 = findViewById(R.id.linearLayout2); cardView2 = findViewById(R.id.cardView2); imageButton2 = findViewById(R.id.imageButton2); linearLayout = findViewById(R.id.linearLayout); cardView = findViewById(R.id.cardView); imageButton = findViewById(R.id.imageButton); gadget1 = findViewById(R.id.gadget1); gadget2 = findViewById(R.id.gadget2); description =  findViewById(R.id.description); brawlerPortraitDescriptiom = findViewById(R.id.brawlerPortraitDescription); brawlerName = findViewById(R.id.brawlerName); starpower1 = findViewById(R.id.starpower1); starpower2 = findViewById(R.id.starpower2);
-        brawlerName.setText(name);
         brawlerPortraitDescriptiom.setImageResource(nameID);
         try { starpowersList = new JSONArray(starpowers); } catch (JSONException e) { e.printStackTrace(); }
         try { gadgetsList = new JSONArray(gadgets); } catch (JSONException e) { e.printStackTrace(); }
@@ -95,16 +110,16 @@ public class BrawlerDescription extends AppCompatActivity {
 
 
         imageButton.setOnClickListener(view -> {
-          if(linearLayout.getVisibility() == View.VISIBLE) {
-              TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
-              linearLayout.setVisibility(View.GONE);
-              imageButton.setImageResource(R.drawable.ic_baseline_expand_more_24);
-          }
-          else {
-              TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
-              linearLayout.setVisibility(View.VISIBLE);
-              imageButton.setImageResource(R.drawable.ic_baseline_expand_less_24);
-          }
+            if(linearLayout.getVisibility() == View.VISIBLE) {
+                TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
+                linearLayout.setVisibility(View.GONE);
+                imageButton.setImageResource(R.drawable.ic_baseline_expand_more_24);
+            }
+            else {
+                TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
+                linearLayout.setVisibility(View.VISIBLE);
+                imageButton.setImageResource(R.drawable.ic_baseline_expand_less_24);
+            }
         });
 
         linID.setOnClickListener(view -> {
@@ -146,9 +161,11 @@ public class BrawlerDescription extends AppCompatActivity {
             }
         });
 
-
         description.setText("BRAWLER DESCRIPTION");
+
+        return v;
     }
+
     private void setValues() throws JSONException {
         jsonObject = (JSONObject) starpowersList.get(0);
         tmpSP1 = jsonObject.getString("name");

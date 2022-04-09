@@ -95,17 +95,6 @@ public class AllBrawlers extends AppCompatActivity {
             return new AllBrawlers.BrawlersAdapter.ViewHolder(v);
         }
 
-
-        private void goToDescription(Context context, int nameID, String name, String starpowers, String gadgets) {
-            Intent i = new Intent(context, BrawlerDescription.class);
-            i.putExtra("nameID", nameID);
-            i.putExtra("starpowers", starpowers);
-            i.putExtra("gadgets", gadgets);
-            i.putExtra("name", name);
-            startActivity(i);
-        }
-
-
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull AllBrawlers.BrawlersAdapter.ViewHolder holder, int position) {
@@ -117,7 +106,9 @@ public class AllBrawlers extends AppCompatActivity {
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
 
             holder.brawlerPortrait.setOnClickListener(view -> {
-                goToDescription(holder.brawlerPortrait.getContext(), id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
+                //goToDescription(holder.brawlerPortrait.getContext(), id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
+                BrawlerDescriptionFragment brawlerDescriptionFragment = BrawlerDescriptionFragment.newInstance(id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView2, brawlerDescriptionFragment).commit();
             });
         }
 

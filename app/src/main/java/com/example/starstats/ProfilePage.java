@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +49,8 @@ public class ProfilePage extends AppCompatActivity {
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
         loading.setVisibility(View.GONE);
         brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
-        try { setValues(pref.getString("response", "")); } catch (JSONException e) { e.printStackTrace(); }
+        try { setValues(pref.getString("response", "")); } catch (JSONException e) { toMainActivity();
+            Toast.makeText(getApplicationContext(),"Make sure you input a correct tag!", Toast.LENGTH_SHORT).show(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
         setBrawlerAdapter();
