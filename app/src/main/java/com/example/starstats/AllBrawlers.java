@@ -2,7 +2,7 @@ package com.example.starstats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,12 +11,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -25,19 +23,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AllBrawlers extends AppCompatActivity {
 
     private RecyclerView brawlers;
     private ArrayList<Brawler> brawlerList;
     private TextView brawlerDescriptionTitle;
+    private ConstraintLayout allBrawlersBack;
+    private BrawlerDescriptionFragment brawlerDescriptionFragment;
+    private AtomicBoolean isWindowOpen = new AtomicBoolean(false);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_brawlers);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
-        brawlerDescriptionTitle = findViewById(R.id.brawlerDescriptionTitle); brawlers = findViewById(R.id.allBrawlersRecyclerView);
+        brawlerDescriptionTitle = findViewById(R.id.brawlerDescriptionTitle); brawlers = findViewById(R.id.allBrawlersRecyclerView); allBrawlersBack = findViewById(R.id.allBrawlersBack);
         brawlerDescriptionTitle.setText("Tap on a brawler to learn more!");
         ApiThread apiThread = new ApiThread(getApplicationContext(), 3);
         apiThread.start();
@@ -45,6 +48,18 @@ public class AllBrawlers extends AppCompatActivity {
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(pref.getString("brawlerresponse","")); } catch (JSONException e) { e.printStackTrace();  }
         setBrawlerAdapter();
+        allBrawlersBack.setOnClickListener(view -> {
+            if(isWindowOpen.get()){
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerDescriptionFragment).commit();
+                isWindowOpen.set(false);
+            }
+        });
+        brawlers.setOnClickListener(view -> {
+            if(isWindowOpen.get()){
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerDescriptionFragment).commit();
+                isWindowOpen.set(false);
+            }
+        });
     }
 
     @Override
@@ -104,12 +119,20 @@ public class AllBrawlers extends AppCompatActivity {
             Context context = holder.brawlerPortrait.getContext();
             int id = context.getResources().getIdentifier(fileNameString, "drawable", context.getPackageName());
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
-
             holder.brawlerPortrait.setOnClickListener(view -> {
                 //goToDescription(holder.brawlerPortrait.getContext(), id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
-                BrawlerDescriptionFragment brawlerDescriptionFragment = BrawlerDescriptionFragment.newInstance(id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView2, brawlerDescriptionFragment).commit();
+                if(!isWindowOpen.get()) {
+                    brawlerDescriptionFragment = BrawlerDescriptionFragment.newInstance(id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView2, brawlerDescriptionFragment).commit();
+                    isWindowOpen.set(true);
+                }
+                else {
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerDescriptionFragment).commit();
+                    isWindowOpen.set(false);
+                }
+
             });
+
         }
 
         private String formatStringForFilename(String input) {

@@ -2,6 +2,8 @@ package com.example.starstats;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -92,6 +94,7 @@ public class BrawlerDescriptionFragment extends Fragment {
         }
 
         brawlerPortraitDescriptiom.setImageResource(nameID);
+        brawlerName.setText(name);
         try { starpowersList = new JSONArray(starpowers); } catch (JSONException e) { e.printStackTrace(); }
         try { gadgetsList = new JSONArray(gadgets); } catch (JSONException e) { e.printStackTrace(); }
         try { setValues(); } catch (JSONException e) { e.printStackTrace(); }
@@ -164,6 +167,11 @@ public class BrawlerDescriptionFragment extends Fragment {
         description.setText("BRAWLER DESCRIPTION");
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private void setValues() throws JSONException {
