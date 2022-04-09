@@ -148,10 +148,6 @@ public class Maps extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView3, mapZoomFragment).commit();
                         isWindowOpen.set(true);
                     }
-                    else {
-                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(mapZoomFragment).commit();
-                        isWindowOpen.set(false);
-                    }
                 });
 
                 holder.background.setOnClickListener(view -> {
@@ -159,10 +155,6 @@ public class Maps extends AppCompatActivity {
                         mapZoomFragment = MapZoomFragment.newInstance(id2, thisMap.map);
                         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView3, mapZoomFragment).commit();
                         isWindowOpen.set(true);
-                    }
-                    else {
-                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(mapZoomFragment).commit();
-                        isWindowOpen.set(false);
                     }
                 });
             }
