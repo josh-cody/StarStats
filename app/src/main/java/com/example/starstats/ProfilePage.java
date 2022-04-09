@@ -36,7 +36,7 @@ public class ProfilePage extends AppCompatActivity {
     ApiThread apiThread;
     String tag;
     JSONObject jsonObject;
-    private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve");
+    private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve");
 
 
     @Override
@@ -57,7 +57,10 @@ public class ProfilePage extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Make sure you input a correct tag!", Toast.LENGTH_SHORT).show(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
-        try { brawlerList = sortBrawlerList(brawlerList); } catch(Error ignored){}
+        try { brawlerList = sortBrawlerList(brawlerList); } catch(ArrayIndexOutOfBoundsException a){
+            brawlerList = new ArrayList<>();
+            try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
+        }
         setBrawlerAdapter();
     }
 
@@ -67,16 +70,17 @@ public class ProfilePage extends AppCompatActivity {
         toMainActivity();
     }
 
-    private ArrayList<Brawler> sortBrawlerList(ArrayList<Brawler> brawlerList) {
+    private ArrayList<Brawler> sortBrawlerList(ArrayList<Brawler> brawlerList) throws ArrayIndexOutOfBoundsException {
         ArrayList<Brawler> tmp = new ArrayList<>();
-        for(int i=0; i < brawlerList.size()-1; i++) {
-            for(int j=0; j < brawlerList.size()-1; j++) {
+        if(brawlerList.size() == 0) { return brawlerList; }
+        for(int i=0; i <= brawlerList.size()-1; i++) {
+            for(int j=0; j <= brawlerList.size()-1; j++) {
                 if(brawlerList.get(j).name.toLowerCase(Locale.ROOT).equals(rarityOrder.get(i))) {
                     tmp.add(brawlerList.get(j));
+                    j = brawlerList.size()-1;
                 }
             }
         }
-        System.out.println("tmp: "+tmp.get(1).name);
         return tmp;
     }
 

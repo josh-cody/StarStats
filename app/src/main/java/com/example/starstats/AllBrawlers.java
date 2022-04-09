@@ -36,7 +36,7 @@ public class AllBrawlers extends AppCompatActivity {
     private ConstraintLayout allBrawlersBack;
     private BrawlerDescriptionFragment brawlerDescriptionFragment;
     private AtomicBoolean isWindowOpen = new AtomicBoolean(false);
-    private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve");
+    private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,11 @@ public class AllBrawlers extends AppCompatActivity {
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(pref.getString("brawlerresponse","")); } catch (JSONException e) { e.printStackTrace();  }
-        try { brawlerList = sortBrawlerList(brawlerList); } catch(Error ignored) {} //to still render brawlers, just unordered, ignore the error
+
+        try { brawlerList = sortBrawlerList(brawlerList); } catch(ArrayIndexOutOfBoundsException a){
+            brawlerList = new ArrayList<>();
+            try { populateBrawlerList(pref.getString("brawlerresponse","")); } catch (JSONException e) { e.printStackTrace();  }
+        }
         setBrawlerAdapter();
         allBrawlersBack.setOnClickListener(view -> {
             if(isWindowOpen.get()){
@@ -78,12 +82,14 @@ public class AllBrawlers extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Brawler> sortBrawlerList(ArrayList<Brawler> brawlerList) {
+    private ArrayList<Brawler> sortBrawlerList(ArrayList<Brawler> brawlerList) throws ArrayIndexOutOfBoundsException {
         ArrayList<Brawler> tmp = new ArrayList<>();
-        for(int i=0; i < brawlerList.size()-1; i++) {
-            for(int j=0; j < brawlerList.size()-1; j++) {
+        if(brawlerList.size() == 0) { return brawlerList; }
+        for(int i=0; i <= brawlerList.size()-1; i++) {
+            for(int j=0; j <= brawlerList.size()-1; j++) {
                 if(brawlerList.get(j).name.toLowerCase(Locale.ROOT).equals(rarityOrder.get(i))) {
                     tmp.add(brawlerList.get(j));
+                    j = brawlerList.size()-1;
                 }
             }
         }

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,9 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         profile.setOnClickListener(view -> {
+            hideKeyboard();
             if(fragmentClosed) {
                 frag = ProfileFragment.newInstance();
-                tagInput.setFocusable(false);
+                //tagInput.setFocusable(false);
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView, frag).commit();
                 fragmentClosed = false;
             }
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         search.setOnClickListener(view -> {
             tag = getTag();
+            hideKeyboard();
             buttonsLayout.setVisibility(View.GONE);
             enterTagText.setVisibility(View.GONE);
             disclaimer.setVisibility(View.GONE);
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         toMaps.setOnClickListener(view -> {
+            hideKeyboard();
             buttonsLayout.setVisibility(View.GONE);
             enterTagText.setVisibility(View.GONE);
             disclaimer.setVisibility(View.GONE);
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
         toBrawlers.setOnClickListener(view -> {
+            hideKeyboard();
             buttonsLayout.setVisibility(View.GONE);
             enterTagText.setVisibility(View.GONE);
             disclaimer.setVisibility(View.GONE);
@@ -117,7 +122,13 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
     }
-
+    private void hideKeyboard(){
+        View view = this.getCurrentFocus();
+        if(view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
     public void goToBrawlers() {
         Intent goToBrawlers = new Intent(this, AllBrawlers.class);
