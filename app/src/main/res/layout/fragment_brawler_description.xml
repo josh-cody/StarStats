@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BrawlerDescriptionFragment"
+    android:background="#8000"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@drawable/rounded_fragment_brawler"
         android:layout_height="match_parent"
+        android:layout_margin="20dp"
         android:orientation="vertical"
         >
 
@@ -20,13 +22,16 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
             android:orientation="horizontal">
-
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="15dp">
             <ImageView
                 android:id="@+id/brawlerPortraitDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
-
+            </androidx.cardview.widget.CardView>
             <TextView
                 android:id="@+id/brawlerName"
                 android:layout_width="match_parent"

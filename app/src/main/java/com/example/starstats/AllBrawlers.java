@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,8 +65,14 @@ public class AllBrawlers extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        toMainActivity();
+        if(isWindowOpen.get()){
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerDescriptionFragment).commit();
+            isWindowOpen.set(false);
+        }
+        else {
+            super.onBackPressed();
+            toMainActivity();
+        }
     }
 
     private void toMainActivity() {
@@ -97,8 +104,10 @@ public class AllBrawlers extends AppCompatActivity {
         //Class to hold the view for creating the Brawler cards
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final ImageView brawlerPortrait;
+            private ConstraintLayout layout;
             public ViewHolder(View view) {
                 super(view);
+                layout = view.findViewById(R.id.layout);
                 brawlerPortrait = view.findViewById(R.id.brawlerPortrait);
             }
         }
@@ -110,6 +119,8 @@ public class AllBrawlers extends AppCompatActivity {
             return new AllBrawlers.BrawlersAdapter.ViewHolder(v);
         }
 
+
+
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull AllBrawlers.BrawlersAdapter.ViewHolder holder, int position) {
@@ -120,7 +131,6 @@ public class AllBrawlers extends AppCompatActivity {
             int id = context.getResources().getIdentifier(fileNameString, "drawable", context.getPackageName());
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
             holder.brawlerPortrait.setOnClickListener(view -> {
-                //goToDescription(holder.brawlerPortrait.getContext(), id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
                 if(!isWindowOpen.get()) {
                     brawlerDescriptionFragment = BrawlerDescriptionFragment.newInstance(id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
                     getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView2, brawlerDescriptionFragment).commit();
