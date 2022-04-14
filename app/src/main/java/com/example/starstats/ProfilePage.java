@@ -1,6 +1,7 @@
 package com.example.starstats;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,10 +12,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,17 +26,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 public class ProfilePage extends AppCompatActivity {
 
-    TextView name, highestTrophies, currentTrophies, loading;
+    TextView name, highestTrophies, currentTrophies;
     RecyclerView brawlers;
     private ArrayList<Brawler> brawlerList;
     ApiThread apiThread;
+    Button raritySort, trophySort;
     String tag;
     JSONObject jsonObject;
     private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve");
@@ -43,25 +49,31 @@ public class ProfilePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
-        loading = findViewById(R.id.loading);
-        loading.setVisibility(View.VISIBLE);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         tag = pref.getString("tag", "default");
         this.getActionBar().hide();
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-        loading.setVisibility(View.GONE);
-        brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
+        trophySort = findViewById(R.id.trophySort); raritySort = findViewById(R.id.raritySort); brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
         try { setValues(pref.getString("response", "")); } catch (JSONException e) { toMainActivity();
             Toast.makeText(getApplicationContext(),"Make sure you input a correct tag!", Toast.LENGTH_SHORT).show(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
-        try { brawlerList = sortBrawlerList(brawlerList); } catch(ArrayIndexOutOfBoundsException a){
+        /*try { brawlerList = sortBrawlerListRarity(brawlerList); } catch(ArrayIndexOutOfBoundsException a){
             brawlerList = new ArrayList<>();
             try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
-        }
+        }*/
         setBrawlerAdapter();
+
+        trophySort.setOnClickListener(view -> {
+            brawlerList = sortBrawlerListTrophy(brawlerList);
+            setBrawlerAdapter();
+        });
+        raritySort.setOnClickListener(view -> {
+            brawlerList = sortBrawlerListRarity(brawlerList);
+            setBrawlerAdapter();
+        });
     }
 
     @Override
@@ -70,7 +82,13 @@ public class ProfilePage extends AppCompatActivity {
         toMainActivity();
     }
 
-    private ArrayList<Brawler> sortBrawlerList(ArrayList<Brawler> brawlerList) throws ArrayIndexOutOfBoundsException {
+    @SuppressLint("NewApi")
+    private ArrayList<Brawler> sortBrawlerListTrophy(ArrayList<Brawler> inputBrawlerList) throws ArrayIndexOutOfBoundsException {
+        inputBrawlerList.sort(Comparator.comparingInt((Brawler brawler) -> brawler.trophies).reversed());
+        return inputBrawlerList;
+    }
+
+    private ArrayList<Brawler> sortBrawlerListRarity(ArrayList<Brawler> brawlerList) throws ArrayIndexOutOfBoundsException {
         ArrayList<Brawler> tmp = new ArrayList<>();
         if(brawlerList.size() == 0) { return brawlerList; }
         for(int i=0; i <= brawlerList.size()-1; i++) {
@@ -114,13 +132,13 @@ public class ProfilePage extends AppCompatActivity {
         currentTrophies.setText("Current trophies: " + jsonObject.getString("trophies"));
     }
 
-    class BrawlerAdapter extends RecyclerView.Adapter<BrawlerAdapter.ViewHolder> {
+    static class BrawlerAdapter extends RecyclerView.Adapter<BrawlerAdapter.ViewHolder> {
 
-        private ArrayList<Brawler> brawlerList;
+        private final ArrayList<Brawler> brawlerList;
         public BrawlerAdapter(ArrayList<Brawler> brawlerList) {   this.brawlerList = brawlerList;  }
 
         //Class to hold the view for creating the Brawler cards
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        public static class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView powerLevel;
             private final TextView brawlerTrophies;
             private final TextView highestBrawler;
@@ -145,7 +163,7 @@ public class ProfilePage extends AppCompatActivity {
             Brawler brawler = brawlerList.get(position);
             holder.highestBrawler.setText(Integer.toString(brawler.highestBrawler));
             holder.brawlerTrophies.setText(Integer.toString(brawler.trophies));
-            holder.powerLevel.setText(new StringBuilder().append(brawler.name).append(" ").append(Integer.toString(brawler.powerLevel)).toString());
+            holder.powerLevel.setText(brawler.name + " " + brawler.powerLevel);
 
             holder.trophyHighest.setImageResource(R.drawable.trophy);
             holder.trophy.setImageResource(R.drawable.trophy);

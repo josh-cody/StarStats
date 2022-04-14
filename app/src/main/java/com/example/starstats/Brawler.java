@@ -17,23 +17,7 @@ public class Brawler {
         this.jsonStarpowers = jsonStarpowers;
     }
 
-    public void setBrawlerName(String name) { this.name = name; }
-
-    public String getBrawlerName() {   return name;  }
-
-    public int getTrophies() {  return trophies; }
-
-    public void setTrophies(int trophies) { this.trophies = trophies; }
-
-    public int getRank() {  return rank;  }
-
-    public void setRank(int rank) { this.rank = rank; }
-
-    public int getPowerLevel() {   return powerLevel;  }
-
-    public void setPowerLevel(int powerLevel) { this.powerLevel = powerLevel; }
-
-    public int getHighestBrawler() { return highestBrawler;  }
-
-    public void setHighestBrawler(int highestBrawler) { this.highestBrawler = highestBrawler;  }
+    public int getTrophies() {
+        return trophies;
+    }
 }

@@ -119,6 +119,7 @@ public class Maps extends AppCompatActivity {
             modes.put("hotZone","Hot Zone");
             modes.put("knockout", "Knockout");
             modes.put("basketBrawl", "Basket Brawl");
+            modes.put("duels", "Duels");
             return new ViewHolder(v);
         }
 
@@ -127,7 +128,7 @@ public class Maps extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             ThisMap thisMap = mapList.get(position);
 
-            if(!thisMap.mode.equals("duoShowdown") && !thisMap.mode.equals("roboRumble") && !thisMap.mode.equals("bossFight") && !inViewHolder.contains(thisMap.mode)) {
+            if(!thisMap.mode.equals("duoShowdown") && !thisMap.mode.equals("roboRumble") && !thisMap.mode.equals("bossFight") && !thisMap.mode.equals("bigGame") && !inViewHolder.contains(thisMap.mode)) {
                 inViewHolder.add(thisMap.mode);
                 holder.mapName.setText(thisMap.map);
 
