@@ -32,13 +32,12 @@ class ApiThread extends Thread implements Runnable {
 
         System.out.println("API Thread has started running");
         if(this.req == 1) {
+            //create request for player data
             try {
-                //Creates request for player data
                 URL server = new URL("http://192.168.1.12:5000/player"); //NOT RUNNING ON SERVER, NEEDS DEPLOYED. APP MUST BE USED ON SAME WIFI NETWORK.
                 connection = (HttpURLConnection) server.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
-                connection.connect();
 
                 String postTag = URLEncoder.encode(this.tag, "UTF-8");
 

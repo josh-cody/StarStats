@@ -16,8 +16,4 @@ public class Brawler {
         this.jsonGadgets = jsonGadgets;
         this.jsonStarpowers = jsonStarpowers;
     }
-
-    public int getTrophies() {
-        return trophies;
-    }
 }

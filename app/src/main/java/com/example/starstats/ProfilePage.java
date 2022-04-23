@@ -1,7 +1,6 @@
 package com.example.starstats;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +25,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class ProfilePage extends AppCompatActivity {
 
@@ -73,21 +69,18 @@ public class ProfilePage extends AppCompatActivity {
                 edit.putString("recent2", pref.getString("recent1","")).apply();
                 edit.putString("recent1", tag).apply();
             }
-
         } catch (JSONException e) {
             toMainActivity();
-            Toast.makeText(getApplicationContext(),"Make sure you input a correct tag!", Toast.LENGTH_SHORT).show(); }
-
+            Toast.makeText(getApplicationContext(),"Make sure you input a correct tag!", Toast.LENGTH_SHORT).show();
+        }
 
         brawlerList = new ArrayList<>();
-        try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
-        try { brawlerList = sortBrawlerListRarity(brawlerList); } catch(ArrayIndexOutOfBoundsException a){
+        try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace(); }
+        try { brawlerList = sortBrawlerListRarity(brawlerList); } catch(ArrayIndexOutOfBoundsException a) {
             brawlerList = new ArrayList<>();
-            try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
+            try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace(); }
         }
         setBrawlerAdapter();
-
-
 
         trophySort.setOnClickListener(view -> {
             brawlerList = sortBrawlerListTrophy(brawlerList);
@@ -163,12 +156,11 @@ public class ProfilePage extends AppCompatActivity {
         private final ArrayList<Brawler> brawlerList;
         public BrawlerAdapter(ArrayList<Brawler> brawlerList) {   this.brawlerList = brawlerList;  }
 
-        //Class to hold the view for creating the Brawler cards
         public static class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView powerLevel;
             private final TextView brawlerTrophies;
             private final TextView highestBrawler;
-            private final ImageView brawlerPortrait,rank,trophy,trophyHighest;
+            private final ImageView brawlerPortrait, rank, trophy, trophyHighest;
             public ViewHolder(View view) {
                 super(view);
                 powerLevel = view.findViewById(R.id.powerLevel); brawlerTrophies = view.findViewById(R.id.brawlerTrophies); highestBrawler = view.findViewById(R.id.highestBrawler);
@@ -182,8 +174,6 @@ public class ProfilePage extends AppCompatActivity {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.brawler, parent, false);
             return new ViewHolder(v);
         }
-
-
 
         @SuppressLint("SetTextI18n")
         @Override
@@ -202,13 +192,11 @@ public class ProfilePage extends AppCompatActivity {
 
             holder.rank.setImageResource(id1);
 
-            String filenameString = formatStringForFilename(brawler.name.toLowerCase(Locale.ROOT));
+            String filenameString = formatStringForFilename(brawler.name.toLowerCase());
             Context context = holder.brawlerPortrait.getContext();
             int id = context.getResources().getIdentifier(filenameString, "drawable", context.getPackageName());
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
         }
-
-
 
         private String formatStringForFilename(String input) {
             input = input.replaceAll(" ", "");

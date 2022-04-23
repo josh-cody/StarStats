@@ -3,7 +3,6 @@ package com.example.starstats;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,9 +34,6 @@ public class Maps extends AppCompatActivity {
     private Set<String> inViewHolder = new HashSet<>();
     private AtomicBoolean isWindowOpen = new AtomicBoolean(false);
     private MapZoomFragment mapZoomFragment;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +83,6 @@ public class Maps extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1){
             @Override
             public boolean canScrollVertically() {
-                System.out.println(isWindowOpen.get());
                 return !isWindowOpen.get();
             }
         };
@@ -99,7 +94,7 @@ public class Maps extends AppCompatActivity {
         ArrayList<ThisMap> mapList;
         Map<String, String> modes = new HashMap<>();
 
-        public MapAdapter(ArrayList<ThisMap> mapList) {this.mapList = mapList;}
+        public MapAdapter(ArrayList<ThisMap> mapList) { this.mapList = mapList; }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView mapName, modeName;
@@ -135,18 +130,18 @@ public class Maps extends AppCompatActivity {
 
             if(!thisMap.mode.equals("duoShowdown") && !thisMap.mode.equals("roboRumble") && !thisMap.mode.equals("bossFight") && !thisMap.mode.equals("bigGame") && !inViewHolder.contains(thisMap.mode)) {
                 inViewHolder.add(thisMap.mode);
-                holder.mapName.setText(thisMap.map);
 
+                holder.mapName.setText(thisMap.map);
                 holder.modeName.setText(modes.get(thisMap.mode));
 
                 Context context1 = holder.mapBack.getContext();
+
                 int id1 = context1.getResources().getIdentifier(thisMap.mode.toLowerCase(), "drawable", context1.getPackageName());
                 holder.background.setImageResource(id1);
 
                 String filenameString = formatStringForFilename(thisMap.map.toLowerCase(Locale.ROOT));
                 int id2 = context1.getResources().getIdentifier(filenameString, "drawable", context1.getPackageName());
                 holder.map.setImageResource(id2);
-
 
                 holder.map.setOnClickListener(view -> {
                     if(!isWindowOpen.get()) {

@@ -16,10 +16,6 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         search.setOnClickListener(view -> {
             tag = getTag();
             hideKeyboard();
@@ -113,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
             goToProfile();
             finish();
         });
-
         if(pref.contains("recent1")) {
             recent1.setVisibility(View.VISIBLE);
             recent1.setText(pref.getString("recent1",""));
@@ -126,11 +120,8 @@ public class MainActivity extends AppCompatActivity {
             recent3.setVisibility(View.VISIBLE);
             recent3.setText(pref.getString("recent3",""));
         }
-
-
-        System.out.println("RECENT 1 IS : " + pref.getString("recent1", ""));
-
     }
+
     private void hideKeyboard(){
         View view = this.getCurrentFocus();
         if(view != null) {

@@ -57,14 +57,10 @@ public class BrawlerDescriptionFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public void onCreate(Bundle savedInstanceState) {  super.onCreate(savedInstanceState);  }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_brawler_description, container, false);
         closeDesc = v.findViewById(R.id.closeDesc); starpower1desc = v.findViewById(R.id.starpower1desc); starpower2desc = v.findViewById(R.id.starpower2desc); gadget1desc = v.findViewById(R.id.gadget1desc); gadget2desc = v.findViewById(R.id.gadget2desc); linID2 = v.findViewById(R.id.linID2); linID = v.findViewById(R.id.linID); linearLayout2 = v.findViewById(R.id.linearLayout2); cardView2 = v.findViewById(R.id.cardView2); imageButton2 = v.findViewById(R.id.imageButton2); linearLayout = v.findViewById(R.id.linearLayout); cardView = v.findViewById(R.id.cardView); imageButton = v.findViewById(R.id.imageButton); gadget1 = v.findViewById(R.id.gadget1); gadget2 = v.findViewById(R.id.gadget2); description =  v.findViewById(R.id.description); brawlerPortraitDescriptiom = v.findViewById(R.id.brawlerPortraitDescription); brawlerName = v.findViewById(R.id.brawlerName); starpower1 = v.findViewById(R.id.starpower1); starpower2 = v.findViewById(R.id.starpower2);
         nameID = getArguments().getInt(ARG_PARAM1);
