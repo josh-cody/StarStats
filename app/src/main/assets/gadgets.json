@@ -100,5 +100,7 @@
 	"AIR SUPPORT":"Ruffs calls a barrage around the nearest opponent, dealing 700 damage with each hit.",
 	"NEST EGG":"Belle places a trap on the ground that will explode when triggered by an opponent. The trap deals 500 damage, and slows down anyone within its blast radius for 3 seconds.",
 	"RESERVE BUOY":"Instantly fills the Super meter, but the next Torpedo Throw doesn't stun opponents.",
-	"CHILL PILL":"Though furious, Ash has to collect himself. A full Rage meter will recover 2500 health when this gadget is popped - less Rage, less recovery."
+	"CHILL PILL":"Though furious, Ash has to collect himself. A full Rage meter will recover 2500 health when this gadget is popped - less Rage, less recovery.",
+	"PSYCHIC ENHANCER": "Tara and her allies are able to see all enemies, even inside bushes, for 4.0 seconds.",
+	"SUPPORT FROM BEYOND": "Tara surrounds herself with three weak shadows that attack enemies and disappear after 6 seconds."
 	}

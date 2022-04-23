@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +33,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ProfilePage extends AppCompatActivity {
 
     TextView name, highestTrophies, currentTrophies;
     RecyclerView brawlers;
+    ScrollView scrollView;
     private ArrayList<Brawler> brawlerList;
     ApiThread apiThread;
     Button raritySort, trophySort;
@@ -45,34 +48,57 @@ public class ProfilePage extends AppCompatActivity {
     private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve");
 
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
         tag = pref.getString("tag", "default");
         this.getActionBar().hide();
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-        trophySort = findViewById(R.id.trophySort); raritySort = findViewById(R.id.raritySort); brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
-        try { setValues(pref.getString("response", "")); } catch (JSONException e) { toMainActivity();
+        scrollView = findViewById(R.id.brawlersScroll); trophySort = findViewById(R.id.trophySort); raritySort = findViewById(R.id.raritySort); brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
+
+        try {
+            setValues(pref.getString("response", ""));
+            if(!pref.contains("recent1")) { edit.putString("recent1", tag).apply(); }
+            else if (!pref.contains("recent2")) { edit.putString("recent2", tag).apply(); }
+            else if (!pref.contains("recent3")) { edit.putString("recent3", tag).apply(); }
+
+            if(pref.contains("recent1") && pref.contains("recent2") && pref.contains("recent3")) {
+                edit.putString("recent3", pref.getString("recent2", "")).apply();
+                edit.putString("recent2", pref.getString("recent1","")).apply();
+                edit.putString("recent1", tag).apply();
+            }
+
+        } catch (JSONException e) {
+            toMainActivity();
             Toast.makeText(getApplicationContext(),"Make sure you input a correct tag!", Toast.LENGTH_SHORT).show(); }
+
+
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
-        /*try { brawlerList = sortBrawlerListRarity(brawlerList); } catch(ArrayIndexOutOfBoundsException a){
+        try { brawlerList = sortBrawlerListRarity(brawlerList); } catch(ArrayIndexOutOfBoundsException a){
             brawlerList = new ArrayList<>();
             try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace();  }
-        }*/
+        }
         setBrawlerAdapter();
+
+
 
         trophySort.setOnClickListener(view -> {
             brawlerList = sortBrawlerListTrophy(brawlerList);
-            setBrawlerAdapter();
+            //brawlers.getAdapter().notifyItemRangeChanged(0, brawlerList.size());
+            brawlers.setAdapter(new BrawlerAdapter(brawlerList));
         });
+
         raritySort.setOnClickListener(view -> {
             brawlerList = sortBrawlerListRarity(brawlerList);
-            setBrawlerAdapter();
+            //brawlers.getAdapter().notifyItemRangeChanged(0, brawlerList.size());
+            brawlers.setAdapter(new BrawlerAdapter(brawlerList));
         });
     }
 
@@ -157,6 +183,8 @@ public class ProfilePage extends AppCompatActivity {
             return new ViewHolder(v);
         }
 
+
+
         @SuppressLint("SetTextI18n")
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -179,6 +207,8 @@ public class ProfilePage extends AppCompatActivity {
             int id = context.getResources().getIdentifier(filenameString, "drawable", context.getPackageName());
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
         }
+
+
 
         private String formatStringForFilename(String input) {
             input = input.replaceAll(" ", "");

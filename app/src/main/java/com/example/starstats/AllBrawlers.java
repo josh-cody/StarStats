@@ -13,9 +13,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -32,6 +34,7 @@ public class AllBrawlers extends AppCompatActivity {
 
     private RecyclerView brawlers;
     private ArrayList<Brawler> brawlerList;
+    private ScrollView scrollView;
     private TextView brawlerDescriptionTitle;
     private ConstraintLayout allBrawlersBack;
     private BrawlerDescriptionFragment brawlerDescriptionFragment;
@@ -43,7 +46,7 @@ public class AllBrawlers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_brawlers);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
-        brawlerDescriptionTitle = findViewById(R.id.brawlerDescriptionTitle); brawlers = findViewById(R.id.allBrawlersRecyclerView); allBrawlersBack = findViewById(R.id.allBrawlersBack);
+        scrollView = findViewById(R.id.allBrawlersScroll); brawlerDescriptionTitle = findViewById(R.id.brawlerDescriptionTitle); brawlers = findViewById(R.id.allBrawlersRecyclerView); allBrawlersBack = findViewById(R.id.allBrawlersBack);
         brawlerDescriptionTitle.setText("Tap on a brawler to learn more!");
         ApiThread apiThread = new ApiThread(getApplicationContext(), 3);
         apiThread.start();
@@ -56,6 +59,8 @@ public class AllBrawlers extends AppCompatActivity {
             try { populateBrawlerList(pref.getString("brawlerresponse","")); } catch (JSONException e) { e.printStackTrace();  }
         }
         setBrawlerAdapter();
+        brawlers.setVerticalScrollBarEnabled(false);
+        brawlers.setHorizontalScrollBarEnabled(false);
         allBrawlersBack.setOnClickListener(view -> {
             if(isWindowOpen.get()){
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerDescriptionFragment).commit();
@@ -103,7 +108,12 @@ public class AllBrawlers extends AppCompatActivity {
 
     private void setBrawlerAdapter() {
         AllBrawlers.BrawlersAdapter adapter = new AllBrawlers.BrawlersAdapter(brawlerList);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 3) {
+            @Override
+            public boolean canScrollVertically() {
+                return !isWindowOpen.get();
+            }
+        };
         brawlers.setLayoutManager(layoutManager);
         brawlers.setAdapter(adapter);
     }
@@ -132,6 +142,8 @@ public class AllBrawlers extends AppCompatActivity {
                 brawlerPortrait = view.findViewById(R.id.brawlerPortrait);
             }
         }
+
+
 
         @NonNull
         @Override

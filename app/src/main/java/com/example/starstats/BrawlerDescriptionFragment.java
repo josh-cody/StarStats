@@ -30,6 +30,8 @@ public class BrawlerDescriptionFragment extends Fragment {
     private static final String ARG_PARAM3 = "starpowers";
     private static final String ARG_PARAM4 = "gadgets";
 
+
+    private ImageButton closeDesc;
     private ImageView brawlerPortraitDescriptiom;
     private TextView brawlerName, starpower1, starpower2, description, gadget1, gadget2, starpower1desc, starpower2desc, gadget1desc, gadget2desc;
     private String name, starpowers, tmpSP1, tmpSP2, tmpG1, tmpG2, gadgets;
@@ -64,7 +66,7 @@ public class BrawlerDescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_brawler_description, container, false);
-        starpower1desc = v.findViewById(R.id.starpower1desc); starpower2desc = v.findViewById(R.id.starpower2desc); gadget1desc = v.findViewById(R.id.gadget1desc); gadget2desc = v.findViewById(R.id.gadget2desc); linID2 = v.findViewById(R.id.linID2); linID = v.findViewById(R.id.linID); linearLayout2 = v.findViewById(R.id.linearLayout2); cardView2 = v.findViewById(R.id.cardView2); imageButton2 = v.findViewById(R.id.imageButton2); linearLayout = v.findViewById(R.id.linearLayout); cardView = v.findViewById(R.id.cardView); imageButton = v.findViewById(R.id.imageButton); gadget1 = v.findViewById(R.id.gadget1); gadget2 = v.findViewById(R.id.gadget2); description =  v.findViewById(R.id.description); brawlerPortraitDescriptiom = v.findViewById(R.id.brawlerPortraitDescription); brawlerName = v.findViewById(R.id.brawlerName); starpower1 = v.findViewById(R.id.starpower1); starpower2 = v.findViewById(R.id.starpower2);
+        closeDesc = v.findViewById(R.id.closeDesc); starpower1desc = v.findViewById(R.id.starpower1desc); starpower2desc = v.findViewById(R.id.starpower2desc); gadget1desc = v.findViewById(R.id.gadget1desc); gadget2desc = v.findViewById(R.id.gadget2desc); linID2 = v.findViewById(R.id.linID2); linID = v.findViewById(R.id.linID); linearLayout2 = v.findViewById(R.id.linearLayout2); cardView2 = v.findViewById(R.id.cardView2); imageButton2 = v.findViewById(R.id.imageButton2); linearLayout = v.findViewById(R.id.linearLayout); cardView = v.findViewById(R.id.cardView); imageButton = v.findViewById(R.id.imageButton); gadget1 = v.findViewById(R.id.gadget1); gadget2 = v.findViewById(R.id.gadget2); description =  v.findViewById(R.id.description); brawlerPortraitDescriptiom = v.findViewById(R.id.brawlerPortraitDescription); brawlerName = v.findViewById(R.id.brawlerName); starpower1 = v.findViewById(R.id.starpower1); starpower2 = v.findViewById(R.id.starpower2);
         nameID = getArguments().getInt(ARG_PARAM1);
         name = getArguments().getString(ARG_PARAM2);
         starpowers = getArguments().getString(ARG_PARAM3);
@@ -162,6 +164,10 @@ public class BrawlerDescriptionFragment extends Fragment {
                 linearLayout2.setVisibility(View.VISIBLE);
                 imageButton2.setImageResource(R.drawable.ic_baseline_expand_less_24);
             }
+        });
+
+        closeDesc.setOnClickListener(view -> {
+            getActivity().onBackPressed();
         });
 
         description.setText("BRAWLER DESCRIPTION");

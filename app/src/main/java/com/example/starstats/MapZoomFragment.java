@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +19,7 @@ public class MapZoomFragment extends Fragment {
     private int mapID;
     private String mapName;
 
-
+    private ImageButton close;
     private TextView mapNameTextView;
     private ImageView mapZoom;
 
@@ -44,13 +45,18 @@ public class MapZoomFragment extends Fragment {
         }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map_zoom, container, false);
-        mapZoom = v.findViewById(R.id.mapZoom); mapNameTextView = v.findViewById(R.id.mapNameTextView);
+        close = v.findViewById(R.id.close); mapZoom = v.findViewById(R.id.mapZoom); mapNameTextView = v.findViewById(R.id.mapNameTextView);
         mapNameTextView.setText(mapName);
         mapZoom.setImageResource(mapID);
+        close.setOnClickListener(view -> {
+            getActivity().onBackPressed();
+        });
         return v;
     }
 

@@ -26,10 +26,9 @@
         android:id="@+id/personalStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:background="@color/blue"
-        app:layout_constraintBottom_toTopOf="@+id/brawlersScroll"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name">
@@ -55,12 +54,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
         app:layout_constraintBottom_toTopOf="@id/brawlersScroll"
-        app:layout_constraintStart_toEndOf="parent"
-        >
+        app:layout_constraintStart_toEndOf="parent">
 
         <TextView
             android:id="@+id/textView2"
@@ -68,38 +69,46 @@
             android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:fontFamily="@font/nougat_extrablack"
-            android:textColor="@color/black"
-            android:text="Sort by:" />
+            android:text="Sort by:"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/raritySort"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:textSize="15sp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
             android:gravity="center"
-            android:text="RARITY" />
+            android:text="RARITY"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/trophySort"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
+            android:gravity="center"
             android:text="TROPHIES" />
     </LinearLayout>
 
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".35"
+        />
     <ScrollView
         android:id="@+id/brawlersScroll"
-        android:layout_width="match_parent"
-        android:layout_height="521dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:padding="4dp"
         android:background="@color/blue"
         android:clipToPadding="true"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

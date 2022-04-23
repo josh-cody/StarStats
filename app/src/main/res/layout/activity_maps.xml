@@ -16,6 +16,7 @@
             android:layout_height="50dp"
             android:gravity="center"
             android:textColor="@color/white"
+            android:background="#8000"
             android:fontFamily="@font/nougat_extrablack"
             app:autoSizeMaxTextSize="200sp"
             app:autoSizeMinTextSize="16sp"

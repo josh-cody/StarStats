@@ -84,9 +84,14 @@ public class Maps extends AppCompatActivity {
 
     public void setMapAdapter() throws JSONException {
         MapAdapter mapAdapter = new MapAdapter(mapList);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 1){
+            @Override
+            public boolean canScrollVertically() {
+                System.out.println(isWindowOpen.get());
+                return !isWindowOpen.get();
+            }
+        };
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mapAdapter);
     }
 

@@ -109,7 +109,8 @@
 	"GROUNDED":"Getting marked by Belle's Super prevents the target from reloading for 3 seconds.",
 	"TOUGHER TORPEDO":"The minimum duration of Buzz's Super stun is increased by 0.5 seconds.",
 	"EYES SHARP":"Buzz's Super charging area is increased by 33%.",
-	"FIRST BASH":"When hitting an opponent with his attack charges full, Ash gets even more angry. His Rage goes up by 100%."
+	"FIRST BASH":"When hitting an opponent with his attack charges full, Ash gets even more angry. His Rage goes up by 100%.",
+	"RUN N GUN": "Max reloads faster while moving."
 }
 
 

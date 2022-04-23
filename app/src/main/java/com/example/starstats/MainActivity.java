@@ -16,11 +16,16 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout mainLayout, buttonsLayout;
     String tag;
-    Button toMaps, toBrawlers;
+    Button toMaps, toBrawlers, recent1, recent2, recent3;
     FloatingActionButton search, profile;
     EditText tagInput;
     TextView disclaimer, enterTagText, loading, hashtag;
@@ -34,16 +39,15 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
         setContentView(R.layout.activity_main);
-        fragmentContainerView = findViewById(R.id.fragmentContainerView); profile = findViewById(R.id.profile); hashtag = findViewById(R.id.hashtag); loading = findViewById(R.id.loading); enterTagText = findViewById(R.id.enterTagText); toBrawlers =  findViewById(R.id.toBrawlers); buttonsLayout = findViewById(R.id.buttonsLayout); toMaps = findViewById(R.id.toMaps); mainLayout = findViewById(R.id.enterID); search = findViewById(R.id.search); tagInput = findViewById(R.id.tagInput); disclaimer = findViewById(R.id.disclaimer);
+        recent1 = findViewById(R.id.recent1); recent2 = findViewById(R.id.recent2); recent3 = findViewById(R.id.recent3); fragmentContainerView = findViewById(R.id.fragmentContainerView); profile = findViewById(R.id.profile); hashtag = findViewById(R.id.hashtag); loading = findViewById(R.id.loading); enterTagText = findViewById(R.id.enterTagText); toBrawlers =  findViewById(R.id.toBrawlers); buttonsLayout = findViewById(R.id.buttonsLayout); toMaps = findViewById(R.id.toMaps); mainLayout = findViewById(R.id.enterID); search = findViewById(R.id.search); tagInput = findViewById(R.id.tagInput); disclaimer = findViewById(R.id.disclaimer);
         loading.setVisibility(View.GONE);
         disclaimer.setText("This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: www.supercell.com/fan-content-policy.");
-
+        recent1.setVisibility(View.GONE); recent2.setVisibility(View.GONE); recent3.setVisibility(View.GONE);
 
         profile.setOnClickListener(view -> {
             hideKeyboard();
             if(fragmentClosed) {
                 frag = ProfileFragment.newInstance();
-                //tagInput.setFocusable(false);
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView, frag).commit();
                 fragmentClosed = false;
             }
@@ -67,19 +71,7 @@ public class MainActivity extends AppCompatActivity {
         search.setOnClickListener(view -> {
             tag = getTag();
             hideKeyboard();
-            buttonsLayout.setVisibility(View.GONE);
-            enterTagText.setVisibility(View.GONE);
-            disclaimer.setVisibility(View.GONE);
-            hashtag.setVisibility(View.GONE);
-            search.setVisibility(View.GONE);
-            tagInput.setVisibility(View.GONE);
-            profile.setVisibility(View.GONE);
-            if(!fragmentClosed) {
-                fragmentClosed = true;
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(frag).commit();
-            }
-            loading.setVisibility(View.VISIBLE);
-
+            toggleLoading();
             edit.putString("tag", tag).apply();
             goToProfile();
             finish();
@@ -87,40 +79,57 @@ public class MainActivity extends AppCompatActivity {
 
         toMaps.setOnClickListener(view -> {
             hideKeyboard();
-            buttonsLayout.setVisibility(View.GONE);
-            enterTagText.setVisibility(View.GONE);
-            disclaimer.setVisibility(View.GONE);
-            hashtag.setVisibility(View.GONE);
-            profile.setVisibility(View.GONE);
-            search.setVisibility(View.GONE);
-            tagInput.setVisibility(View.GONE);
-            if(!fragmentClosed) {
-                fragmentClosed = true;
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(frag).commit();
-            }
-            loading.setVisibility(View.VISIBLE);
-
+            toggleLoading();
             goToMaps();
             finish();
         });
         toBrawlers.setOnClickListener(view -> {
             hideKeyboard();
-            buttonsLayout.setVisibility(View.GONE);
-            enterTagText.setVisibility(View.GONE);
-            disclaimer.setVisibility(View.GONE);
-            hashtag.setVisibility(View.GONE);
-            search.setVisibility(View.GONE);
-            profile.setVisibility(View.GONE);
-            tagInput.setVisibility(View.GONE);
-            if(!fragmentClosed) {
-                fragmentClosed = true;
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(frag).commit();
-            }
-            loading.setVisibility(View.VISIBLE);
-
+            toggleLoading();
             goToBrawlers();
             finish();
         });
+        recent1.setOnClickListener(view -> {
+            tag = recent1.getText().toString();
+            hideKeyboard();
+            toggleLoading();
+            edit.putString("tag", tag).apply();
+            goToProfile();
+            finish();
+        });
+        recent2.setOnClickListener(view -> {
+            tag = recent2.getText().toString();
+            hideKeyboard();
+            toggleLoading();
+            edit.putString("tag", tag).apply();
+            goToProfile();
+            finish();
+        });
+        recent3.setOnClickListener(view -> {
+            tag = recent3.getText().toString();
+            hideKeyboard();
+            toggleLoading();
+            edit.putString("tag", tag).apply();
+            goToProfile();
+            finish();
+        });
+
+        if(pref.contains("recent1")) {
+            recent1.setVisibility(View.VISIBLE);
+            recent1.setText(pref.getString("recent1",""));
+        }
+        if(pref.contains("recent2")) {
+            recent2.setVisibility(View.VISIBLE);
+            recent2.setText(pref.getString("recent2",""));
+        }
+        if(pref.contains("recent3")) {
+            recent3.setVisibility(View.VISIBLE);
+            recent3.setText(pref.getString("recent3",""));
+        }
+
+
+        System.out.println("RECENT 1 IS : " + pref.getString("recent1", ""));
+
     }
     private void hideKeyboard(){
         View view = this.getCurrentFocus();
@@ -146,6 +155,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(goToMaps);
     }
 
+    public void toggleLoading() {
+        buttonsLayout.setVisibility(View.GONE);
+        recent1.setVisibility(View.GONE);
+        recent2.setVisibility(View.GONE);
+        recent3.setVisibility(View.GONE);
+        enterTagText.setVisibility(View.GONE);
+        disclaimer.setVisibility(View.GONE);
+        hashtag.setVisibility(View.GONE);
+        search.setVisibility(View.GONE);
+        tagInput.setVisibility(View.GONE);
+        profile.setVisibility(View.GONE);
+        if(!fragmentClosed) {
+            fragmentClosed = true;
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(frag).commit();
+        }
+        loading.setVisibility(View.VISIBLE);
+    }
 
     public String getTag() {
         return tagInput.getText().toString();

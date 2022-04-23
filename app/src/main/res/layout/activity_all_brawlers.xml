@@ -33,7 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:clipToPadding="true"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
