@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         loading.setVisibility(View.GONE);
         disclaimer.setText("This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: www.supercell.com/fan-content-policy.");
         recent1.setVisibility(View.GONE); recent2.setVisibility(View.GONE); recent3.setVisibility(View.GONE);
+        profile.setVisibility(View.GONE); //In development
 
         profile.setOnClickListener(view -> {
             hideKeyboard();

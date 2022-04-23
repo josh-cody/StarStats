@@ -48,6 +48,7 @@ public class MapZoomFragment extends Fragment {
         mapNameTextView.setText(mapName);
         mapZoom.setImageResource(mapID);
         close.setOnClickListener(view -> {  getActivity().onBackPressed();  });
+        
         return v;
     }
 }

@@ -64,7 +64,7 @@ public class ProfilePage extends AppCompatActivity {
             else if (!pref.contains("recent2")) { edit.putString("recent2", tag).apply(); }
             else if (!pref.contains("recent3")) { edit.putString("recent3", tag).apply(); }
 
-            if(pref.contains("recent1") && pref.contains("recent2") && pref.contains("recent3")) {
+            if(pref.contains("recent1") && pref.contains("recent2") && pref.contains("recent3") && !pref.getString("recent1","").equals(tag) && !pref.getString("recent2","").equals(tag) && !pref.getString("recent3","").equals(tag)) {
                 edit.putString("recent3", pref.getString("recent2", "")).apply();
                 edit.putString("recent2", pref.getString("recent1","")).apply();
                 edit.putString("recent1", tag).apply();
@@ -76,7 +76,9 @@ public class ProfilePage extends AppCompatActivity {
 
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace(); }
-        try { brawlerList = sortBrawlerListRarity(brawlerList); } catch(ArrayIndexOutOfBoundsException a) {
+        try { brawlerList = sortBrawlerListRarity(brawlerList);
+            for(Brawler b : brawlerList) { System.out.println(b.name);}
+        } catch(ArrayIndexOutOfBoundsException a) {
             brawlerList = new ArrayList<>();
             try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace(); }
         }
@@ -110,7 +112,7 @@ public class ProfilePage extends AppCompatActivity {
     private ArrayList<Brawler> sortBrawlerListRarity(ArrayList<Brawler> brawlerList) throws ArrayIndexOutOfBoundsException {
         ArrayList<Brawler> tmp = new ArrayList<>();
         if(brawlerList.size() == 0) { return brawlerList; }
-        for(int i=0; i <= brawlerList.size()-1; i++) {
+        for(int i=0; i <= rarityOrder.size()-1; i++) {
             for(int j=0; j <= brawlerList.size()-1; j++) {
                 if(brawlerList.get(j).name.toLowerCase(Locale.ROOT).equals(rarityOrder.get(i))) {
                     tmp.add(brawlerList.get(j));
