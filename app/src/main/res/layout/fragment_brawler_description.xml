@@ -356,10 +356,15 @@
                 <TextView
                     android:id="@+id/description"
                     android:fontFamily="@font/nougat_extrablack"
-                    android:textSize="30dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:layout_height="100dp"
+                    android:padding="4dp"
+                    android:layout_margin="4dp"
+                    app:autoSizeMaxTextSize="150sp"
+                    app:autoSizeMinTextSize="16sp"
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform"
+                    android:background="@drawable/desc_background" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

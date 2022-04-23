@@ -37,7 +37,7 @@ public class BrawlerDescriptionFragment extends Fragment {
     private String name, starpowers, tmpSP1, tmpSP2, tmpG1, tmpG2, gadgets;
     private int nameID;
     private JSONArray starpowersList, gadgetsList;
-    private JSONObject jsonObject, starpowerdescrip, gadgetdescrip;
+    private JSONObject jsonObject, starpowerdescrip, gadgetdescrip, descriptions;
     private ImageButton imageButton, imageButton2;
     private CardView cardView, cardView2;
     private LinearLayout linearLayout, linearLayout2, linID, linID2;
@@ -88,6 +88,18 @@ public class BrawlerDescriptionFragment extends Fragment {
             String jsonString = new String(buffer, "UTF-8");
             gadgetdescrip = new JSONObject(jsonString);
         } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            InputStream is = getContext().getAssets().open("descriptions.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String jsonString = new String(buffer, "UTF-8");
+            descriptions = new JSONObject(jsonString);
+        } catch(IOException | JSONException e) {
             e.printStackTrace();
         }
 
@@ -165,16 +177,11 @@ public class BrawlerDescriptionFragment extends Fragment {
         closeDesc.setOnClickListener(view -> {
             getActivity().onBackPressed();
         });
-
-        description.setText("BRAWLER DESCRIPTION");
-
         return v;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) { super.onViewCreated(view, savedInstanceState); }
 
     private void setValues() throws JSONException {
         jsonObject = (JSONObject) starpowersList.get(0);
@@ -185,5 +192,7 @@ public class BrawlerDescriptionFragment extends Fragment {
         tmpG1 = jsonObject.getString("name");
         jsonObject = (JSONObject) gadgetsList.get(1);
         tmpG2 = jsonObject.getString("name");
+        System.out.println(descriptions);
+        description.setText((CharSequence) descriptions.get(name.toLowerCase()));
     }
 }
