@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ProfileFragment"
+    android:layout_height="wrap_content"
     android:background="@drawable/rounded_fragment"
-    >
+    tools:context=".ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -15,36 +14,14 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-        <TextView
-            android:id="@+id/currentTag"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+        <Switch
+            android:id="@+id/musicSetting"
             android:fontFamily="@font/nougat_extrablack"
-            app:autoSizeMaxTextSize="200sp"
-            app:autoSizeMinTextSize="16sp"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform" />
-
-        <View
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@android:color/transparent" />
-
-        <TextView
-            android:layout_width="wrap_content"
+            android:textColor="@color/yellow"
+            android:textSize="20dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nougat_extrablack"
-            android:text="Enter new tag:"/>
-        <EditText
-            android:id="@+id/myTag"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:fontFamily="@font/nougat_extrablack"
-            android:importantForAutofill="no"
-            app:autoSizeMaxTextSize="200sp"
-            app:autoSizeMinTextSize="16sp"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform" />
+            android:text="Music" />
     </LinearLayout>
 
 </FrameLayout>

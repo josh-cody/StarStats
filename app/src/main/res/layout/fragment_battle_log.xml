@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".BattleLogFragment"
+    android:background="#8000">
+
+    <ScrollView
+        android:id="@+id/battleScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="@color/white">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/battleRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="7dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:orientation="vertical" />
+    </ScrollView>
+
+
+</FrameLayout>

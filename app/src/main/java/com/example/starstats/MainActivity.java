@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentContainerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
     ProfileFragment frag;
     boolean fragmentClosed = true;
 
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
+
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +49,20 @@ public class MainActivity extends AppCompatActivity {
         loading.setVisibility(View.GONE);
         disclaimer.setText("This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: www.supercell.com/fan-content-policy.");
         recent1.setVisibility(View.GONE); recent2.setVisibility(View.GONE); recent3.setVisibility(View.GONE);
-        profile.setVisibility(View.GONE); //In development
+
+        if(!pref.contains("musicSetting")) {
+            edit.putBoolean("musicSetting", false).apply();
+        }
+        else if (pref.getBoolean("musicSetting", false)){
+            //start music
+            Intent bgMusic = new Intent(MainActivity.this, BackgroundSoundService.class);
+            startService(bgMusic);
+        }
+        else {
+            //no music
+        }
+
+
 
         profile.setOnClickListener(view -> {
             hideKeyboard();

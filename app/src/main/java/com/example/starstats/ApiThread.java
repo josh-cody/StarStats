@@ -78,6 +78,26 @@ class ApiThread extends Thread implements Runnable {
                 e.printStackTrace();
             }
         }
+        else if (this.req == 4) {
+            try{
+                URL server = new URL("http://192.168.1.12:5000/battles");
+                connection = (HttpURLConnection) server.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+
+                String postTag = URLEncoder.encode(this.tag, "UTF-8");
+
+                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+                wr.write(postTag);
+                wr.flush();
+
+                InputStream is = connection.getInputStream();
+                RESPONSE_FROM_API = inputStreamToString(is);
+                edit.putString("battleresponse", RESPONSE_FROM_API).apply();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private String inputStreamToString(InputStream is) throws IOException {

@@ -8,6 +8,17 @@
     android:background="@drawable/background"
     tools:context=".ProfilePage">
 
+    <Button
+        android:id="@+id/battleLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Battle Log"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/nougat_extrablack"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="4dp"/>
+
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
@@ -122,4 +133,11 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical" />
     </ScrollView>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerViewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

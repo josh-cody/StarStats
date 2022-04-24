@@ -30,15 +30,19 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProfilePage extends AppCompatActivity {
 
     TextView name, highestTrophies, currentTrophies;
     RecyclerView brawlers;
     ScrollView scrollView;
+    BattleLogFragment frag;
+    BrawlerAdapter adapter;
     private ArrayList<Brawler> brawlerList;
     ApiThread apiThread;
-    Button raritySort, trophySort;
+    Button raritySort, trophySort, battleLog;
+    AtomicBoolean isWindowOpen = new AtomicBoolean(false);
     String tag;
     JSONObject jsonObject;
     private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve");
@@ -56,7 +60,7 @@ public class ProfilePage extends AppCompatActivity {
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-        scrollView = findViewById(R.id.brawlersScroll); trophySort = findViewById(R.id.trophySort); raritySort = findViewById(R.id.raritySort); brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
+        battleLog = findViewById(R.id.battleLog); scrollView = findViewById(R.id.brawlersScroll); trophySort = findViewById(R.id.trophySort); raritySort = findViewById(R.id.raritySort); brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
 
         try {
             setValues(pref.getString("response", ""));
@@ -77,7 +81,6 @@ public class ProfilePage extends AppCompatActivity {
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace(); }
         try { brawlerList = sortBrawlerListRarity(brawlerList);
-            for(Brawler b : brawlerList) { System.out.println(b.name);}
         } catch(ArrayIndexOutOfBoundsException a) {
             brawlerList = new ArrayList<>();
             try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace(); }
@@ -85,22 +88,34 @@ public class ProfilePage extends AppCompatActivity {
         setBrawlerAdapter();
 
         trophySort.setOnClickListener(view -> {
-            brawlerList = sortBrawlerListTrophy(brawlerList);
-            //brawlers.getAdapter().notifyItemRangeChanged(0, brawlerList.size());
-            brawlers.setAdapter(new BrawlerAdapter(brawlerList));
+            sortBrawlerListTrophy(brawlerList);
+            adapter.notifyChanges();
+
         });
 
         raritySort.setOnClickListener(view -> {
-            brawlerList = sortBrawlerListRarity(brawlerList);
-            //brawlers.getAdapter().notifyItemRangeChanged(0, brawlerList.size());
-            brawlers.setAdapter(new BrawlerAdapter(brawlerList));
+            ArrayList<Brawler> tmp = sortBrawlerListRarity(brawlerList);
+            brawlerList.clear();
+            brawlerList.addAll(tmp);
+            adapter.notifyChanges();
+        });
+        battleLog.setOnClickListener( view -> {
+            frag = BattleLogFragment.newInstance(tag);
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerViewProfile, frag).commit();
+            isWindowOpen.set(true);
         });
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        toMainActivity();
+            if(isWindowOpen.get()){
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(frag).commit();
+                isWindowOpen.set(false);
+            }
+            else {
+                super.onBackPressed();
+                toMainActivity();
+            }
     }
 
     @SuppressLint("NewApi")
@@ -129,7 +144,7 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     private void setBrawlerAdapter() {
-        BrawlerAdapter adapter = new BrawlerAdapter(brawlerList);
+        adapter = new BrawlerAdapter(brawlerList);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
         brawlers.setLayoutManager(layoutManager);
         brawlers.setItemAnimator(new DefaultItemAnimator());
@@ -169,6 +184,12 @@ public class ProfilePage extends AppCompatActivity {
                 brawlerPortrait = view.findViewById(R.id.brawlerPortrait); rank = view.findViewById(R.id.rank); trophy = view.findViewById(R.id.trophy); trophyHighest = view.findViewById(R.id.trophyHighest);
             }
         }
+
+        private void notifyChanges() {
+            try{super.notifyDataSetChanged();}
+            catch (Error e ) {e.printStackTrace();}
+        }
+
 
         @NonNull
         @Override

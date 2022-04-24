@@ -1,5 +1,7 @@
 package com.example.starstats;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 
 public class BrawlerDescriptionFragment extends Fragment {
     private static final String ARG_PARAM1 = "nameID";
@@ -176,6 +179,15 @@ public class BrawlerDescriptionFragment extends Fragment {
 
         closeDesc.setOnClickListener(view -> {
             getActivity().onBackPressed();
+        });
+        brawlerName.setOnClickListener(view -> {
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            brawlerName.setTextColor(color);
+        });
+        brawlerName.setOnLongClickListener(view -> {
+            brawlerName.setTextColor(Color.argb(255, 255, 255, 255));
+            return true;
         });
         return v;
     }
