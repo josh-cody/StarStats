@@ -30,11 +30,11 @@ class ApiThread extends Thread implements Runnable {
         SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
 
-        System.out.println("API Thread has started running");
+        System.out.println("Network Thread has started running");
         if(this.req == 1) {
             //create request for player data
             try {
-                URL server = new URL("http://192.168.1.12:5000/player"); //NOT RUNNING ON SERVER, NEEDS DEPLOYED. APP MUST BE USED ON SAME WIFI NETWORK.
+                URL server = new URL("http://192.168.15.62:5000/player"); //NOT RUNNING ON SERVER, NEEDS DEPLOYED. APP MUST BE USED ON SAME WIFI NETWORK.
                 connection = (HttpURLConnection) server.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
@@ -57,7 +57,7 @@ class ApiThread extends Thread implements Runnable {
         else if(this.req == 2) {
             //Create request for map data
             try {
-                URL server = new URL("http://192.168.1.12:5000/maps");
+                URL server = new URL("http://192.168.15.62:5000/maps");
                 connection = (HttpURLConnection) server.openConnection();
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
@@ -68,7 +68,7 @@ class ApiThread extends Thread implements Runnable {
         }
         else if (this.req == 3) {
             try{
-                URL server = new URL("http://192.168.1.12:5000/brawlers");
+                URL server = new URL("http://192.168.15.62:5000/brawlers");
                 connection = (HttpURLConnection) server.openConnection();
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
@@ -80,7 +80,7 @@ class ApiThread extends Thread implements Runnable {
         }
         else if (this.req == 4) {
             try{
-                URL server = new URL("http://192.168.1.12:5000/battles");
+                URL server = new URL("http://192.168.15.62:5000/battles");
                 connection = (HttpURLConnection) server.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
@@ -96,6 +96,28 @@ class ApiThread extends Thread implements Runnable {
                 edit.putString("battleresponse", RESPONSE_FROM_API).apply();
             } catch(IOException e) {
                 e.printStackTrace();
+            }
+        }
+        else if(this.req == 5) {
+            try {
+                URL server = new URL("http://192.168.15.62:5000/widget");
+                connection = (HttpURLConnection) server.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+
+                String postTag = URLEncoder.encode(this.tag, "UTF-8");
+
+                OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+                wr.write(postTag);
+                wr.flush();
+
+                InputStream is = connection.getInputStream();
+                RESPONSE_FROM_API = inputStreamToString(is);
+                edit.putString("widgetresponse", RESPONSE_FROM_API).apply();
+            } catch (IOException e) {
+                Looper.prepare();
+                e.printStackTrace();
+                Toast.makeText(context.getApplicationContext(), "An error occurred", Toast.LENGTH_LONG).show();
             }
         }
     }

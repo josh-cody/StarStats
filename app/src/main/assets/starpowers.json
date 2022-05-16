@@ -53,7 +53,7 @@
 	"SPONGE":"Frank gains +1100 health.",
 	"HOME RUN":"Bibi's movement speed is increased by 12% when her Home Run bar is fully charged.",
 	"BATTING STANCE":"When Bibi’s Homerun bar is fully charged, she shields herself from all damage by 20%.",
-	"INSTA BEELOAD":"Instantly supercharge Bea's Big Sting one time if she misses a supercharged shot.",
+	"INSTA BEALOAD":"Instantly supercharge Bea's Big Sting one time if she misses a supercharged shot.",
 	"HONEYCOMB":"Bea receives a 20% shield while Dig Sting is supercharged.",
 	"AUTOFOCUS":"Peep deals up to 1600 extra damage based on his travel distance.",
 	"TEMPERED STEEL":"Nani takes 80% less damage while her Super is active.",
@@ -110,7 +110,8 @@
 	"TOUGHER TORPEDO":"The minimum duration of Buzz's Super stun is increased by 0.5 seconds.",
 	"EYES SHARP":"Buzz's Super charging area is increased by 33%.",
 	"FIRST BASH":"When hitting an opponent with his attack charges full, Ash gets even more angry. His Rage goes up by 100%.",
-	"RUN N GUN": "Max reloads faster while moving."
+	"RUN N GUN": "Max reloads faster while moving.",
+	"STAGE VIEW": "While in the air with her jetpack, Janet reveals a large area of bushes around herself"
 }
 
 

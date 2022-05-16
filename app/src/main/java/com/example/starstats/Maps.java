@@ -168,6 +168,7 @@ public class Maps extends AppCompatActivity {
             input = input.replaceAll("-", "");
             input = input.replaceAll("8", "e");
             input = input.replaceAll("'", "");
+            input = input.replaceAll(":","");
             return input;
         }
 

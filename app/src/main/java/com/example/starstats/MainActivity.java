@@ -32,12 +32,6 @@ public class MainActivity extends AppCompatActivity {
     ProfileFragment frag;
     boolean fragmentClosed = true;
 
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-    }
-
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             //no music
         }
-
-
 
         profile.setOnClickListener(view -> {
             hideKeyboard();
@@ -144,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             recent3.setVisibility(View.VISIBLE);
             recent3.setText(pref.getString("recent3",""));
         }
+        profile.setVisibility(View.GONE);
     }
 
     private void hideKeyboard(){

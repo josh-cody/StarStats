@@ -41,11 +41,11 @@ public class ProfilePage extends AppCompatActivity {
     BrawlerAdapter adapter;
     private ArrayList<Brawler> brawlerList;
     ApiThread apiThread;
-    Button raritySort, trophySort, battleLog;
+    Button raritySort, trophySort, battleLog, thisIsMe;
     AtomicBoolean isWindowOpen = new AtomicBoolean(false);
     String tag;
     JSONObject jsonObject;
-    private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve");
+    private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve", "janet");
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -60,7 +60,7 @@ public class ProfilePage extends AppCompatActivity {
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
-        battleLog = findViewById(R.id.battleLog); scrollView = findViewById(R.id.brawlersScroll); trophySort = findViewById(R.id.trophySort); raritySort = findViewById(R.id.raritySort); brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
+        thisIsMe = findViewById(R.id.thisIsMe); battleLog = findViewById(R.id.battleLog); scrollView = findViewById(R.id.brawlersScroll); trophySort = findViewById(R.id.trophySort); raritySort = findViewById(R.id.raritySort); brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
 
         try {
             setValues(pref.getString("response", ""));
@@ -104,6 +104,14 @@ public class ProfilePage extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerViewProfile, frag).commit();
             isWindowOpen.set(true);
         });
+
+        thisIsMe.setOnClickListener(view -> {
+            Toast.makeText(getApplicationContext(), "Widget information updated", Toast.LENGTH_SHORT).show();
+            edit.putString("widgetPlayerTag", tag).apply();
+            edit.putString("widgetresponse", jsonObject.toString()).apply();
+        });
+
+        battleLog.setVisibility(View.GONE);
     }
 
     @Override

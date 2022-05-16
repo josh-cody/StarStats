@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class BattleLogFragment extends Fragment {
 
     private String tag;
     private JSONObject rawData;
+    ArrayList<Battle> plBattles;
     private JSONArray battles;
     private ArrayList<Battle> battleList;
     private RecyclerView battleRecyclerView;
@@ -80,18 +82,45 @@ public class BattleLogFragment extends Fragment {
 
 
     public void createBattles(String RESPONSE_FROM_API) throws JSONException {
+        boolean plFlag = false;
         rawData = new JSONObject(RESPONSE_FROM_API);
         battles = rawData.getJSONArray("items");
-        System.out.println("RESPONSE: "+RESPONSE_FROM_API);
+        System.out.println("ITEMS: "+battles);
         for(int i = 0; i < battles.length()-1; i++) {
             JSONObject t = (JSONObject) battles.get(i);
             if(t.has("battle")) {
                 JSONObject tmp1 = (JSONObject) t.get("battle");
-                System.out.println(tmp1.toString());
-                System.out.println(tmp1.has("result"));
-                if(tmp1.has("result")) {
+                if(tmp1.has("type")) {
+                    if(tmp1.getString("type").equals("soloRanked") && !plFlag) {
+                        plBattles = new ArrayList<>();
+                        plFlag = true;
+                        plBattles.add(new Battle(tmp1.getString("result"), tmp1.getString("mode")));
+                    }
+                }
+
+                if(plFlag) {
+                    if(!tmp1.getString("type").equals("soloRanked")) {
+                        plFlag = false;
+                        String res;
+                        String mode = plBattles.get(0).getMode();
+                        int v = 0;
+                        int l = 0;
+                        for(Battle b : plBattles) {
+                            if(b.getResult().equals("victory")) {
+                                v++;
+                            }
+                            else { l++; }
+                        }
+                        if((float)(v/(v+l)) < .5) {
+                            res = "victory";
+                        } else {  res="loss"; }
+                        battleList.add(new Battle(res, "powerleague", plBattles));
+                    }
+                }
+                else if(tmp1.has("result")) {
                     battleList.add(new Battle(tmp1.getString("result"), tmp1.getString("mode")));
                 }
+
             }
         }
     }
