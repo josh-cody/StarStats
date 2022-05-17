@@ -17,23 +17,28 @@ import java.util.HashMap;
 public class BrawlerWidget extends AppWidgetProvider {
 
 
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+        SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
+
+
+
+        if(pref.getInt("widgetID", -1) != appWidgetId) {
+            return;
+        }
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.brawler_widget);
 
-        SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
 
-        ApiThread apiThread = new ApiThread(context, pref.getString("widgetPlayerTag","LQL"), 5);
+        ApiThread apiThread = new ApiThread(context, pref.getString("widgetPlayerTag","NONE"), 5);
         apiThread.start();
+        try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace(); }
         String RESPONSE_FROM_API = pref.getString("widgetresponse", "");
 
         /*HashMap<Integer, String> idToNameMap = new HashMap<>();
         idToNameMap.put(28000087, "mortis");
         int id = context.getResources().getIdentifier(idToNameMap.get(jsonObject.getJSONObject("icon").getInt("id")),"drawable", context.getPackageName());*/
-
-
-
 
         try {
             JSONObject jsonObject = new JSONObject(RESPONSE_FROM_API);
@@ -43,7 +48,11 @@ public class BrawlerWidget extends AppWidgetProvider {
         } catch (JSONException e) {
             views.setTextViewText(R.id.playerNameWidget, "NAME");
             views.setTextViewText(R.id.brawlerTrophiesWidget, "TROPH");
-            views.setImageViewResource(R.id.brawlerImageWidget, R.drawable.shelly);;
+            views.setImageViewResource(R.id.brawlerImageWidget, R.mipmap.star_icon_background);
+        }
+
+        if(pref.getString("widgetPlayerTag","NONE").equals("NONE")) {
+            views.setTextViewText(R.id.brawlerTrophiesWidget, "NO TAG");
         }
 
         // Instruct the widget manager to update the widget
@@ -52,43 +61,30 @@ public class BrawlerWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
+        // There may be multiple widgets active, so update only the first one to keep calls to the API down
+        SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
 
+        if(pref.getInt("widgetID",-1) == -1) {
+            edit.putInt("widgetID", appWidgetIds[0]).apply();
 
-        for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+        updateAppWidget(context, appWidgetManager, appWidgetIds[0]);
     }
 
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
-
-        /*RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.brawler_widget);
-
         SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
-
-        ApiThread apiThread = new ApiThread(context, pref.getString("widgetPlayerTag","LQL"), 5);
-        apiThread.start();
-        String RESPONSE_FROM_API = pref.getString("widgetresponse", "");
-
-        try {
-            JSONObject jsonObject = new JSONObject(RESPONSE_FROM_API);
-            views.setTextViewText(R.id.playerNameWidget, jsonObject.getString("name"));
-            views.setTextViewText(R.id.brawlerTrophiesWidget, "TROPH");
-            views.setTextViewText(R.id.brawlerTrophyChangeWidget, "CHANGE");
-            views.setImageViewResource(R.id.brawlerImageWidget, R.drawable.shelly);
-        } catch (JSONException e) {
-            views.setTextViewText(R.id.playerNameWidget, "NAME");
-            views.setTextViewText(R.id.brawlerTrophiesWidget, "TROPH");
-            views.setTextViewText(R.id.brawlerTrophyChangeWidget, "CHANGE");
-            views.setImageViewResource(R.id.brawlerImageWidget, R.drawable.shelly);;
-        }*/
-
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putInt("widgetID", -1).apply();
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+        SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putInt("widgetID", -1).apply();
     }
 }

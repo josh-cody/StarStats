@@ -24,7 +24,6 @@
                 app:srcCompat="@drawable/shelly" />
         </LinearLayout>
 
-
         <TextView
             android:id="@+id/playerNameWidget"
             android:layout_width="0dp"
