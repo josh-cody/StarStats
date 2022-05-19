@@ -3,17 +3,20 @@ package com.example.starstats;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,7 +76,10 @@ public class Maps extends AppCompatActivity {
         for(int i = 0; i < 9; i++){
             JSONObject t = (JSONObject) jsonArray.get(i);
             JSONObject tmpMap = (JSONObject) t.get("event");
-            mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode")));
+            if(!tmpMap.getString("mode").equals("duoShowdown") && !tmpMap.getString("mode").equals("roboRumble") && !tmpMap.getString("mode").equals("bossFight") && !tmpMap.getString("mode").equals("bigGame")) {
+                mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode")));
+                System.out.println("added "+ tmpMap.getString("mode"));
+            }
         }
     }
 
@@ -88,6 +94,9 @@ public class Maps extends AppCompatActivity {
         };
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mapAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getDrawable(R.drawable.divider));
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
     class MapAdapter extends RecyclerView.Adapter<MapAdapter.ViewHolder> {
@@ -98,11 +107,11 @@ public class Maps extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView mapName, modeName;
+            private final ImageView map, backgroundImage;
             private final ConstraintLayout mapBack;
-            private final ImageView map, background;
             public ViewHolder(View view) {
                 super(view);
-                background = view.findViewById(R.id.background); mapName = view.findViewById(R.id.mapName); mapBack = view.findViewById(R.id.mapBack); modeName = view.findViewById(R.id.modeName); map = view.findViewById(R.id.map);
+                backgroundImage = view.findViewById(R.id.backgroundImage); mapBack = view.findViewById(R.id.mapBack); mapName = view.findViewById(R.id.mapName); modeName = view.findViewById(R.id.modeName); map = view.findViewById(R.id.map);
             }
         }
 
@@ -120,6 +129,7 @@ public class Maps extends AppCompatActivity {
             modes.put("knockout", "Knockout");
             modes.put("basketBrawl", "Basket Brawl");
             modes.put("duels", "Duels");
+
             return new ViewHolder(v);
         }
 
@@ -137,7 +147,8 @@ public class Maps extends AppCompatActivity {
                 Context context1 = holder.mapBack.getContext();
 
                 int id1 = context1.getResources().getIdentifier(thisMap.mode.toLowerCase(), "drawable", context1.getPackageName());
-                holder.background.setImageResource(id1);
+                holder.backgroundImage.setImageResource(id1);
+
 
                 String filenameString = formatStringForFilename(thisMap.map.toLowerCase(Locale.ROOT));
                 int id2 = context1.getResources().getIdentifier(filenameString, "drawable", context1.getPackageName());
@@ -151,7 +162,7 @@ public class Maps extends AppCompatActivity {
                     }
                 });
 
-                holder.background.setOnClickListener(view -> {
+                holder.mapBack.setOnClickListener(view -> {
                     if(!isWindowOpen.get()) {
                         mapZoomFragment = MapZoomFragment.newInstance(id2, thisMap.map);
                         getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView3, mapZoomFragment).commit();

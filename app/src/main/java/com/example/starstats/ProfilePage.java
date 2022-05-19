@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +46,7 @@ public class ProfilePage extends AppCompatActivity {
     AtomicBoolean isWindowOpen = new AtomicBoolean(false);
     String tag;
     JSONObject jsonObject;
-    private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve", "janet");
-
+    private final List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve", "janet");
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -176,12 +176,12 @@ public class ProfilePage extends AppCompatActivity {
         currentTrophies.setText("Current trophies: " + jsonObject.getString("trophies"));
     }
 
-    static class BrawlerAdapter extends RecyclerView.Adapter<BrawlerAdapter.ViewHolder> {
+    class BrawlerAdapter extends RecyclerView.Adapter<BrawlerAdapter.ViewHolder> {
 
         private final ArrayList<Brawler> brawlerList;
         public BrawlerAdapter(ArrayList<Brawler> brawlerList) {   this.brawlerList = brawlerList;  }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             private final TextView powerLevel;
             private final TextView brawlerTrophies;
             private final TextView highestBrawler;
@@ -197,7 +197,6 @@ public class ProfilePage extends AppCompatActivity {
             try{super.notifyDataSetChanged();}
             catch (Error e ) {e.printStackTrace();}
         }
-
 
         @NonNull
         @Override

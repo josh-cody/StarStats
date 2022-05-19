@@ -110,6 +110,8 @@ public class AllBrawlers extends AppCompatActivity {
             public boolean canScrollVertically() {
                 return !isWindowOpen.get();
             }
+
+
         };
         brawlers.setLayoutManager(layoutManager);
         brawlers.setAdapter(adapter);

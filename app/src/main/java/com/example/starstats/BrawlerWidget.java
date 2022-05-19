@@ -20,16 +20,11 @@ public class BrawlerWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
-
-
-
         if(pref.getInt("widgetID", -1) != appWidgetId) {
             return;
         }
-
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.brawler_widget);
-
 
         ApiThread apiThread = new ApiThread(context, pref.getString("widgetPlayerTag","NONE"), 5);
         apiThread.start();
@@ -67,7 +62,6 @@ public class BrawlerWidget extends AppWidgetProvider {
 
         if(pref.getInt("widgetID",-1) == -1) {
             edit.putInt("widgetID", appWidgetIds[0]).apply();
-
         }
         updateAppWidget(context, appWidgetManager, appWidgetIds[0]);
     }
