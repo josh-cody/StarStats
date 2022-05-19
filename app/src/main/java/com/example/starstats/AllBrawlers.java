@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,9 +133,11 @@ public class AllBrawlers extends AppCompatActivity {
         public BrawlersAdapter(ArrayList<Brawler> brawlerList) {   this.brawlerList = brawlerList;  }
         public class ViewHolder extends RecyclerView.ViewHolder {
             private final ImageView brawlerPortrait;
+            private final ConstraintLayout layout;
             public ViewHolder(View view) {
                 super(view);
                 brawlerPortrait = view.findViewById(R.id.brawlerPortrait);
+                layout = view.findViewById(R.id.layout);
             }
         }
 
@@ -153,10 +156,11 @@ public class AllBrawlers extends AppCompatActivity {
             String fileNameString = formatStringForFilename(brawler.name.toLowerCase(Locale.ROOT));
             Context context = holder.brawlerPortrait.getContext();
             int id = context.getResources().getIdentifier(fileNameString, "drawable", context.getPackageName());
-            try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
+            try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { System.out.println("HERE"); }
             holder.brawlerPortrait.setOnClickListener(view -> {
                 if(!isWindowOpen.get()) {
                     brawlerDescriptionFragment = BrawlerDescriptionFragment.newInstance(id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
+                    System.out.println(brawler.name);
                     getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView2, brawlerDescriptionFragment).commit();
                     isWindowOpen.set(true);
                 }

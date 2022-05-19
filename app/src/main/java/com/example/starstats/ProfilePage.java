@@ -212,7 +212,6 @@ public class ProfilePage extends AppCompatActivity {
             holder.highestBrawler.setText(Integer.toString(brawler.highestBrawler));
             holder.brawlerTrophies.setText(Integer.toString(brawler.trophies));
             holder.powerLevel.setText(brawler.name + " " + brawler.powerLevel);
-
             holder.trophyHighest.setImageResource(R.drawable.trophy);
             holder.trophy.setImageResource(R.drawable.trophy);
 
@@ -225,6 +224,12 @@ public class ProfilePage extends AppCompatActivity {
             String filenameString = formatStringForFilename(brawler.name.toLowerCase());
             Context context = holder.brawlerPortrait.getContext();
             int id = context.getResources().getIdentifier(filenameString, "drawable", context.getPackageName());
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int width = displayMetrics.widthPixels;
+            holder.brawlerPortrait.setCropToPadding(true);
+            holder.brawlerPortrait.setMinimumWidth((width/2)-36);
+            holder.brawlerPortrait.setMinimumHeight((width/2)-36);
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
         }
 

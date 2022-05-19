@@ -5,18 +5,20 @@
     android:id="@+id/layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="2dp"
-    android:layout_marginRight="2dp"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8px"
+    android:layout_marginRight="8px"
+    android:layout_marginTop="8px"
+    android:layout_marginBottom="16px"
     android:background="@color/white"
     android:backgroundTint="#F3E9DD"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/brawlerPortrait"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
         app:layout_constraintDimensionRatio="1:1"
         tools:srcCompat="@drawable/colt" />
 

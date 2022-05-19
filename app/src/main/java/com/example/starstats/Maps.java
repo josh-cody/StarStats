@@ -73,7 +73,8 @@ public class Maps extends AppCompatActivity {
 
     public void populateMapList(String RESPONSE_FROM_API) throws JSONException {
         JSONArray jsonArray = new JSONArray(RESPONSE_FROM_API);
-        for(int i = 0; i < 9; i++){
+        System.out.println(RESPONSE_FROM_API);
+        for(int i = 0; i < jsonArray.length(); i++){
             JSONObject t = (JSONObject) jsonArray.get(i);
             JSONObject tmpMap = (JSONObject) t.get("event");
             if(!tmpMap.getString("mode").equals("duoShowdown") && !tmpMap.getString("mode").equals("roboRumble") && !tmpMap.getString("mode").equals("bossFight") && !tmpMap.getString("mode").equals("bigGame")) {
@@ -129,6 +130,7 @@ public class Maps extends AppCompatActivity {
             modes.put("knockout", "Knockout");
             modes.put("basketBrawl", "Basket Brawl");
             modes.put("duels", "Duels");
+            modes.put("unknown", "Bot Drop");
 
             return new ViewHolder(v);
         }
@@ -180,6 +182,7 @@ public class Maps extends AppCompatActivity {
             input = input.replaceAll("8", "e");
             input = input.replaceAll("'", "");
             input = input.replaceAll(":","");
+            input = input.replaceAll("!","");
             return input;
         }
 
