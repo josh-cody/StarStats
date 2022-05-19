@@ -44,6 +44,7 @@ public class MapZoomFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map_zoom, container, false);
+
         close = v.findViewById(R.id.close); mapZoom = v.findViewById(R.id.mapZoom); mapNameTextView = v.findViewById(R.id.mapNameTextView);
         mapNameTextView.setText(mapName);
         mapZoom.setImageResource(mapID);

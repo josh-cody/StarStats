@@ -10,13 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -100,6 +98,7 @@ public class Maps extends AppCompatActivity {
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
+
     class MapAdapter extends RecyclerView.Adapter<MapAdapter.ViewHolder> {
         ArrayList<ThisMap> mapList;
         Map<String, String> modes = new HashMap<>();
@@ -130,11 +129,10 @@ public class Maps extends AppCompatActivity {
             modes.put("knockout", "Knockout");
             modes.put("basketBrawl", "Basket Brawl");
             modes.put("duels", "Duels");
-            modes.put("unknown", "Bot Drop");
+            modes.put("unknown", "Bot Drop"); //TEMPORARY- API CALLS BOT DROP UNKNOWN
 
             return new ViewHolder(v);
         }
-
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -150,7 +148,6 @@ public class Maps extends AppCompatActivity {
 
                 int id1 = context1.getResources().getIdentifier(thisMap.mode.toLowerCase(), "drawable", context1.getPackageName());
                 holder.backgroundImage.setImageResource(id1);
-
 
                 String filenameString = formatStringForFilename(thisMap.map.toLowerCase(Locale.ROOT));
                 int id2 = context1.getResources().getIdentifier(filenameString, "drawable", context1.getPackageName());

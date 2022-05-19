@@ -1,5 +1,4 @@
 package com.example.starstats;
-
 public class ThisMap { //CLASS TO HOLD MAP VALUES
     String map;
     String mode;

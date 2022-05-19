@@ -7,9 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +44,6 @@ public class BattleLogFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,8 +74,6 @@ public class BattleLogFragment extends Fragment {
 
         return v;
     }
-
-
 
     public void createBattles(String RESPONSE_FROM_API) throws JSONException {
         boolean plFlag = false;
@@ -149,7 +143,6 @@ public class BattleLogFragment extends Fragment {
                 modeNameBattle = view.findViewById(R.id.modeNameBattle);
                 linearLayout = view.findViewById(R.id.battleBack);
                 textView = view.findViewById(R.id.battleText);
-
             }
         }
 
@@ -185,12 +178,9 @@ public class BattleLogFragment extends Fragment {
             }
             holder.modeNameBattle.setText(modes.get(battle.getMode()));
         }
-
         @Override
         public int getItemCount() {
             return battleList.size();
         }
     }
-
-
 }

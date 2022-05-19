@@ -9,8 +9,6 @@ import android.widget.RemoteViews;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
 /**
  * Implementation of App Widget functionality.
  */
@@ -30,10 +28,6 @@ public class BrawlerWidget extends AppWidgetProvider {
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace(); }
         String RESPONSE_FROM_API = pref.getString("widgetresponse", "");
-
-        /*HashMap<Integer, String> idToNameMap = new HashMap<>();
-        idToNameMap.put(28000087, "mortis");
-        int id = context.getResources().getIdentifier(idToNameMap.get(jsonObject.getJSONObject("icon").getInt("id")),"drawable", context.getPackageName());*/
 
         try {
             JSONObject jsonObject = new JSONObject(RESPONSE_FROM_API);

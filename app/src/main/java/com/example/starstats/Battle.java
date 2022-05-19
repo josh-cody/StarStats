@@ -3,10 +3,9 @@ package com.example.starstats;
 
 import java.util.ArrayList;
 
-public class Battle {
+public class Battle { //IN PROGRESS
     private String result, mode;
     private ArrayList<Battle> powerLeagueBattles;
-    //private int trophyChange;
 
     public Battle(String result, String mode) {
         this.result = result;
@@ -17,7 +16,6 @@ public class Battle {
         this.result = result;
         this.mode = mode;
         this.powerLeagueBattles = powerLeagueBattles;
-        //this.trophyChange = trophyChange;
     }
 
     public ArrayList<Battle> getPowerLeagueBattles() {

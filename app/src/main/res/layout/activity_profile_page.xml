@@ -73,13 +73,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/thisIsMe"
+        android:id="@+id/follow"
         android:layout_width="100dp"
         android:layout_height="25dp"
         android:layout_margin="3dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/nougat_extrablack"
-        android:text="THIS IS ME"
+        android:text="FOLLOW"
         app:autoSizeMaxTextSize="200sp"
         app:autoSizeMinTextSize="16sp"
         app:autoSizeStepGranularity="1sp"

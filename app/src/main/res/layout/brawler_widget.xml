@@ -31,6 +31,7 @@
             android:textColor="#a9a9a9"
             android:layout_weight="1"
             android:gravity="center"
+            android:text="ONLY ONE WIDGET IS ALLOWED"
             android:fontFamily="@font/nougat_extrablack"
             app:autoSizeMaxTextSize="140sp"
             app:autoSizeMinTextSize="16sp"
@@ -51,7 +52,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/nougat_extrablack"
             android:gravity="center"
-            android:text="ONLY ONE WIDGET IS ALLOWED"
+            android:text=""
             android:textColor="@color/yellow"
             android:textSize="28sp" />
 

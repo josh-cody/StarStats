@@ -40,7 +40,6 @@ class ApiThread extends Thread implements Runnable {
                 connection.setDoOutput(true);
 
                 String postTag = URLEncoder.encode(this.tag, "UTF-8");
-
                 OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
                 wr.write(postTag);
                 wr.flush();
@@ -86,7 +85,6 @@ class ApiThread extends Thread implements Runnable {
                 connection.setDoOutput(true);
 
                 String postTag = URLEncoder.encode(this.tag, "UTF-8");
-
                 OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
                 wr.write(postTag);
                 wr.flush();
@@ -106,7 +104,6 @@ class ApiThread extends Thread implements Runnable {
                 connection.setDoOutput(true);
 
                 String postTag = URLEncoder.encode(this.tag, "UTF-8");
-
                 OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
                 wr.write(postTag);
                 wr.flush();

@@ -111,8 +111,6 @@ public class AllBrawlers extends AppCompatActivity {
             public boolean canScrollVertically() {
                 return !isWindowOpen.get();
             }
-
-
         };
         brawlers.setLayoutManager(layoutManager);
         brawlers.setAdapter(adapter);
@@ -165,7 +163,6 @@ public class AllBrawlers extends AppCompatActivity {
                     isWindowOpen.set(true);
                 }
             });
-
         }
 
         private String formatStringForFilename(String input) {
