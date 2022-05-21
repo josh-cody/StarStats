@@ -76,6 +76,7 @@
         android:id="@+id/follow"
         android:layout_width="100dp"
         android:layout_height="25dp"
+        android:gravity="center"
         android:layout_margin="3dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/nougat_extrablack"

@@ -34,7 +34,7 @@ class ApiThread extends Thread implements Runnable {
         if(this.req == 1) {
             //create request for player data
             try {
-                URL server = new URL("http://192.168.15.62:5000/player"); //NOT RUNNING ON SERVER, NEEDS DEPLOYED. APP MUST BE USED ON SAME WIFI NETWORK.
+                URL server = new URL("http://192.168.15.215:5000/player"); //NOT RUNNING ON SERVER, NEEDS DEPLOYED. APP MUST BE USED ON SAME WIFI NETWORK.
                 connection = (HttpURLConnection) server.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
@@ -56,7 +56,7 @@ class ApiThread extends Thread implements Runnable {
         else if(this.req == 2) {
             //Create request for map data
             try {
-                URL server = new URL("http://192.168.15.62:5000/maps");
+                URL server = new URL("http://192.168.15.215:5000/maps");
                 connection = (HttpURLConnection) server.openConnection();
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
@@ -67,7 +67,7 @@ class ApiThread extends Thread implements Runnable {
         }
         else if (this.req == 3) {
             try{
-                URL server = new URL("http://192.168.15.62:5000/brawlers");
+                URL server = new URL("http://192.168.15.215:5000/brawlers");
                 connection = (HttpURLConnection) server.openConnection();
                 InputStream is = connection.getInputStream();
                 RESPONSE_FROM_API = inputStreamToString(is);
@@ -79,7 +79,7 @@ class ApiThread extends Thread implements Runnable {
         }
         else if (this.req == 4) {
             try{
-                URL server = new URL("http://192.168.15.62:5000/battles");
+                URL server = new URL("http://192.168.15.215:5000/battles");
                 connection = (HttpURLConnection) server.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
@@ -98,7 +98,7 @@ class ApiThread extends Thread implements Runnable {
         }
         else if(this.req == 5) {
             try {
-                URL server = new URL("http://192.168.15.62:5000/widget");
+                URL server = new URL("http://192.168.15.215:5000/widget");
                 connection = (HttpURLConnection) server.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
