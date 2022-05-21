@@ -111,7 +111,7 @@ public class BrawlerDescriptionFragment extends Fragment {
         brawlerName.setText(name);
         try { starpowersList = new JSONArray(starpowers); } catch (JSONException e) { e.printStackTrace(); }
         try { gadgetsList = new JSONArray(gadgets); } catch (JSONException e) { e.printStackTrace(); }
-        try { setValues(); } catch (JSONException e) { e.printStackTrace(); }
+        setValues();
 
         starpower1.setText(tmpSP1);
         try { starpower1desc.setText(starpowerdescrip.getString(tmpSP1)); } catch (JSONException e) { e.printStackTrace(); }
@@ -194,16 +194,25 @@ public class BrawlerDescriptionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) { super.onViewCreated(view, savedInstanceState); }
 
-    private void setValues() throws JSONException {
-        jsonObject = (JSONObject) starpowersList.get(0);
-        tmpSP1 = jsonObject.getString("name");
-        jsonObject = (JSONObject) starpowersList.get(1);
-        tmpSP2 = jsonObject.getString("name");
-        jsonObject = (JSONObject) gadgetsList.get(0);
-        tmpG1 = jsonObject.getString("name");
-        jsonObject = (JSONObject) gadgetsList.get(1);
-        tmpG2 = jsonObject.getString("name");
-        System.out.println(descriptions);
-        description.setText((CharSequence) descriptions.get(name.toLowerCase()));
+    private void setValues() { //Try catch instead of exception thrown so that the rest of the values will still be populated
+        try {
+            jsonObject = (JSONObject) starpowersList.get(0);
+            tmpSP1 = jsonObject.getString("name");
+        } catch (JSONException e) { e.printStackTrace(); }
+        try {
+            jsonObject = (JSONObject) starpowersList.get(1);
+            tmpSP2 = jsonObject.getString("name");
+        } catch (JSONException e) { e.printStackTrace(); }
+        try {
+            jsonObject = (JSONObject) gadgetsList.get(0);
+            tmpG1 = jsonObject.getString("name");
+        } catch (JSONException e) { e.printStackTrace(); }
+        try {
+            jsonObject = (JSONObject) gadgetsList.get(1);
+            tmpG2 = jsonObject.getString("name");
+        } catch (JSONException e) { e.printStackTrace(); }
+        try {
+            description.setText((CharSequence) descriptions.get(name.toLowerCase()));
+        } catch (JSONException e) { e.printStackTrace(); }
     }
 }
