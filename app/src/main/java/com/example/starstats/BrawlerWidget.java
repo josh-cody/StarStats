@@ -3,6 +3,7 @@ package com.example.starstats;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
@@ -49,6 +50,30 @@ public class BrawlerWidget extends AppWidgetProvider {
     }
 
     @Override
+    public void onReceive(Context context, Intent intent) {
+
+        SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.brawler_widget);
+
+        if(intent.getExtras() != null) {
+            String RESPONSE_FROM_API = pref.getString("widgetresponse", "");
+            try {
+                JSONObject jsonObject = new JSONObject(RESPONSE_FROM_API);
+                views.setTextViewText(R.id.playerNameWidget, jsonObject.getString("name"));
+                views.setTextViewText(R.id.brawlerTrophiesWidget, jsonObject.getString("trophies"));
+                views.setImageViewResource(R.id.brawlerImageWidget, R.mipmap.star_icon_background);
+            } catch (JSONException e) {
+                views.setTextViewText(R.id.playerNameWidget, "NAME");
+                views.setTextViewText(R.id.brawlerTrophiesWidget, "TROPH");
+                views.setImageViewResource(R.id.brawlerImageWidget, R.mipmap.star_icon_background);
+            }
+        }
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        appWidgetManager.updateAppWidget(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,-1), views);
+        super.onReceive(context, intent);
+    }
+
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update only the first one to keep calls to the API down
         SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
@@ -57,6 +82,8 @@ public class BrawlerWidget extends AppWidgetProvider {
         if(pref.getInt("widgetID",-1) == -1) {
             edit.putInt("widgetID", appWidgetIds[0]).apply();
         }
+
+
         updateAppWidget(context, appWidgetManager, appWidgetIds[0]);
     }
 

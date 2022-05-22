@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -109,7 +110,25 @@ public class ProfilePage extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Widget information updated", Toast.LENGTH_SHORT).show();
             edit.putString("widgetPlayerTag", tag).apply();
             edit.putString("widgetresponse", jsonObject.toString()).apply();
+            follow.setBackgroundColor(0);
+            follow.setText("FOLLOWING");
+            follow.setClickable(false);
+
+            Intent updateWidget = new Intent(this, BrawlerWidget.class);
+            updateWidget.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+
+            if(pref.getInt("widgetID",-1) != -1) {
+                int id = pref.getInt("widgetID", -1);
+                updateWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
+                sendBroadcast(updateWidget);
+            }
         });
+
+        if(tag.equals(pref.getString("widgetPlayerTag",""))) {
+            follow.setText("FOLLOWING");
+            follow.setBackgroundColor(0);
+            follow.setClickable(false);
+        }
         battleLog.setVisibility(View.GONE);
     }
 
