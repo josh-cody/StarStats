@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_fragment_profile"
+    android:layout_margin="10dp"
+    tools:context=".BrawlerPowers">
+
+
+    <LinearLayout
+        android:id="@+id/starpowers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/profileStarpower1"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            android:src="@drawable/blankstarpower" />
+
+        <ImageView
+            android:id="@+id/profileStarpower2"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_weight="1"
+            android:src="@drawable/blankstarpower" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/gadgets"
+        android:layout_width="match_parent"
+        android:layout_margin="4dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/profileGadget1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/gadgetblank" />
+
+        <ImageView
+            android:id="@+id/profileGadget2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:src="@drawable/gadgetblank" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/gears"
+        android:layout_margin="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/speedgear"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/graygear" />
+
+        <ImageView
+            android:id="@+id/healthgear"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/graygear" />
+
+        <ImageView
+            android:id="@+id/damagegear"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/graygear" />
+
+        <ImageView
+            android:id="@+id/visiongear"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/graygear" />
+
+        <ImageView
+            android:id="@+id/shieldgear"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/graygear" />
+    </LinearLayout>
+</LinearLayout>

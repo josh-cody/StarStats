@@ -82,8 +82,6 @@ public class BrawlerWidget extends AppWidgetProvider {
         if(pref.getInt("widgetID",-1) == -1) {
             edit.putInt("widgetID", appWidgetIds[0]).apply();
         }
-
-
         updateAppWidget(context, appWidgetManager, appWidgetIds[0]);
     }
 

@@ -42,12 +42,18 @@ public class ProfilePage extends AppCompatActivity {
     BattleLogFragment frag;
     BrawlerAdapter adapter;
     private ArrayList<Brawler> brawlerList;
+    BrawlerPowers brawlerPowers;
     ApiThread apiThread;
     Button raritySort, trophySort, battleLog, follow;
     AtomicBoolean isWindowOpen = new AtomicBoolean(false);
-    String tag;
-    JSONObject jsonObject;
+    AtomicBoolean isBrawlerWindowOpen = new AtomicBoolean(false);
+    String tag, tmpsp1, tmpsp2, tmpg1, tmpg2;
+    JSONObject jsonObject, tmpStar1, tmpStar2, tmpGad1, tmpGad2;
     private final List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve","janet");
+
+    int tmpspeed, tmphealth, tmpdamage, tmpvision, tmpshield = 0;
+
+    JSONArray jsonStarpowers, jsonGadgets, jsonGears;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -102,7 +108,7 @@ public class ProfilePage extends AppCompatActivity {
         });
         battleLog.setOnClickListener( view -> {
             frag = BattleLogFragment.newInstance(tag);
-            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerViewProfile, frag).commit();
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.brawlerPowers, frag).commit();
             isWindowOpen.set(true);
         });
 
@@ -134,9 +140,9 @@ public class ProfilePage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-            if(isWindowOpen.get()){
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(frag).commit();
-                isWindowOpen.set(false);
+            if(isBrawlerWindowOpen.get()){
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerPowers).commit();
+                isBrawlerWindowOpen.set(false);
             }
             else {
                 super.onBackPressed();
@@ -170,7 +176,12 @@ public class ProfilePage extends AppCompatActivity {
 
     private void setBrawlerAdapter() {
         adapter = new BrawlerAdapter(brawlerList);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 2) {
+            @Override
+            public boolean canScrollVertically() {
+                return !isBrawlerWindowOpen.get();
+            }
+        };
         brawlers.setLayoutManager(layoutManager);
         brawlers.setItemAnimator(new DefaultItemAnimator());
         brawlers.setAdapter(adapter);
@@ -179,8 +190,79 @@ public class ProfilePage extends AppCompatActivity {
     private void populateBrawlerList() throws JSONException {
         JSONArray jsonArray = jsonObject.getJSONArray("brawlers");
         for(int i = 0; i < jsonArray.length(); i++) {
+
+            tmpspeed = 0;
+            tmphealth = 0;
+            tmpdamage = 0;
+            tmpvision = 0;
+            tmpshield = 0;
+
+            tmpsp1 = "locked";
+            tmpsp2 = "locked";
+
+            tmpg1 = "locked";
+            tmpg2 = "locked";
+
+
             JSONObject tmpBrawler = (JSONObject) jsonArray.get(i);
-            brawlerList.add(new Brawler(tmpBrawler.getString("name"), tmpBrawler.getInt("power"), tmpBrawler.getInt("trophies"), tmpBrawler.getInt("rank"), tmpBrawler.getInt("highestTrophies")));
+
+            try{jsonGears = new JSONArray(String.valueOf(tmpBrawler.getJSONArray("gears")));}
+            catch (JSONException e) {
+                tmpspeed = 0;
+                tmphealth = 0;
+                tmpdamage = 0;
+                tmpvision = 0;
+                tmpshield = 0;
+            }
+
+            try { jsonStarpowers = new JSONArray(String.valueOf(tmpBrawler.getJSONArray("starPowers")));}
+            catch(JSONException e) { tmpsp1 = "locked"; tmpsp2 = "locked"; }
+
+            try { jsonGadgets = new JSONArray(String.valueOf(tmpBrawler.getJSONArray("gadgets")));}
+            catch (JSONException e) { tmpg1 = "locked"; tmpg2 = "locked"; }
+
+            try {
+                tmpStar1 = new JSONObject(String.valueOf(jsonStarpowers.get(0)));
+                tmpsp1 = tmpStar1.getString("name");
+            } catch (JSONException e) { tmpsp1 = "locked"; }
+
+            try {
+                tmpStar2 = new JSONObject(String.valueOf(jsonStarpowers.get(1)));
+                tmpsp2 = tmpStar2.getString("name");
+            } catch (JSONException e) { tmpsp2 = "locked"; }
+
+            try {
+                tmpGad1 = new JSONObject(String.valueOf(jsonGadgets.get(0)));
+                tmpg1 = tmpGad1.getString("name");
+            } catch (JSONException e) { tmpg1 = "locked"; }
+
+            try {
+                tmpGad2 = new JSONObject(String.valueOf(jsonGadgets.get(1)));
+                tmpg2 = tmpGad2.getString("name");
+            } catch (JSONException e) { tmpg2 = "locked"; }
+
+            for(int j=0; j < jsonGears.length(); j++) {
+                JSONObject tmp = new JSONObject(String.valueOf(jsonGears.getJSONObject(j)));
+                switch (tmp.getString("name")) {
+                    case "SPEED":
+                        tmpspeed = tmp.getInt("level");
+                        break;
+                    case "HEALTH":
+                        tmphealth = tmp.getInt("level");
+                        break;
+                    case "DAMAGE":
+                        tmpdamage = tmp.getInt("level");
+                        break;
+                    case "VISION":
+                        tmpvision = tmp.getInt("level");
+                        break;
+                    case "SHIELD":
+                        tmpshield = tmp.getInt("level");
+                        break;
+                }
+            }
+            System.out.println(tmpsp1 + tmpsp2 + tmpg1 + tmpg2 + tmpspeed + tmphealth + tmpdamage + tmpvision + tmpshield);
+            brawlerList.add(new Brawler(tmpBrawler.getString("name"), tmpBrawler.getInt("power"), tmpBrawler.getInt("trophies"), tmpBrawler.getInt("rank"), tmpBrawler.getInt("highestTrophies"), tmpsp1, tmpsp2, tmpg1, tmpg2, tmpspeed, tmphealth, tmpdamage, tmpvision, tmpshield));
         }
     }
 
@@ -248,6 +330,19 @@ public class ProfilePage extends AppCompatActivity {
             holder.brawlerPortrait.setMinimumWidth((width/2)-36);
             holder.brawlerPortrait.setMinimumHeight((width/2)-36);
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
+
+            holder.brawlerPortrait.setOnClickListener(view -> {
+                if(!isBrawlerWindowOpen.get()) {
+                    brawlerPowers = BrawlerPowers.newInstance(brawler.starpower1, brawler.starpower2, brawler.gadget1, brawler.gadget2, brawler.speedgear, brawler.healthgear, brawler.damagegear, brawler.visiongear, brawler.shieldgear);
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.brawlerPowers, brawlerPowers).commit();
+                    isBrawlerWindowOpen.set(true);
+
+                }
+                else {
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerPowers).commit();
+                    isBrawlerWindowOpen.set(false);
+                }
+            });
         }
 
         private String formatStringForFilename(String input) {

@@ -156,7 +156,6 @@ public class AllBrawlers extends AppCompatActivity {
             holder.brawlerPortrait.setOnClickListener(view -> {
                 if(!isWindowOpen.get()) {
                     brawlerDescriptionFragment = BrawlerDescriptionFragment.newInstance(id, brawler.name, brawler.jsonStarpowers, brawler.jsonGadgets);
-                    System.out.println(brawler.name);
                     getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.fragmentContainerView2, brawlerDescriptionFragment).commit();
                     isWindowOpen.set(true);
                 }

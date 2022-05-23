@@ -135,6 +135,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".35"
         />
+
     <ScrollView
         android:id="@+id/brawlersScroll"
         android:layout_width="0dp"
@@ -156,9 +157,10 @@
     </ScrollView>
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerViewProfile"
+        android:id="@+id/brawlerPowers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
