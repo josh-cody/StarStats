@@ -140,9 +140,6 @@ public class BrawlerPowers extends Fragment {
             profileShieldgear.setImageResource(id);
         }
 
-
-
-
         return v;
     }
 

@@ -13,21 +13,19 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/background"
-        />
-
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:foregroundGravity="center"
         android:orientation="vertical">
-
 
         <TextView
             android:id="@+id/brawlerDescriptionTitle"
             android:layout_width="match_parent"
             android:fontFamily="@font/nougat_extrablack"
             android:layout_height="50sp"
-            android:text="TextView"
             android:background="#8000"
             android:textColor="@color/white"
             android:gravity="center"
@@ -38,8 +36,7 @@
 
         <ScrollView
             android:id="@+id/allBrawlersScroll"
-            android:layout_width="384dp"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent">

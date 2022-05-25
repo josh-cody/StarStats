@@ -2,6 +2,7 @@ package com.example.starstats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,6 +69,9 @@ public class ProfilePage extends AppCompatActivity {
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
         follow = findViewById(R.id.follow); battleLog = findViewById(R.id.battleLog); scrollView = findViewById(R.id.brawlersScroll); trophySort = findViewById(R.id.trophySort); raritySort = findViewById(R.id.raritySort); brawlers = findViewById(R.id.recyclerView); name = findViewById(R.id.name); highestTrophies = findViewById(R.id.highestTrophies); currentTrophies = findViewById(R.id.currentTrophies);
+
+        brawlers.setVerticalScrollBarEnabled(false);
+        scrollView.setVerticalScrollBarEnabled(false);
 
         try {
             setValues(pref.getString("response", ""));
@@ -328,18 +332,18 @@ public class ProfilePage extends AppCompatActivity {
             int width = displayMetrics.widthPixels;
             holder.brawlerPortrait.setCropToPadding(true);
             holder.brawlerPortrait.setMinimumWidth((width/2)-36);
-            holder.brawlerPortrait.setMinimumHeight((width/2)-36);
+            holder.brawlerPortrait.setMaxWidth((width/2)-36);
+            holder.brawlerPortrait.setMaxHeight(holder.brawlerPortrait.getWidth());
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
 
-            holder.brawlerPortrait.setOnClickListener(view -> {
+            holder.itemView.setOnClickListener(view -> {
                 if(!isBrawlerWindowOpen.get()) {
                     brawlerPowers = BrawlerPowers.newInstance(brawler.starpower1, brawler.starpower2, brawler.gadget1, brawler.gadget2, brawler.speedgear, brawler.healthgear, brawler.damagegear, brawler.visiongear, brawler.shieldgear);
-                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_exit_anim).replace(R.id.brawlerPowers, brawlerPowers).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_botton, R.anim.exit_to_bottom).replace(R.id.brawlerPowers, brawlerPowers).commit();
                     isBrawlerWindowOpen.set(true);
-
                 }
                 else {
-                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerPowers).commit();
+                    getSupportFragmentManager().beginTransaction().remove(brawlerPowers).commit();
                     isBrawlerWindowOpen.set(false);
                 }
             });

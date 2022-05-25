@@ -9,13 +9,13 @@
     android:layout_marginTop="4dp"
     android:layout_marginRight="4dp"
     android:layout_marginBottom="4dp"
-
     android:background="@android:color/transparent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="15dp"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,8 +24,8 @@
         <ImageView
             android:id="@+id/brawlerPortrait"
             app:layout_constraintDimensionRatio="1:1"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             tools:srcCompat="@drawable/colt" />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
