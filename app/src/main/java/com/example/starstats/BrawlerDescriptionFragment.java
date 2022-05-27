@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Random;
 
 public class BrawlerDescriptionFragment extends Fragment {
@@ -41,7 +42,7 @@ public class BrawlerDescriptionFragment extends Fragment {
     private int nameID;
     private JSONArray starpowersList, gadgetsList;
     private JSONObject jsonObject, starpowerdescrip, gadgetdescrip, descriptions;
-    private ImageButton imageButton, imageButton2;
+    private ImageButton starpowerDropdown, gadgetDropdown;
     private CardView cardView, cardView2;
     private LinearLayout linearLayout, linearLayout2, linID, linID2;
 
@@ -60,12 +61,9 @@ public class BrawlerDescriptionFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {  super.onCreate(savedInstanceState);  }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_brawler_description, container, false);
-        closeDesc = v.findViewById(R.id.closeDesc); starpower1desc = v.findViewById(R.id.starpower1desc); starpower2desc = v.findViewById(R.id.starpower2desc); gadget1desc = v.findViewById(R.id.gadget1desc); gadget2desc = v.findViewById(R.id.gadget2desc); linID2 = v.findViewById(R.id.linID2); linID = v.findViewById(R.id.linID); linearLayout2 = v.findViewById(R.id.linearLayout2); cardView2 = v.findViewById(R.id.cardView2); imageButton2 = v.findViewById(R.id.imageButton2); linearLayout = v.findViewById(R.id.linearLayout); cardView = v.findViewById(R.id.cardView); imageButton = v.findViewById(R.id.imageButton); gadget1 = v.findViewById(R.id.gadget1); gadget2 = v.findViewById(R.id.gadget2); description =  v.findViewById(R.id.description); brawlerPortraitDescriptiom = v.findViewById(R.id.brawlerPortraitDescription); brawlerName = v.findViewById(R.id.brawlerName); starpower1 = v.findViewById(R.id.starpower1); starpower2 = v.findViewById(R.id.starpower2);
+        closeDesc = v.findViewById(R.id.closeDesc); starpower1desc = v.findViewById(R.id.starpower1desc); starpower2desc = v.findViewById(R.id.starpower2desc); gadget1desc = v.findViewById(R.id.gadget1desc); gadget2desc = v.findViewById(R.id.gadget2desc); linID2 = v.findViewById(R.id.linID2); linID = v.findViewById(R.id.linID); linearLayout2 = v.findViewById(R.id.linearLayout2); cardView2 = v.findViewById(R.id.cardView2); gadgetDropdown = v.findViewById(R.id.gadgetDropdown); linearLayout = v.findViewById(R.id.linearLayout); cardView = v.findViewById(R.id.cardView); starpowerDropdown = v.findViewById(R.id.starpowerDropdown); gadget1 = v.findViewById(R.id.gadget1); gadget2 = v.findViewById(R.id.gadget2); description =  v.findViewById(R.id.description); brawlerPortraitDescriptiom = v.findViewById(R.id.brawlerPortraitDescription); brawlerName = v.findViewById(R.id.brawlerName); starpower1 = v.findViewById(R.id.starpower1); starpower2 = v.findViewById(R.id.starpower2);
         assert getArguments() != null;
         nameID = getArguments().getInt(ARG_PARAM1);
         name = getArguments().getString(ARG_PARAM2);
@@ -73,7 +71,7 @@ public class BrawlerDescriptionFragment extends Fragment {
         gadgets = getArguments().getString(ARG_PARAM4);
 
         try {
-            InputStream is = getContext().getAssets().open("starpowers.json");
+            InputStream is = requireContext().getAssets().open("starpowers.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -84,7 +82,7 @@ public class BrawlerDescriptionFragment extends Fragment {
             e.printStackTrace();
         }
         try {
-            InputStream is = getContext().getAssets().open("gadgets.json");
+            InputStream is = requireContext().getAssets().open("gadgets.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -96,12 +94,12 @@ public class BrawlerDescriptionFragment extends Fragment {
         }
 
         try {
-            InputStream is = getContext().getAssets().open("descriptions.json");
+            InputStream is = requireContext().getAssets().open("descriptions.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            String jsonString = new String(buffer, "UTF-8");
+            String jsonString = new String(buffer, StandardCharsets.UTF_8);
             descriptions = new JSONObject(jsonString);
         } catch(IOException | JSONException e) {
             e.printStackTrace();
@@ -124,16 +122,16 @@ public class BrawlerDescriptionFragment extends Fragment {
         try { gadget2desc.setText(gadgetdescrip.getString(tmpG2)); } catch (JSONException e) { e.printStackTrace(); }
 
 
-        imageButton.setOnClickListener(view -> {
+        starpowerDropdown.setOnClickListener(view -> {
             if(linearLayout.getVisibility() == View.VISIBLE) {
                 TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                 linearLayout.setVisibility(View.GONE);
-                imageButton.setImageResource(R.drawable.ic_baseline_expand_more_24);
+                starpowerDropdown.setImageResource(R.drawable.ic_baseline_expand_more_24);
             }
             else {
                 TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                 linearLayout.setVisibility(View.VISIBLE);
-                imageButton.setImageResource(R.drawable.ic_baseline_expand_less_24);
+                starpowerDropdown.setImageResource(R.drawable.ic_baseline_expand_less_24);
             }
         });
 
@@ -141,25 +139,25 @@ public class BrawlerDescriptionFragment extends Fragment {
             if(linearLayout.getVisibility() == View.VISIBLE) {
                 TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                 linearLayout.setVisibility(View.GONE);
-                imageButton.setImageResource(R.drawable.ic_baseline_expand_more_24);
+                starpowerDropdown.setImageResource(R.drawable.ic_baseline_expand_more_24);
             }
             else {
                 TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                 linearLayout.setVisibility(View.VISIBLE);
-                imageButton.setImageResource(R.drawable.ic_baseline_expand_less_24);
+                starpowerDropdown.setImageResource(R.drawable.ic_baseline_expand_less_24);
             }
         });
 
-        imageButton2.setOnClickListener(view -> {
+        gadgetDropdown.setOnClickListener(view -> {
             if(linearLayout2.getVisibility() == View.VISIBLE) {
                 TransitionManager.beginDelayedTransition(cardView2, new AutoTransition());
                 linearLayout2.setVisibility(View.GONE);
-                imageButton2.setImageResource(R.drawable.ic_baseline_expand_more_24);
+                gadgetDropdown.setImageResource(R.drawable.ic_baseline_expand_more_24);
             }
             else {
                 TransitionManager.beginDelayedTransition(cardView2, new AutoTransition());
                 linearLayout2.setVisibility(View.VISIBLE);
-                imageButton2.setImageResource(R.drawable.ic_baseline_expand_less_24);
+                gadgetDropdown.setImageResource(R.drawable.ic_baseline_expand_less_24);
             }
         });
 
@@ -167,17 +165,17 @@ public class BrawlerDescriptionFragment extends Fragment {
             if(linearLayout2.getVisibility() == View.VISIBLE) {
                 TransitionManager.beginDelayedTransition(cardView2, new AutoTransition());
                 linearLayout2.setVisibility(View.GONE);
-                imageButton2.setImageResource(R.drawable.ic_baseline_expand_more_24);
+                gadgetDropdown.setImageResource(R.drawable.ic_baseline_expand_more_24);
             }
             else {
                 TransitionManager.beginDelayedTransition(cardView2, new AutoTransition());
                 linearLayout2.setVisibility(View.VISIBLE);
-                imageButton2.setImageResource(R.drawable.ic_baseline_expand_less_24);
+                gadgetDropdown.setImageResource(R.drawable.ic_baseline_expand_less_24);
             }
         });
 
         closeDesc.setOnClickListener(view -> {
-            getActivity().onBackPressed();
+            requireActivity().onBackPressed();
         });
         brawlerName.setOnClickListener(view -> {
             Random rnd = new Random();
@@ -190,9 +188,6 @@ public class BrawlerDescriptionFragment extends Fragment {
         });
         return v;
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) { super.onViewCreated(view, savedInstanceState); }
 
     private void setValues() { //Try catch instead of exception thrown so that the rest of the values will still be populated
         try {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1097049873827",
+    "project_id": "starstats-e623e",
+    "storage_bucket": "starstats-e623e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097049873827:android:8c0d89c1bd272e54494e16",
+        "android_client_info": {
+          "package_name": "com.example.starstats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097049873827-hbpja4scrqtp9a5i67sgh01600admk81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3T_bldon5121rtoFnATmS_JKRZAZ6h6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097049873827-hbpja4scrqtp9a5i67sgh01600admk81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

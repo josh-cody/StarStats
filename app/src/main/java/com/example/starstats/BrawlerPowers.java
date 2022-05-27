@@ -38,8 +38,6 @@ public class BrawlerPowers extends Fragment {
         // Required empty public constructor
     }
 
-    private ImageView profileStarpower1, profileStarpower2, profileGadget1, profileGadget2, profileSpeedgear, profileHealthgear, profileDamagegear, profileVisiongear, profileShieldgear;
-
     // TODO: Rename and change types and number of parameters
     public static BrawlerPowers newInstance(String starpower1, String starpower2, String gadget1, String gadget2, int speedgear, int healthgear, int damagegear, int visiongear, int shieldgear) {
         BrawlerPowers fragment = new BrawlerPowers();
@@ -68,7 +66,15 @@ public class BrawlerPowers extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_brawler_powers, container, false);
 
-        profileStarpower1 = v.findViewById(R.id.profileStarpower1); profileStarpower2 = v.findViewById(R.id.profileStarpower2); profileGadget1 = v.findViewById(R.id.profileGadget1); profileGadget2 = v.findViewById(R.id.profileGadget2); profileSpeedgear = v.findViewById(R.id.speedgear); profileHealthgear = v.findViewById(R.id.healthgear); profileDamagegear = v.findViewById(R.id.damagegear); profileVisiongear = v.findViewById(R.id.visiongear); profileShieldgear = v.findViewById(R.id.shieldgear);
+        ImageView profileStarpower1 = v.findViewById(R.id.profileStarpower1);
+        ImageView profileStarpower2 = v.findViewById(R.id.profileStarpower2);
+        ImageView profileGadget1 = v.findViewById(R.id.profileGadget1);
+        ImageView profileGadget2 = v.findViewById(R.id.profileGadget2);
+        ImageView profileSpeedgear = v.findViewById(R.id.speedgear);
+        ImageView profileHealthgear = v.findViewById(R.id.healthgear);
+        ImageView profileDamagegear = v.findViewById(R.id.damagegear);
+        ImageView profileVisiongear = v.findViewById(R.id.visiongear);
+        ImageView profileShieldgear = v.findViewById(R.id.shieldgear);
 
         if (getArguments() != null) {
             starpower1 = getArguments().getString(ARG_PARAM1);
@@ -84,7 +90,7 @@ public class BrawlerPowers extends Fragment {
 
         if(!Objects.equals(starpower1, "locked")) {
             String filenameString = formatStringForFilename(starpower1.toLowerCase());
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileStarpower1.setImageResource(id);
         }
         else {
@@ -92,7 +98,7 @@ public class BrawlerPowers extends Fragment {
         }
         if(!Objects.equals(starpower2, "locked")) {
             String filenameString = formatStringForFilename(starpower2.toLowerCase());
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileStarpower2.setImageResource(id);
         }
         else {
@@ -100,7 +106,7 @@ public class BrawlerPowers extends Fragment {
         }
         if(!Objects.equals(gadget1, "locked")) {
             String filenameString = formatStringForFilename(gadget1.toLowerCase());
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileGadget1.setImageResource(id);
         }
         else {
@@ -108,7 +114,7 @@ public class BrawlerPowers extends Fragment {
         }
         if(!Objects.equals(gadget2, "locked")) {
             String filenameString = formatStringForFilename(gadget2.toLowerCase());
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileGadget2.setImageResource(id);
         }
         else {
@@ -116,27 +122,27 @@ public class BrawlerPowers extends Fragment {
         }
         if(speedgear != 0) {
             String filenameString = String.format("speed%s", speedgear);
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileSpeedgear.setImageResource(id);
         }
         if(healthgear != 0) {
             String filenameString = String.format("health%s", healthgear);
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileHealthgear.setImageResource(id);
         }
         if(damagegear != 0) {
             String filenameString = String.format("damage%s", damagegear);
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileDamagegear.setImageResource(id);
         }
         if(visiongear != 0) {
             String filenameString = String.format("vision%s", visiongear);
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileVisiongear.setImageResource(id);
         }
         if(shieldgear != 0) {
             String filenameString = String.format("shield%s", shieldgear);
-            int id = getContext().getResources().getIdentifier(filenameString, "drawable", getContext().getPackageName());
+            int id = requireContext().getResources().getIdentifier(filenameString, "drawable", requireContext().getPackageName());
             profileShieldgear.setImageResource(id);
         }
 

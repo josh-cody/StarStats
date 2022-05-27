@@ -121,7 +121,7 @@ public class ProfilePage extends AppCompatActivity {
             edit.putString("widgetPlayerTag", tag).apply();
             edit.putString("widgetresponse", jsonObject.toString()).apply();
             follow.setBackgroundColor(0);
-            follow.setText("FOLLOWING");
+            follow.setText(R.string.following);
             follow.setClickable(false);
 
             Intent updateWidget = new Intent(this, BrawlerWidget.class);
@@ -135,7 +135,7 @@ public class ProfilePage extends AppCompatActivity {
         });
 
         if(tag.equals(pref.getString("widgetPlayerTag",""))) {
-            follow.setText("FOLLOWING");
+            follow.setText(R.string.following);
             follow.setBackgroundColor(0);
             follow.setClickable(false);
         }
@@ -296,6 +296,7 @@ public class ProfilePage extends AppCompatActivity {
             }
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         private void notifyChanges() {
             try{super.notifyDataSetChanged();}
             catch (Error e ) {e.printStackTrace();}

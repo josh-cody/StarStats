@@ -34,8 +34,8 @@ public class AllBrawlers extends AppCompatActivity {
     private TextView brawlerDescriptionTitle;
     private ConstraintLayout allBrawlersBack;
     private BrawlerDescriptionFragment brawlerDescriptionFragment;
-    private AtomicBoolean isWindowOpen = new AtomicBoolean(false);
-    private List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve", "janet");
+    private final AtomicBoolean isWindowOpen = new AtomicBoolean(false);
+    private final List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom","mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve", "janet");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class AllBrawlers extends AppCompatActivity {
         setContentView(R.layout.activity_all_brawlers);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         brawlerDescriptionTitle = findViewById(R.id.brawlerDescriptionTitle); brawlers = findViewById(R.id.allBrawlersRecyclerView); allBrawlersBack = findViewById(R.id.allBrawlersBack);
-        brawlerDescriptionTitle.setText("Tap on a brawler to learn more!");
+        brawlerDescriptionTitle.setText(R.string.brawlerDescripTitle);
         ApiThread apiThread = new ApiThread(getApplicationContext(), 3);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
@@ -176,8 +176,6 @@ public class AllBrawlers extends AppCompatActivity {
         }
 
         @Override
-        public int getItemCount() {
-            return brawlerList.size();
-        }
+        public int getItemCount() { return brawlerList.size(); }
     }
 }

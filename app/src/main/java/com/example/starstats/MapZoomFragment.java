@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class MapZoomFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "mapID";
@@ -18,10 +20,6 @@ public class MapZoomFragment extends Fragment {
 
     private int mapID;
     private String mapName;
-
-    private ImageButton close;
-    private TextView mapNameTextView;
-    private ImageView mapZoom;
 
     public static MapZoomFragment newInstance(int mapID, String mapName) {
         MapZoomFragment fragment = new MapZoomFragment();
@@ -45,10 +43,12 @@ public class MapZoomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map_zoom, container, false);
 
-        close = v.findViewById(R.id.close); mapZoom = v.findViewById(R.id.mapZoom); mapNameTextView = v.findViewById(R.id.mapNameTextView);
+        ImageButton close = v.findViewById(R.id.close);
+        ImageView mapZoom = v.findViewById(R.id.mapZoom);
+        TextView mapNameTextView = v.findViewById(R.id.mapNameTextView);
         mapNameTextView.setText(mapName);
         mapZoom.setImageResource(mapID);
-        close.setOnClickListener(view -> {  getActivity().onBackPressed();  });
+        close.setOnClickListener(view -> {  requireActivity().onBackPressed();  });
         
         return v;
     }

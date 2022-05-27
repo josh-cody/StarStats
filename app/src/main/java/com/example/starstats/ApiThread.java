@@ -30,6 +30,7 @@ class ApiThread extends Thread implements Runnable {
         SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
 
+
         System.out.println("Network Thread has started running");
         if(this.req == 1) {
             //create request for player data

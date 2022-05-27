@@ -19,8 +19,11 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class ProfileFragment extends Fragment {
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch musicSetting;
     EditText playerTag, brawlerToTrack;
 
@@ -30,7 +33,7 @@ public class ProfileFragment extends Fragment {
     @SuppressLint("NewApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences pref = requireActivity().getApplicationContext().getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
         musicSetting = v.findViewById(R.id.musicSetting);
@@ -40,11 +43,11 @@ public class ProfileFragment extends Fragment {
         if(pref.contains("musicSetting")) {
             if(pref.getBoolean("musicSetting", false)) {
                  musicSetting.setChecked(true);
-                 getActivity().startService(new Intent(getActivity().getApplicationContext(), BackgroundSoundService.class));
+                 requireActivity().startService(new Intent(requireActivity().getApplicationContext(), BackgroundSoundService.class));
             }
             else {
                 musicSetting.setChecked(false);
-                getActivity().stopService(new Intent(getActivity().getApplicationContext(), BackgroundSoundService.class));
+                requireActivity().stopService(new Intent(requireActivity().getApplicationContext(), BackgroundSoundService.class));
             }
         } else {
             edit.putBoolean("musicSetting", false);
@@ -68,7 +71,7 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences pref = requireActivity().getApplicationContext().getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
         edit.putString("widgetPlayerTag", playerTag.getText().toString()).apply();
         edit.putString("brawlerToTrack", brawlerToTrack.getText().toString()).apply();

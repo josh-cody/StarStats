@@ -15,4 +15,7 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
+    <string name="brawlerDescripTitle">Tap on a brawler to learn more!</string>
+    <string name="supercellDisclaimer">This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell is not responsible for it. For more information see Supercell’s Fan Content Policy: www.supercell.com/fan-content-policy.</string>
+    <string name="following">FOLLOWING</string>
 </resources>
