@@ -11,21 +11,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#9000"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
         <TextView
             android:id="@+id/mapNameTextView"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:fontFamily="@font/nougat_extrablack"
             android:gravity="center"
-            android:text="TextView"
             android:background="@color/black"
             android:textColor="@color/white"
             android:textSize="50dp"
             app:autoSizeMaxTextSize="200sp"
             app:autoSizeMinTextSize="16sp"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform" />
+            app:autoSizeTextType="uniform"
+            tools:ignore="SpUsage" />
 
         <ImageButton
             android:id="@+id/close"
@@ -33,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            tools:ignore="ContentDescription" />
 
 
         <ImageView
@@ -43,7 +45,8 @@
             app:layout_constraintHeight_percent=".7"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintVertical_bias="1.0"
-            tools:srcCompat="@drawable/acidlakes" />
+            tools:srcCompat="@drawable/acidlakes"
+            tools:ignore="ContentDescription" />
 
 
 

@@ -13,13 +13,13 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/background"
-        />
+        tools:ignore="ContentDescription" />
 
     <Button
         android:id="@+id/battleLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Battle Log"
+        android:text="@string/battle_log"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/nougat_extrablack"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
@@ -35,7 +35,6 @@
         android:background="@drawable/name_back"
         android:fontFamily="@font/nougat_extrablack"
         android:gravity="center"
-        android:text="TextView"
         android:textSize="34sp"
         style="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +81,7 @@
         android:layout_marginTop="3dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/nougat_extrablack"
-        android:text="FOLLOW"
+        android:text="@string/follow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/personalStats" />
 
@@ -102,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/nougat_extrablack"
-            android:text="Sort by:"
+            android:text="@string/sort_by"
             android:textColor="@color/black" />
 
         <Button
@@ -114,7 +113,7 @@
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
             android:gravity="center"
-            android:text="RARITY" />
+            android:text="@string/rarity" />
 
         <Button
             android:id="@+id/trophySort"
@@ -125,7 +124,7 @@
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
             android:gravity="center"
-            android:text="TROPHIES" />
+            android:text="@string/trophies" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline

@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -53,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
         else {
             //no music
         }
+
+        enterTagText.setOnClickListener(view -> {
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            enterTagText.setTextColor(color);
+        });
 
         profile.setOnClickListener(view -> {
             hideKeyboard();

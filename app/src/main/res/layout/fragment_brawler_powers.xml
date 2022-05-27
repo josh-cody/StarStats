@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,14 +21,16 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            android:src="@drawable/blankstarpower" />
+            android:src="@drawable/blankstarpower"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/profileStarpower2"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_weight="1"
-            android:src="@drawable/blankstarpower" />
+            android:src="@drawable/blankstarpower"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,14 +45,16 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:src="@drawable/gadgetblank" />
+            android:src="@drawable/gadgetblank"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/profileGadget2"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:src="@drawable/gadgetblank" />
+            android:src="@drawable/gadgetblank"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 
     <LinearLayout
@@ -66,34 +69,39 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:src="@drawable/graygear" />
+            android:src="@drawable/graygear"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/healthgear"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:src="@drawable/graygear" />
+            android:src="@drawable/graygear"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/damagegear"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:src="@drawable/graygear" />
+            android:src="@drawable/graygear"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/visiongear"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:src="@drawable/graygear" />
+            android:src="@drawable/graygear"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/shieldgear"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:src="@drawable/graygear" />
+            android:src="@drawable/graygear"
+            tools:ignore="ContentDescription" />
     </LinearLayout>
 </LinearLayout>

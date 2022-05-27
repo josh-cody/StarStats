@@ -19,18 +19,20 @@
             android:textColor="@color/yellow"
             android:textSize="20dp"
             android:layout_height="wrap_content"
-            android:text="Music" />
+            android:text="@string/music"
+            tools:ignore="SpUsage,UseSwitchCompatOrMaterialXml" />
 
         <EditText
             android:id="@+id/playerTag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Tag (widget)"
+            android:hint="@string/tag_widget"
             android:fontFamily="@font/nougat_extrablack"
             android:inputType="textPersonName"
             android:textColor="@color/yellow"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/brawlerToTrack"
@@ -38,10 +40,11 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:fontFamily="@font/nougat_extrablack"
-            android:hint="Brawler (widget)"
+            android:hint="@string/brawler_widget"
             android:inputType="textPersonName"
             android:textColor="@color/yellow"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            android:importantForAutofill="no" />
     </LinearLayout>
 
 </FrameLayout>

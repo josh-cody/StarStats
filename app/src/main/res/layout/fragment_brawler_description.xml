@@ -30,7 +30,8 @@
                     android:id="@+id/brawlerPortraitDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    tools:srcCompat="@tools:sample/avatars"
+                    tools:ignore="ContentDescription" />
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
@@ -44,19 +45,19 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:background="@android:color/transparent"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/brawlerName"
                     android:layout_width="match_parent"
-                    android:layout_height="71dp"
+                    android:layout_height="0dp"
                     android:layout_gravity="top"
                     android:layout_weight="1"
                     android:fontFamily="@font/nougat_extrablack"
                     android:gravity="center"
                     android:lines="1"
                     android:padding="3dp"
-                    android:text="TextView"
                     android:textColor="@color/white"
                     app:autoSizeMaxTextSize="140sp"
                     app:autoSizeMinTextSize="16sp"
@@ -108,7 +109,7 @@
                                 android:fontFamily="@font/nougat_extrablack"
                                 android:gravity="start"
 
-                                android:text="STAR POWERS"
+                                android:text="@string/star_powers"
                                 android:textColor="@color/yellow"
                                 app:autoSizeMaxTextSize="50sp"
                                 app:autoSizeMinTextSize="16sp"
@@ -120,7 +121,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
-                                android:src="@drawable/ic_baseline_expand_more_24" />
+                                android:src="@drawable/ic_baseline_expand_more_24"
+                                tools:ignore="ContentDescription" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -141,7 +143,8 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="UselessParent">
 
                                 <TextView
                                     android:id="@+id/starpower1"
@@ -153,9 +156,9 @@
                                     android:padding="3dp"
                                     android:paddingStart="4dp"
                                     android:paddingEnd="4dp"
-                                    android:text="TextView"
                                     android:textColor="@color/yellow"
-                                    android:textSize="20dp" />
+                                    android:textSize="20dp"
+                                    tools:ignore="SpUsage" />
 
                                 <TextView
                                     android:id="@+id/starpower1desc"
@@ -189,7 +192,8 @@
                                     android:paddingStart="4dp"
                                     android:paddingEnd="4dp"
                                     android:textColor="@color/yellow"
-                                    android:textSize="20dp" />
+                                    android:textSize="20dp"
+                                    tools:ignore="SpUsage" />
 
                                 <TextView
                                     android:id="@+id/starpower2desc"
@@ -247,7 +251,7 @@
                                 android:layout_height="40dp"
                                 android:fontFamily="@font/nougat_extrablack"
                                 android:gravity="start"
-                                android:text="GADGETS"
+                                android:text="@string/gadgets"
                                 android:textColor="@color/green"
                                 app:autoSizeMaxTextSize="50sp"
                                 app:autoSizeMinTextSize="16sp"
@@ -258,7 +262,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
-                                android:src="@drawable/ic_baseline_expand_more_24"/>
+                                android:src="@drawable/ic_baseline_expand_more_24"
+                                tools:ignore="ContentDescription" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -282,7 +287,7 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                >
+                                tools:ignore="UselessParent">
 
                                 <TextView
                                     android:id="@+id/gadget1"
@@ -293,8 +298,8 @@
                                     android:padding="3dp"
                                     android:background="@drawable/textview_rounded_top"
                                     android:layout_width="match_parent"
-                                    android:text="TextView"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    tools:ignore="SpUsage" />
 
                                 <TextView
                                     android:id="@+id/gadget1desc"
@@ -325,8 +330,8 @@
                                     android:gravity="start"
                                     android:padding="3dp"
                                     android:background="@drawable/textview_rounded_top"
-                                    android:text="TextView"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    tools:ignore="SpUsage" />
 
                                 <TextView
                                     android:id="@+id/gadget2desc"

@@ -11,7 +11,8 @@
     android:layout_marginBottom="16px"
     android:background="@color/white"
     android:backgroundTint="#F3E9DD"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="PxUsage">
 
     
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,62 +32,65 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/rank"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            tools:srcCompat="@drawable/rank35" />
+            tools:srcCompat="@drawable/rank35"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/powerLevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nougat_extrablack"
-            android:text="TextView"
             android:textSize="24sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/trophy"
             android:layout_width="45dp"
             android:layout_height="match_parent"
-            tools:srcCompat="@drawable/trophy" />
+            tools:srcCompat="@drawable/trophy"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/brawlerTrophies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nougat_extrablack"
-            android:text="TextView"
             android:textSize="25sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/trophyHighest"
             android:layout_width="45dp"
             android:layout_height="match_parent"
-            tools:srcCompat="@drawable/trophy" />
+            tools:srcCompat="@drawable/trophy"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/highestBrawler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nougat_extrablack"
-            android:text="TextView"
             android:textSize="25sp" />
     </LinearLayout>
 
