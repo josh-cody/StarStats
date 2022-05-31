@@ -22,7 +22,6 @@ import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
-
     ConstraintLayout mainLayout, buttonsLayout;
     String tag;
     Button toMaps, toBrawlers, recent1, recent2, recent3;

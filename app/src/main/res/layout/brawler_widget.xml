@@ -19,11 +19,11 @@
 
             <ImageView
                 android:id="@+id/brawlerImageWidget"
-                android:layout_width="0dp"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/shelly"
-                tools:ignore="ContentDescription" />
+                tools:ignore="InefficientWeight" />
         </LinearLayout>
 
         <TextView
@@ -33,13 +33,12 @@
             android:textColor="#a9a9a9"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="ONLY ONE WIDGET IS ALLOWED"
+            android:text="@string/only_one_widget_is_allowed"
             android:fontFamily="@font/nougat_extrablack"
             app:autoSizeMaxTextSize="140sp"
             app:autoSizeMinTextSize="16sp"
             app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
-            tools:ignore="HardcodedText" />
+            app:autoSizeTextType="uniform" />
 
     </LinearLayout>
 
@@ -55,7 +54,6 @@
             android:layout_weight="1"
             android:fontFamily="@font/nougat_extrablack"
             android:gravity="center"
-            android:text=""
             android:textColor="@color/yellow"
             android:textSize="28sp" />
 
