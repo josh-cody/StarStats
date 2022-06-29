@@ -108,5 +108,9 @@
 	"CHILL PILL":"Though furious, Ash has to collect himself. A full Rage meter will recover 2500 health when this gadget is popped - less Rage, less recovery.",
 	"PSYCHIC ENHANCER": "Tara and her allies are able to see all enemies, even inside bushes, for 4.0 seconds.",
 	"SUPPORT FROM BEYOND": "Tara surrounds herself with three weak shadows that attack enemies and disappear after 6 seconds.",
-	"DROP THE BASS": "Janet deploys a speaker that deals 1000 damage per second to all enemies in the area until it gets destroyed"
-	}
+	"DROP THE BASS": "Janet deploys a speaker that deals 1000 damage per second to all enemies in the area until it gets destroyed.",
+	"BACKSTAGE PASS": "Janet's next High Note pushes her back, even over walls. The more focused her attack is, the further she'll be pushed back.",
+	"SUGAR RUSH": "Clyde's movement and reload speed are increased by 30% for 5 seconds.",
+	"CRASH TEST": "Bonnie dashes forward, knocking back enemies and dealing 300 damage on hit.",
+	"DORMANT STAR": "The next starfish will stay on the ground if an enemy is not hit, laying dormant until an enemy gets close."
+}

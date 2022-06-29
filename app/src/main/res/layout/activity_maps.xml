@@ -8,14 +8,16 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/background"
+        android:layout_marginBottom="@dimen/adview_margin"
         tools:ignore="ContentDescription" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <TextView
             android:id="@+id/textView"
@@ -24,6 +26,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:background="#8000"
+            android:padding="4dp"
             android:fontFamily="@font/nougat_extrablack"
             app:autoSizeMaxTextSize="200sp"
             app:autoSizeMinTextSize="16sp"
@@ -35,24 +38,42 @@
             android:id="@+id/mapsScroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
             android:background="@color/blue"
             android:clipToPadding="true"
-            android:padding="4dp">
+            android:layout_marginBottom="@dimen/adview_margin">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mapsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="3dp"
-                android:orientation="vertical" />
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                />
 
         </ScrollView>
     </LinearLayout>
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/adview_margin"/>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewMaps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

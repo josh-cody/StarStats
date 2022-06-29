@@ -3,12 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8px"
-    android:layout_marginRight="8px"
-    android:layout_marginTop="8px"
-    android:layout_marginBottom="16px"
+    android:layout_margin="3dp"
     android:background="@color/white"
     android:backgroundTint="#F3E9DD"
     android:orientation="vertical"
@@ -20,7 +17,7 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/brawlerPortrait"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
@@ -83,7 +80,7 @@
             android:id="@+id/trophyHighest"
             android:layout_width="45dp"
             android:layout_height="match_parent"
-            tools:srcCompat="@drawable/trophy"
+            tools:srcCompat="@drawable/htt_summer_game_mode_icons_800x800"
             tools:ignore="ContentDescription" />
 
         <TextView

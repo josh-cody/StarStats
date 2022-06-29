@@ -7,28 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     >
+
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/background"
-        />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/profile"
-        android:layout_width="53dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/yellow"
-        android:clickable="true"
-        android:focusable="true"
-        app:fabCustomSize="53dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_settings_24" />
-
+        android:layout_marginBottom="@dimen/adview_margin"
+        android:src="@drawable/background" />
     <TextView
         android:id="@+id/loading"
         android:layout_width="250dp"
@@ -49,46 +36,79 @@
         android:id="@+id/enterTagText"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_margin="50dp"
-        android:lines="1"
-        android:gravity="center"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/nougat_extrablack"
+        android:gravity="center"
+        android:lines="1"
         android:text="Enter player tag:"
         app:autoSizeMaxTextSize="500sp"
         app:autoSizeMinTextSize="16sp"
         app:autoSizeStepGranularity="1sp"
         app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/tagInput"
+        app:layout_constraintBottom_toTopOf="@+id/searchTools"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+
+    <TextView
+        android:id="@+id/hashtag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nougat_extrablack"
+        android:text="#"
+
+        android:layout_marginEnd="3dp"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tagInput"
+        app:layout_constraintEnd_toStartOf="@+id/tagInput"
+        app:layout_constraintTop_toTopOf="@+id/tagInput" />
 
     <EditText
         android:id="@+id/tagInput"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:layout_margin="57dp"
-        android:textSize="40sp"
-        android:maxLength="20"
+        android:layout_marginStart="57dp"
+        android:layout_marginEnd="57dp"
         android:backgroundTint="@color/yellow"
         android:fontFamily="@font/nougat_extrablack"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
+        android:maxLength="20"
         android:textColorHighlight="@color/yellow"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="30sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/recentbuttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.307"
-        android:importantForAutofill="no"
+        app:layout_constraintTop_toBottomOf="@id/enterTagText"
         tools:ignore="LabelFor" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="3dp"
+        android:backgroundTint="@color/yellow"
+        android:clickable="true"
+        app:fabCustomSize="53dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tagInput"
+        app:layout_constraintStart_toEndOf="@+id/tagInput"
+        app:layout_constraintTop_toTopOf="@+id/tagInput"
+        app:srcCompat="@drawable/search"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:id="@+id/recentbuttons"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_margin="3dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/tagInput"
         app:layout_constraintStart_toStartOf="@id/tagInput"
@@ -98,8 +118,8 @@
             android:id="@+id/recent1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="3dp"
+            android:layout_weight="1"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
             android:padding="3dp"
@@ -109,8 +129,8 @@
             android:id="@+id/recent2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="3dp"
+            android:layout_weight="1"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
             android:padding="3dp"
@@ -120,54 +140,13 @@
             android:id="@+id/recent3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="3dp"
+            android:layout_weight="1"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
             android:padding="3dp"
             android:text="Button" />
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/search"
-        android:layout_width="53dp"
-        android:layout_height="53dp"
-        android:backgroundTint="@color/yellow"
-        android:clickable="true"
-        app:fabCustomSize="53dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tagInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tagInput"
-        app:layout_constraintTop_toTopOf="@+id/tagInput"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/search" />
-
-    <TextView
-        android:id="@+id/hashtag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nougat_extrablack"
-        android:text="#"
-        android:textColor="@color/white"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tagInput"
-        app:layout_constraintEnd_toStartOf="@+id/tagInput"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tagInput"
-        app:layout_constraintVertical_bias="0.518" />
-
-    <TextView
-        android:id="@+id/disclaimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -178,19 +157,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recentbuttons"
-        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@id/disclaimer"
+        android:layout_marginTop="0dp"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp">
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp">
 
         <Button
             android:id="@+id/toMaps"
             android:layout_width="fill_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
             android:radius="5dp"
             android:text="MAPS"
-            android:textSize="30dp"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -198,27 +180,41 @@
         <Button
             android:id="@+id/toBrawlers"
             android:layout_width="fill_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/custom_button"
             android:fontFamily="@font/nougat_extrablack"
             android:radius="5dp"
             android:text="BRAWLERS"
-            android:textSize="30dp"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toMaps" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:layout_width="272dp"
-        android:layout_height="395dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/profile"
-        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/disclaimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/supercellDisclaimer"
+        app:layout_constraintBottom_toBottomOf="@id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
