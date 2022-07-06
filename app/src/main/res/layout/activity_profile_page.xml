@@ -20,7 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,30 +68,33 @@
                             android:src="@drawable/shelly" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginEnd="110dp"
                             android:orientation="vertical">
+
                             <TextView
                                 android:id="@+id/playerNameExpanded"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:fontFamily="@font/nougat_extrablack"
-                                android:layout_weight="2"
-                                android:gravity="center"
+                                android:layout_weight="1"
                                 android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:text="TEST" />
+                                android:text="TEST"
+                                android:lines="1"
+                                app:autoSizeMaxTextSize="140sp"
+                                app:autoSizeMinTextSize="16sp"
+                                app:autoSizeStepGranularity="1sp"
+                                app:autoSizeTextType="uniform"/>
 
                             <TextView
                                 android:id="@+id/playerTagExpanded"
                                 android:fontFamily="@font/nougat_extrablack"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
                                 android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="TAG"/>
+                                android:text="TAG" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -101,12 +103,13 @@
                         android:layout_width="100dp"
                         android:layout_height="30dp"
                         android:gravity="center"
+                        android:textColor="@color/black"
                         android:layout_gravity="end"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/custom_button"
                         android:fontFamily="@font/nougat_extrablack"
-                        android:text="@string/follow"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/topProfileLayout" />
+                        android:text="@string/follow"/>
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
@@ -120,39 +123,42 @@
                         android:divider="@drawable/profile_expand_ll_name_divider"
                         android:showDividers="middle"
                         android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_weight="1">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:gravity="center"
                             android:src="@drawable/htt_summer_game_mode_icons_800x800"/>
                         <TextView
                             android:id="@+id/highestTrophiesExpanded"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:fontFamily="@font/nougat_extrablack"
                             android:layout_height="wrap_content"
                             android:textColor="@color/yellow"
-                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:text="HIGHEST" />
 
                     </LinearLayout>
                     <LinearLayout
-                        android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:divider="@drawable/profile_expand_ll_name_divider"
                         android:showDividers="middle"
+                        android:gravity="center"
                         android:layout_weight="1">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:gravity="center"
                             android:src="@drawable/trophy"/>
                         <TextView
                             android:id="@+id/currentTrophiesExpanded"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:fontFamily="@font/nougat_extrablack"
-                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:textColor="@color/yellow"
                             android:layout_height="wrap_content"
                             android:text="CURRENT" />
@@ -162,20 +168,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:divider="@drawable/profile_expand_ll_name_divider"
-                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:showDividers="middle"
                         android:layout_weight="1">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:gravity="center"
                             android:src="@drawable/icon_player_level"/>
                         <TextView
                             android:id="@+id/playerLevel"
                             android:fontFamily="@font/nougat_extrablack"
-                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:textColor="#53C5F7"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="LEVEL" />
 
@@ -194,19 +201,21 @@
                         android:layout_height="wrap_content"
                         android:divider="@drawable/profile_expand_ll_name_divider"
                         android:layout_gravity="center"
+                        android:gravity="center"
                         android:showDividers="middle"
                         android:layout_weight="1">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:gravity="center"
                             android:src="@drawable/threes_icon"/>
 
                         <TextView
                             android:id="@+id/threeWins"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:fontFamily="@font/nougat_extrablack"
-                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:textColor="#FF0D00"
                             android:layout_height="wrap_content"
                             android:text="3v3 WINS" />
@@ -217,16 +226,18 @@
                         android:layout_gravity="center"
                         android:divider="@drawable/profile_expand_ll_name_divider"
                         android:showDividers="middle"
+                        android:gravity="center"
                         android:layout_weight="1">
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:gravity="center"
                             android:src="@drawable/solo_icon"/>
                         <TextView
                             android:id="@+id/soloWins"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:textColor="#94FF50"
                             android:fontFamily="@font/nougat_extrablack"
                             android:text="SOLO WINS" />
@@ -238,18 +249,20 @@
                         android:layout_gravity="center"
                         android:divider="@drawable/profile_expand_ll_name_divider"
                         android:showDividers="middle"
+                        android:gravity="center"
                         android:layout_weight="1">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:gravity="center"
                             android:src="@drawable/duo_showdown"/>
 
                         <TextView
                             android:id="@+id/duoWins"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:fontFamily="@font/nougat_extrablack"
                             android:textColor="#94FF50"
                             android:text="DUO WINS" />
@@ -268,16 +281,18 @@
                         android:layout_height="wrap_content"
                         android:divider="@drawable/profile_expand_ll_name_divider"
                         android:showDividers="middle"
+                        android:gravity="center"
                         android:layout_weight="1">
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:gravity="center"
                             android:src="@drawable/icon_news"/>
                         <TextView
                             android:id="@+id/clubName"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:textColor="@color/white"
                             android:fontFamily="@font/nougat_extrablack"
                             android:text="CLUB NAME" />
@@ -288,17 +303,20 @@
                         android:layout_gravity="center"
                         android:divider="@drawable/profile_expand_ll_name_divider"
                         android:showDividers="middle"
+                        android:gravity="center"
                         android:layout_weight="1">
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:gravity="center"
                             android:src="@drawable/icon_lock"/>
                         <TextView
                             android:id="@+id/brawlersUnlocked"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:fontFamily="@font/nougat_extrablack"
+                            android:gravity="center"
                             android:layout_gravity="center"
                             android:text="UNLOCKED" />
                     </LinearLayout>
@@ -307,63 +325,12 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@id/brawlersScroll"
-        app:layout_constraintStart_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingEnd="15dp"
-            android:fontFamily="@font/nougat_extrablack"
-            android:text="@string/sort_by"
-            android:gravity=""
-            android:textColor="@color/white"
-            app:autoSizeMaxTextSize="140sp"
-            app:autoSizeMinTextSize="16sp"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform" />
-
-        <Button
-            android:id="@+id/raritySort"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:background="@drawable/custom_button"
-            android:fontFamily="@font/nougat_extrablack"
-            android:gravity="center"
-            android:text="@string/rarity" />
-
-        <Button
-            android:id="@+id/trophySort"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:background="@drawable/custom_button"
-            android:fontFamily="@font/nougat_extrablack"
-            android:gravity="center"
-            android:text="@string/trophies" />
-    </LinearLayout>
-
     <ScrollView
         android:id="@+id/brawlersScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="14dp"
         android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -374,6 +341,37 @@
             android:orientation="vertical" />
     </ScrollView>
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="@dimen/adview_margin">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sortButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:fabCustomSize="50dp"
+            android:backgroundTint="@color/yellow"
+            tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/raritySortText"
+            android:fontFamily="@font/nougat_extrablack"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:elevation="16dp"
+            android:layout_margin="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:autoSizeMaxTextSize="140sp"
+            app:autoSizeMinTextSize="16sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"/>
+    </FrameLayout>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/brawlerPowers"
         android:layout_width="match_parent"

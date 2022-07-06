@@ -141,7 +141,8 @@ public class Maps extends AppCompatActivity {
             modes.put("duels", "Duels");
             modes.put("wipeout","Wipeout");
             modes.put("botDrop", "Bot Drop");
-            modes.put("unknown","Hunters");
+            modes.put("hunters","Hunters");
+            modes.put("unknown", "Unknown");
 
             return new ViewHolder(v);
         }

@@ -12,6 +12,7 @@
         android:id="@+id/backgroundImage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:src="@drawable/hunters"
         app:layout_constraintDimensionRatio="77:17"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
