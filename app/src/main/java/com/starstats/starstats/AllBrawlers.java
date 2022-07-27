@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -24,8 +25,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -39,12 +44,25 @@ public class AllBrawlers extends AppCompatActivity {
     private ConstraintLayout allBrawlersBack;
     private BrawlerDescriptionFragment brawlerDescriptionFragment;
     private final AtomicBoolean isWindowOpen = new AtomicBoolean(false);
-    private final List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff", "grom","bonnie", "mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel ruffs","belle","buzz","ash","lola","fang","eve","janet");
+    private JSONArray rarityFromJSON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_brawlers);
+
+        try {
+            InputStream is = getAssets().open("rarityorder.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String jsonString = new String(buffer, StandardCharsets.UTF_8);
+            rarityFromJSON = new JSONArray(jsonString);
+        } catch (IOException | JSONException e) {
+            toMainActivity();
+            Toast.makeText(getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+        }
 
         mAdView = findViewById(R.id.adViewBrawlers);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -58,8 +76,8 @@ public class AllBrawlers extends AppCompatActivity {
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(pref.getString("brawlerresponse","")); } catch (JSONException e) { e.printStackTrace();  }
+        try { brawlerList = sortBrawlerList(brawlerList); } catch (JSONException e) { e.printStackTrace(); }
 
-        brawlerList = sortBrawlerList(brawlerList);
         setBrawlerAdapter();
         brawlers.setVerticalScrollBarEnabled(false);
         brawlers.setHorizontalScrollBarEnabled(false);
@@ -89,12 +107,12 @@ public class AllBrawlers extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Brawler> sortBrawlerList(ArrayList<Brawler> brawlerList) throws ArrayIndexOutOfBoundsException {
+    private ArrayList<Brawler> sortBrawlerList(ArrayList<Brawler> brawlerList) throws JSONException {
         ArrayList<Brawler> tmp = new ArrayList<>();
         if(brawlerList.size() == 0) { return brawlerList; }
         for(int i=0; i <= brawlerList.size(); i++) {
             for(int j=0; j <= brawlerList.size()-1; j++) {
-                if(brawlerList.get(j).name.toLowerCase().equals(rarityOrder.get(i))) {
+                if(brawlerList.get(j).name.toLowerCase().equals(rarityFromJSON.getString(i))) {
                     tmp.add(brawlerList.get(j));
                     j = brawlerList.size()-1;
                 }

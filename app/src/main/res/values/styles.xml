@@ -9,4 +9,9 @@
         <item name="android:background">?android:attr/colorBackground</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
+
+    <style name="SpinnerTheme">
+        <item name="android:textColor">#D6D6D6</item>
+        <item name="android:fontFamily">@font/nougat_extrablack</item>
+    </style>
 </resources>

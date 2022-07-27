@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -24,7 +25,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -84,9 +92,13 @@ public class Maps extends AppCompatActivity {
         System.out.println(RESPONSE_FROM_API);
         for(int i = 0; i < jsonArray.length(); i++){
             JSONObject t = (JSONObject) jsonArray.get(i);
+
+            String eventStart = t.getString("startTime");
+            String eventEnd = t.getString("endTime");
+
             JSONObject tmpMap = (JSONObject) t.get("event");
             if(!tmpMap.getString("mode").equals("duoShowdown") && !tmpMap.getString("mode").equals("roboRumble") && !tmpMap.getString("mode").equals("bossFight") && !tmpMap.getString("mode").equals("bigGame")) {
-                mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode")));
+                mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode"), eventStart, eventEnd));
                 System.out.println("added "+ tmpMap.getString("mode"));
             }
         }
@@ -103,9 +115,6 @@ public class Maps extends AppCompatActivity {
         };
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mapAdapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(getDrawable(R.drawable.divider));
-        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
 
@@ -116,12 +125,12 @@ public class Maps extends AppCompatActivity {
         public MapAdapter(ArrayList<ThisMap> mapList) { this.mapList = mapList; }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            private final TextView mapName, modeName;
+            private final TextView mapName, modeName, timeRemaining;
             private final ImageView map, backgroundImage;
-            private final ConstraintLayout mapBack;
+            private final LinearLayout mapBack;
             public ViewHolder(View view) {
                 super(view);
-                backgroundImage = view.findViewById(R.id.backgroundImage); mapBack = view.findViewById(R.id.mapBack); mapName = view.findViewById(R.id.mapName); modeName = view.findViewById(R.id.modeName); map = view.findViewById(R.id.map);
+                timeRemaining = view.findViewById(R.id.timeRemaining); backgroundImage = view.findViewById(R.id.backgroundImage); mapBack = view.findViewById(R.id.mapBack); mapName = view.findViewById(R.id.mapName); modeName = view.findViewById(R.id.modeName); map = view.findViewById(R.id.map);
             }
         }
 
@@ -151,8 +160,18 @@ public class Maps extends AppCompatActivity {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             ThisMap thisMap = mapList.get(position);
 
-            if(!thisMap.mode.equals("duoShowdown") && !thisMap.mode.equals("roboRumble") && !thisMap.mode.equals("bossFight") && !thisMap.mode.equals("bigGame") && !inViewHolder.contains(thisMap.mode)) {
+            java.util.Date eventStart = Date.from(Instant.parse(thisMap.eventStart));
+            java.util.Date eventEnd = Date.from( Instant.parse(thisMap.eventEnd));
+            java.util.Date localTime = Date.from(Instant.now());
+
+            if(!localTime.before(eventStart)) {
                 inViewHolder.add(thisMap.mode);
+
+                long timeRemaining = eventEnd.getTime() - localTime.getTime();
+                long difference_In_Hours= (timeRemaining / (1000 * 60 * 60) % 24);
+                long difference_In_Minutes = (timeRemaining / (1000 * 60)) % 60;
+
+                holder.timeRemaining.setText(MessageFormat.format("{0}h {1}m", difference_In_Hours, difference_In_Minutes));
 
                 holder.mapName.setText(thisMap.map);
                 holder.modeName.setText(modes.get(thisMap.mode));
@@ -182,7 +201,12 @@ public class Maps extends AppCompatActivity {
                     }
                 });
             }
-            else { holder.mapBack.setVisibility(View.GONE); holder.mapBack.setMaxHeight(0); }
+            else {
+                holder.mapBack.setVisibility(View.GONE);
+                ViewGroup.LayoutParams params = holder.mapBack.getLayoutParams();
+                params.height = 0;
+                holder.mapBack.setLayoutParams(params);
+            }
         }
 
         private String formatStringForFilename(String input) {

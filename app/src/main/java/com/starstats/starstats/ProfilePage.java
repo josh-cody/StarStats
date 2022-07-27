@@ -34,6 +34,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -59,50 +62,100 @@ public class ProfilePage extends AppCompatActivity {
     String tag, tmpsp1, tmpsp2, tmpg1, tmpg2;
     JSONObject jsonObject, tmpStar1, tmpStar2, tmpGad1, tmpGad2;
     private AdView mAdView;
-    private final List<String> rarityOrder = Arrays.asList("shelly","nita","colt","bull","jessie","brock","dynamike","bo","tick","8-bit","emz","stu","el primo","barley","poco","rosa","rico","darryl","penny","carl","jacky","piper","pam","frank","bibi","bea","nani","edgar","griff","grom", "bonnie", "mortis","tara","gene","max","mr. p", "sprout", "byron", "squeak","spike","crow","leon","sandy","amber","meg","gale","surge","colette","lou","colonel\nruffs","belle","buzz","ash","lola","fang","eve","janet");
-
     int tmpspeed, tmphealth, tmpdamage, tmpvision, tmpshield = 0;
-
-    JSONArray jsonStarpowers, jsonGadgets, jsonGears;
+    JSONArray jsonStarpowers, rarityFromJSON, jsonGadgets, jsonGears;
+    JSONObject iconMapping;
+    ImageView profilePicture;
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+        SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+
+        try {
+            InputStream is = getAssets().open("rarityorder.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String jsonString = new String(buffer, StandardCharsets.UTF_8);
+            rarityFromJSON = new JSONArray(jsonString);
+        } catch (IOException | JSONException e) {
+            toMainActivity();
+            Toast.makeText(getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+        }
 
         mAdView = findViewById(R.id.adViewProfile);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = pref.edit();
         tag = pref.getString("tag", "default");
+
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
-        try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace();  }
+        try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace(); }
+
+
         raritySortText = findViewById(R.id.raritySortText); currentTrophies = findViewById(R.id.currentTrophiesExpanded); highestTrophies = findViewById(R.id.highestTrophiesExpanded); threeWins = findViewById(R.id.threeWins); soloWins = findViewById(R.id.soloWins); duoWins = findViewById(R.id.duoWins); playerTag = findViewById(R.id.playerTagExpanded); playerName = findViewById(R.id.playerNameExpanded); level = findViewById(R.id.playerLevel); clubName = findViewById(R.id.clubName); brawlersUnlocked = findViewById(R.id.brawlersUnlocked);
-        sortButton = findViewById(R.id.sortButton); con = findViewById(R.id.brawlersCon); follow = findViewById(R.id.follow); scrollView = findViewById(R.id.brawlersScroll); brawlers = findViewById(R.id.recyclerView);
+        profilePicture = findViewById(R.id.profilePicture); sortButton = findViewById(R.id.sortButton); con = findViewById(R.id.brawlersCon); follow = findViewById(R.id.follow); scrollView = findViewById(R.id.brawlersScroll); brawlers = findViewById(R.id.recyclerView);
 
         brawlers.setVerticalScrollBarEnabled(false);
         scrollView.setVerticalScrollBarEnabled(false);
 
         try {
-            setValues(pref.getString("response", ""));
-            if(!pref.contains("recent1")) { edit.putString("recent1", tag).apply(); }
-            else if (!pref.contains("recent2")) { edit.putString("recent2", tag).apply(); }
-            else if (!pref.contains("recent3")) { edit.putString("recent3", tag).apply(); }
+            InputStream is = getAssets().open("iconmapping.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String jsonString = new String(buffer, StandardCharsets.UTF_8);
+            iconMapping = new JSONObject(jsonString);
+        } catch (IOException | JSONException e) { e.printStackTrace(); }
 
-            if(pref.contains("recent1") && pref.contains("recent2") && pref.contains("recent3") && !pref.getString("recent1","").equals(tag) && !pref.getString("recent2","").equals(tag) && !pref.getString("recent3","").equals(tag)) {
-                edit.putString("recent3", pref.getString("recent2", "")).apply();
-                edit.putString("recent2", pref.getString("recent1","")).apply();
-                edit.putString("recent1", tag).apply();
+        try {
+            setValues(pref.getString("response", ""));
+            if(!pref.getBoolean("fromLeaderboards", false)) {
+                if (!pref.contains("recent1")) {
+                    edit.putString("recent1", tag).apply();
+                } else if (!pref.contains("recent2")) {
+                    edit.putString("recent2", tag).apply();
+                } else if (!pref.contains("recent3")) {
+                    edit.putString("recent3", tag).apply();
+                }
+                if (pref.contains("recent1") && pref.contains("recent2") && pref.contains("recent3") && !pref.getString("recent1", "").equals(tag) && !pref.getString("recent2", "").equals(tag) && !pref.getString("recent3", "").equals(tag)) {
+                    edit.putString("recent3", pref.getString("recent2", "")).apply();
+                    edit.putString("recent2", pref.getString("recent1", "")).apply();
+                    edit.putString("recent1", tag).apply();
+                }
             }
         } catch (JSONException e) {
             toMainActivity();
-            Toast.makeText(getApplicationContext(),"Make sure you input a correct tag!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Make sure you put in the correct tag!", Toast.LENGTH_SHORT).show();
         }
 
+        try {
+            JSONObject tmpID = jsonObject.getJSONObject("icon");
+            String id = String.valueOf(tmpID.getInt("id"));
+
+            String toSearch = iconMapping.getString(id);
+
+            System.out.println("toSearch: "+toSearch);
+
+            char[] chars = toSearch.toCharArray();
+
+            for (char c : chars) {
+                if (Character.isDigit(c)) {
+                    toSearch = "i" + toSearch;
+                    break;
+                }
+            }
+            System.out.println("toSearch: "+toSearch);
+            int id1 = getApplicationContext().getResources().getIdentifier(toSearch, "drawable", getApplicationContext().getPackageName());
+            profilePicture.setImageResource(id1);
+        } catch (JSONException e) { e.printStackTrace(); }
         brawlerList = new ArrayList<>();
         try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace(); }
 
@@ -111,7 +164,7 @@ public class ProfilePage extends AppCompatActivity {
         if(pref.getString("sort","").equals("r")) {
             raritySortText.setText("R");
             try { brawlerList = sortBrawlerListRarity(brawlerList);
-            } catch(ArrayIndexOutOfBoundsException a) {
+            } catch(JSONException a) {
                 brawlerList = new ArrayList<>();
                 try { populateBrawlerList(); } catch (JSONException e) { e.printStackTrace(); }
             }
@@ -134,6 +187,16 @@ public class ProfilePage extends AppCompatActivity {
             }
         });
 
+        clubName.setOnClickListener( view -> {
+            if(!clubName.getText().equals("NO NAME")) {
+                try {
+                    goToClub();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         sortButton.setOnClickListener(view -> {
             if(pref.getString("sort", "").equals("r")) {
                 sortBrawlerListTrophy(brawlerList);
@@ -142,7 +205,8 @@ public class ProfilePage extends AppCompatActivity {
                 raritySortText.setText("TR");
             }
             else if(pref.getString("sort", "").equals("tr")) {
-                ArrayList<Brawler> tmp = sortBrawlerListRarity(brawlerList);
+                ArrayList<Brawler> tmp = null;
+                try { tmp = sortBrawlerListRarity(brawlerList); } catch (JSONException e) { e.printStackTrace(); }
                 brawlerList.clear();
                 brawlerList.addAll(tmp);
                 adapter.notifyChanges();
@@ -183,8 +247,24 @@ public class ProfilePage extends AppCompatActivity {
         }
     }
 
+    private void goToClub() throws JSONException {
+        Intent toClub = new Intent(this, ClubPage.class);
+        SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+
+        JSONObject clubInfo = jsonObject.getJSONObject("club");
+
+        System.out.println(clubInfo.getString("tag"));
+
+        edit.putString("tag", clubInfo.getString("tag").replace("#","")).apply();
+
+        startActivity(toClub);
+    }
+
     @Override
     public void onBackPressed() {
+        SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
             if(isBrawlerWindowOpen.get()){
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_exit_anim).remove(brawlerPowers).commit();
                 isBrawlerWindowOpen.set(false);
@@ -193,10 +273,18 @@ public class ProfilePage extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().remove(instr).commit();
                 isInstructionWindowOpen.set(false);
             }
+            else if(pref.getBoolean("fromLeaderboards", false)) {
+                goToLeaderboards();
+            }
             else {
                 super.onBackPressed();
                 toMainActivity();
             }
+    }
+
+    private void goToLeaderboards() {
+        Intent toLeaderboards = new Intent(this, Leaderboards.class);
+        startActivity(toLeaderboards);
     }
 
     @SuppressLint("NewApi")
@@ -204,12 +292,12 @@ public class ProfilePage extends AppCompatActivity {
         inputBrawlerList.sort(Comparator.comparingInt((Brawler brawler) -> brawler.trophies).reversed());
     }
 
-    private ArrayList<Brawler> sortBrawlerListRarity(ArrayList<Brawler> brawlerList) throws ArrayIndexOutOfBoundsException {
+    private ArrayList<Brawler> sortBrawlerListRarity(ArrayList<Brawler> brawlerList) throws JSONException {
         ArrayList<Brawler> tmp = new ArrayList<>();
         if(brawlerList.size() == 0) { return brawlerList; }
-        for(int i=0; i <= rarityOrder.size()-1; i++) {
+        for(int i=0; i <= rarityFromJSON.length()-1; i++) {
             for(int j=0; j <= brawlerList.size()-1; j++) {
-                if(brawlerList.get(j).name.toLowerCase(Locale.ROOT).equals(rarityOrder.get(i))) {
+                if(brawlerList.get(j).name.toLowerCase(Locale.ROOT).equals(rarityFromJSON.getString(i))) {
                     tmp.add(brawlerList.get(j));
                     j = brawlerList.size()-1;
                 }
@@ -320,10 +408,15 @@ public class ProfilePage extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public void setValues(String RESPONSE_FROM_API) throws JSONException {
-        jsonObject = new JSONObject(RESPONSE_FROM_API);
+        System.out.println("response: "+RESPONSE_FROM_API);
 
         jsonObject = new JSONObject(RESPONSE_FROM_API);
         playerName.setText(jsonObject.getString("name"));
+
+        String tmp = jsonObject.getString("nameColor");
+        tmp = tmp.substring(2);
+        playerName.setTextColor(Color.parseColor("#"+tmp));
+
         playerTag.setText(jsonObject.getString("tag"));
         currentTrophies.setText(jsonObject.getString("trophies"));
         highestTrophies.setText(jsonObject.getString("highestTrophies"));
@@ -331,10 +424,13 @@ public class ProfilePage extends AppCompatActivity {
         duoWins.setText(jsonObject.getString("duoVictories"));
         level.setText(jsonObject.getString("expLevel"));
         threeWins.setText(jsonObject.getString("3vs3Victories"));
-        JSONObject jsonObject2 = (JSONObject) jsonObject.get("club");
-        clubName.setText(jsonObject2.getString("name"));
+        try {
+            JSONObject jsonObject2 = (JSONObject) jsonObject.get("club");
+            clubName.setText(jsonObject2.getString("name"));
+        } catch (JSONException e) {  clubName.setText("NO CLUB"); }
+
         JSONArray brawlers = jsonObject.getJSONArray("brawlers");
-        brawlersUnlocked.setText(brawlers.length() + " / 57");
+        brawlersUnlocked.setText(brawlers.length() + " / " + rarityFromJSON.length());
     }
 
     class BrawlerAdapter extends RecyclerView.Adapter<BrawlerAdapter.ViewHolder> {
@@ -371,6 +467,7 @@ public class ProfilePage extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Brawler brawler = brawlerList.get(position);
+
             holder.highestBrawler.setText(Integer.toString(brawler.highestBrawler));
             holder.brawlerTrophies.setText(Integer.toString(brawler.trophies));
             holder.powerLevel.setText(brawler.name.replace("\n"," ") + " " + brawler.powerLevel);

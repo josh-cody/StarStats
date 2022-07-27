@@ -29,4 +29,11 @@
     <string name="trophies">TROPHIES</string>
     <string name="current_maps">CURRENT MAPS</string>
     <string name="only_one_widget_is_allowed">ONLY ONE WIDGET IS ALLOWED</string>
+    <string name="widget">WIDGET</string>
+    <string name="widget_instructions">To add a widget, tap and hold on your home screen and select the Starstats widget. This will track a players profile without opening the app.</string>
+    <string name="tap_to_close">TAP TO CLOSE</string>
+    <string name="coming_soon">Coming soon…</string>
+    <string name="player_search">PLAYER SEARCH</string>
+    <string name="enter_player_tag">Enter player tag:</string>
+
 </resources>
