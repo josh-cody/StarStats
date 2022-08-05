@@ -2,6 +2,7 @@ package com.starstats.starstats;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -30,34 +31,31 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ClubPage extends AppCompatActivity {
 
     private ArrayList<Profile> profileList = new ArrayList<>();
-    private ApiThread apiThread;
-    private AdView mAdView;
     private String RESPONSE_FROM_API, clubTag;
     private JSONObject jsonObject, iconMapping;
     private TextView clubNamePage, clubTagPage, clubDescPage, clubTrophiesPage;
     private RecyclerView clubRecycleView;
-    private ScrollView clubMembersScroll;
-    private ClubAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_page);
 
-
-        mAdView = findViewById(R.id.adViewClubPage);
+        AdView mAdView = findViewById(R.id.adViewClubPage);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
 
-        clubMembersScroll = findViewById(R.id.clubMembersScroll); clubRecycleView = findViewById(R.id.clubRecycleView); clubNamePage = findViewById(R.id.clubNamePage); clubTagPage = findViewById(R.id.clubTag); clubDescPage = findViewById(R.id.clubDesc); clubTrophiesPage = findViewById(R.id.clubTrophies);
+        clubRecycleView = findViewById(R.id.clubRecycleView); clubNamePage = findViewById(R.id.clubNamePage); clubTagPage = findViewById(R.id.clubTag); clubDescPage = findViewById(R.id.clubDesc); clubTrophiesPage = findViewById(R.id.clubTrophies);
 
         try {
             InputStream is = getAssets().open("iconmapping.json");
@@ -71,25 +69,52 @@ public class ClubPage extends AppCompatActivity {
 
         clubTag = pref.getString("tag", "");
 
-        apiThread = new ApiThread(getApplicationContext(), clubTag, 4);
+        ApiThread apiThread = new ApiThread(getApplicationContext(), clubTag, 4);
         apiThread.start();
         try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace(); }
 
         RESPONSE_FROM_API = pref.getString("clubresponse","");
 
-        try { setValues(); } catch (JSONException e) { e.printStackTrace(); }
+        try {
+            setValues();
+            if(pref.contains("clubRecents")) {
+                Set<String> fetch = pref.getStringSet("clubRecents", new HashSet<>());
+                HashSet<String> clubRecents = new HashSet<>();
+                clubRecents.addAll(fetch);
+                if(clubRecents.size() == 3) {
+                    Object[] tmp = clubRecents.toArray();
+                    ArrayList<String> tmp2 = new ArrayList<>();
+                    for(Object o : tmp) { tmp2.add((String) o); }
+                    tmp2.remove(0);
+                    tmp2.add(clubTag);
+                    HashSet<String> toAdd = new HashSet<>();
+                    toAdd.addAll(tmp2);
+                    edit.putStringSet("clubRecents", toAdd).apply();
+                }
+                else {
+                    clubRecents.add(clubTag);
+                    edit.putStringSet("clubRecents", clubRecents).apply();
+                }
+            } else {
+                Set<String> clubRecents = new HashSet<>();
+                clubRecents.add(clubTag);
+                edit.putStringSet("clubRecents", clubRecents).apply();
+            }
+        } catch (JSONException e) {
+            goToMainActivity();
+            Toast.makeText(this, "Make sure you put in a correct tag!", Toast.LENGTH_SHORT).show();
+            finish();
+        }
         try { populatePlayerList(); } catch (JSONException e) { e.printStackTrace(); }
 
         setClubAdapter();
     }
 
     private void setClubAdapter() {
-        adapter = new ClubAdapter(profileList);
+        ClubAdapter adapter = new ClubAdapter(profileList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-
         clubRecycleView.setLayoutManager(layoutManager);
         clubRecycleView.setAdapter(adapter);
-
     }
 
     private void setValues() throws JSONException {
@@ -126,11 +151,12 @@ public class ClubPage extends AppCompatActivity {
         Map<String, String> ranks = new HashMap<>();
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            private TextView name, trophies, role, clubMemberTag, clubRank;
-            private ImageView profilePicture;
+            private final TextView name, trophies, role, clubMemberTag, clubRank;
+            private final ImageView profilePicture;
+            private final ConstraintLayout clubMemberTopLayout;
             public ViewHolder(View view) {
                 super(view);
-                profilePicture = view.findViewById(R.id.clubMemberProfilePicture); clubRank = view.findViewById(R.id.clubRank); name = view.findViewById(R.id.playerName); trophies = view.findViewById(R.id.playerTrophies); role = view.findViewById(R.id.playerRole); clubMemberTag = view.findViewById(R.id.clubMemberTag);
+                clubMemberTopLayout = view.findViewById(R.id.clubMemberTopLayout); profilePicture = view.findViewById(R.id.clubMemberProfilePicture); clubRank = view.findViewById(R.id.clubRank); name = view.findViewById(R.id.playerName); trophies = view.findViewById(R.id.playerTrophies); role = view.findViewById(R.id.playerRole); clubMemberTag = view.findViewById(R.id.clubMemberTag);
             }
         }
 
@@ -155,11 +181,8 @@ public class ClubPage extends AppCompatActivity {
             holder.name.setText(tmpProfile.getName());
 
             String tmp = tmpProfile.getNameColor();
-
             tmp = tmp.substring(2);
-
             int color = Color.parseColor("#"+tmp);
-
             holder.name.setTextColor(color);
 
             String toSearch = "";
@@ -173,8 +196,8 @@ public class ClubPage extends AppCompatActivity {
                     break;
                 }
             }
-            int id1 = getApplicationContext().getResources().getIdentifier(toSearch, "drawable", getApplicationContext().getPackageName());
 
+            int id1 = getApplicationContext().getResources().getIdentifier(toSearch, "drawable", getApplicationContext().getPackageName());
             if(id1 == 0x0) { holder.profilePicture.setImageResource(R.drawable.shelly); }
             else { holder.profilePicture.setImageResource(id1); }
 
@@ -183,6 +206,13 @@ public class ClubPage extends AppCompatActivity {
             holder.clubMemberTag.setText(tmpProfile.getTag());
             holder.clubRank.setText(Integer.toString(position + 1));
 
+            holder.clubMemberTopLayout.setOnClickListener(view -> {
+                SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = pref.edit();
+                edit.putBoolean("fromClubPage",true).apply();
+                edit.putString("tag", tmpProfile.getTag().replace("#", "")).apply();
+                goToProfile();
+            });
         }
 
         @Override
@@ -194,5 +224,10 @@ public class ClubPage extends AppCompatActivity {
         public int getItemCount() {
             return profileList.size();
         }
+    }
+
+    private void goToProfile() {
+        Intent toProfile = new Intent(this, ProfilePage.class);
+        startActivity(toProfile);
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.starstats.starstats" >
+    package="com.starstats.starstats">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,44 +12,54 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Leaderboards"
+            android:exported="false" />
+        <activity
+            android:name=".ClubPage"
+            android:exported="false" />
+
         <receiver
-            android:name="com.starstats.starstats.BrawlerWidget"
-            android:exported="true" >
+            android:name=".BrawlerWidget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/brawler_widget_info"/>
+                android:resource="@xml/brawler_widget_info" />
         </receiver>
 
         <activity
-            android:name="com.starstats.starstats.AllBrawlers"
+            android:name=".AllBrawlers"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.starstats.starstats.Maps"
+            android:name=".Maps"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.starstats.starstats.ProfilePage"
+            android:name=".ProfilePage"
             android:exported="false"
             android:label="@string/title_activity_profile_page"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.starstats.starstats.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-2819448659783993~2962905146"/>
+            android:value="ca-app-pub-2819448659783993~2962905146" />
     </application>
 
 </manifest>

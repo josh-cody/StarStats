@@ -1,6 +1,5 @@
 package com.starstats.starstats;
 
-import androidx.annotation.ColorLong;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +27,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -34,8 +34,6 @@ public class Leaderboards extends AppCompatActivity {
 
     private RecyclerView leaderboardRecyclerView;
     private ArrayList<Profile> profileList;
-    private String RESPONSE_FROM_API;
-    private LeaderboardAdapter adapter;
     private JSONObject jsonObject, iconMapping;
 
     @Override
@@ -45,6 +43,10 @@ public class Leaderboards extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
+
+        AdView mAdView = findViewById(R.id.adViewLeaderboards);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         leaderboardRecyclerView = findViewById(R.id.leaderboardRecyclerView);
 
@@ -57,7 +59,7 @@ public class Leaderboards extends AppCompatActivity {
             try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace(); }
         }
 
-        RESPONSE_FROM_API = pref.getString("leaderboardresponse", "");
+        String RESPONSE_FROM_API = pref.getString("leaderboardresponse", "");
 
         try { jsonObject = new JSONObject(RESPONSE_FROM_API); } catch (JSONException e) { e.printStackTrace(); }
 
@@ -83,7 +85,7 @@ public class Leaderboards extends AppCompatActivity {
     }
 
     private void setLeaderboardAdapter() {
-        adapter = new Leaderboards.LeaderboardAdapter(profileList);
+        LeaderboardAdapter adapter = new LeaderboardAdapter(profileList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
 
         leaderboardRecyclerView.setLayoutManager(layoutManager);
@@ -138,7 +140,6 @@ public class Leaderboards extends AppCompatActivity {
         public void onBindViewHolder(@NonNull Leaderboards.LeaderboardAdapter.ViewHolder holder, int position) {
             Profile tmpProfile = profileList.get(position);
 
-            System.out.println(tmpProfile.getID());
             holder.name.setText(tmpProfile.getName());
 
             String tmp = tmpProfile.getNameColor();
@@ -153,7 +154,6 @@ public class Leaderboards extends AppCompatActivity {
             holder.tag.setText(tmpProfile.getTag());
             holder.rank.setText(Integer.toString(position + 1));
 
-
             String toSearch = "";
             try { toSearch = iconMapping.getString(tmpProfile.getID()); } catch (JSONException e) { e.printStackTrace(); }
 
@@ -167,12 +167,16 @@ public class Leaderboards extends AppCompatActivity {
             }
             int id1 = getApplicationContext().getResources().getIdentifier(toSearch, "drawable", getApplicationContext().getPackageName());
 
+            System.out.println("name: " + tmpProfile.getName() + "\nprofile pic id: " + tmpProfile.getID());
+
+
             if(id1 == 0x0) {
                 holder.leaderboardPicture.setImageResource(R.drawable.shelly);
             }
             else {
                 holder.leaderboardPicture.setImageResource(id1);
             }
+
             holder.leaderboardBackground.setOnClickListener(view -> {
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("def", Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = pref.edit();

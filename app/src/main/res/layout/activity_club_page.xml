@@ -18,8 +18,8 @@
         android:id="@+id/clubStatCardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="30dp"
         app:cardCornerRadius="8dp"
         app:cardBackgroundColor="#067FD6"
@@ -61,6 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginEnd="12.5dp"
                 android:layout_gravity="center">
                 <ImageView
                     android:layout_width="25dp"
@@ -78,15 +79,25 @@
                     android:text="CLUB TROPHIES"/>
             </LinearLayout>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="#989898"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="5dp">
                 <TextView
                     android:id="@+id/clubDesc"
                     android:fontFamily="@font/nougat_extrablack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:text="CLUB DESCRIPTION"/>
+
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -100,8 +111,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="@dimen/adview_margin"
         android:layout_marginTop="30dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp">
+        android:layout_marginStart="7.5dp"
+        android:layout_marginEnd="7.5dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/clubRecycleView"
@@ -109,7 +120,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"/>
-
     </ScrollView>
 
     <com.google.android.gms.ads.AdView

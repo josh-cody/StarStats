@@ -15,15 +15,11 @@ import org.json.JSONObject;
  */
 public class BrawlerWidget extends AppWidgetProvider {
 
-
-
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.brawler_widget);
 
-        if(pref.getInt("widgetID", -1) != appWidgetId) {
-            return;
-        }
+        if(pref.getInt("widgetID", -1) != appWidgetId) { return; }
 
         ApiThread apiThread = new ApiThread(context, pref.getString("widgetPlayerTag","NONE"), 5);
         apiThread.start();
@@ -51,7 +47,6 @@ public class BrawlerWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         SharedPreferences pref = context.getSharedPreferences("def", Context.MODE_PRIVATE);
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.brawler_widget);
 

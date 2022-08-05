@@ -1,12 +1,5 @@
 package com.starstats.starstats;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -27,10 +25,6 @@ import org.json.JSONObject;
 
 import java.text.MessageFormat;
 import java.time.Instant;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,7 +42,6 @@ public class Maps extends AppCompatActivity {
     private AtomicBoolean isWindowOpen = new AtomicBoolean(false);
     private MapZoomFragment mapZoomFragment;
     private AdView mAdView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,21 +82,18 @@ public class Maps extends AppCompatActivity {
 
     public void populateMapList(String RESPONSE_FROM_API) throws JSONException {
         JSONArray jsonArray = new JSONArray(RESPONSE_FROM_API);
-        System.out.println(RESPONSE_FROM_API);
         for(int i = 0; i < jsonArray.length(); i++){
-            JSONObject t = (JSONObject) jsonArray.get(i);
 
+            JSONObject t = (JSONObject) jsonArray.get(i);
             String eventStart = t.getString("startTime");
             String eventEnd = t.getString("endTime");
 
             JSONObject tmpMap = (JSONObject) t.get("event");
             if(!tmpMap.getString("mode").equals("duoShowdown") && !tmpMap.getString("mode").equals("roboRumble") && !tmpMap.getString("mode").equals("bossFight") && !tmpMap.getString("mode").equals("bigGame")) {
-                mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode"), eventStart, eventEnd));
-                System.out.println("added "+ tmpMap.getString("mode"));
+                mapList.add(new ThisMap(tmpMap.getString("map"), tmpMap.getString("mode"), eventStart, eventEnd, t.getInt("slotId")));
             }
         }
     }
-
 
     public void setMapAdapter() throws JSONException {
         MapAdapter mapAdapter = new MapAdapter(mapList);
@@ -116,7 +106,6 @@ public class Maps extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mapAdapter);
     }
-
 
     class MapAdapter extends RecyclerView.Adapter<MapAdapter.ViewHolder> {
         ArrayList<ThisMap> mapList;
@@ -152,7 +141,6 @@ public class Maps extends AppCompatActivity {
             modes.put("botDrop", "Bot Drop");
             modes.put("hunters","Hunters");
             modes.put("unknown", "Unknown");
-
             return new ViewHolder(v);
         }
 
@@ -164,7 +152,7 @@ public class Maps extends AppCompatActivity {
             java.util.Date eventEnd = Date.from( Instant.parse(thisMap.eventEnd));
             java.util.Date localTime = Date.from(Instant.now());
 
-            if(!localTime.before(eventStart)) {
+            if(!localTime.before(eventStart) && thisMap.slotID < 20) {
                 inViewHolder.add(thisMap.mode);
 
                 long timeRemaining = eventEnd.getTime() - localTime.getTime();
@@ -177,7 +165,6 @@ public class Maps extends AppCompatActivity {
                 holder.modeName.setText(modes.get(thisMap.mode));
 
                 Context context1 = holder.mapBack.getContext();
-
                 int id1 = context1.getResources().getIdentifier(thisMap.mode.toLowerCase(), "drawable", context1.getPackageName());
                 holder.backgroundImage.setImageResource(id1);
 

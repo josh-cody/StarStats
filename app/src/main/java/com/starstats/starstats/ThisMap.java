@@ -4,9 +4,10 @@ public class ThisMap {
     String map;
     String mode;
     String eventStart, eventEnd;
+    int slotID;
 
 
-    public ThisMap(String map, String mode, String eventStart, String eventEnd) {
+    public ThisMap(String map, String mode, String eventStart, String eventEnd, int slotID) {
 
         char[] eventStartArray = eventStart.toCharArray();
 
@@ -33,6 +34,7 @@ public class ThisMap {
         this.mode = mode;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
+        this.slotID = slotID;
     }
 
     private static char[] insert(char[] a, char key, int index)

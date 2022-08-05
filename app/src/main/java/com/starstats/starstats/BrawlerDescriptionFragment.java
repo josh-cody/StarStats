@@ -43,7 +43,6 @@ public class BrawlerDescriptionFragment extends Fragment {
     private CardView cardView, cardView2;
     private LinearLayout linearLayout, linearLayout2, linID, linID2;
 
-
     public BrawlerDescriptionFragment() {}
 
     public static BrawlerDescriptionFragment newInstance(int nameID, String name, String starpowers, String gadgets) {

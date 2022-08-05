@@ -16,6 +16,7 @@
         android:fontFamily="@font/nougat_extrablack"
         android:layout_gravity="center"
         android:gravity="center"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:background="@drawable/time_remaining_background"/>

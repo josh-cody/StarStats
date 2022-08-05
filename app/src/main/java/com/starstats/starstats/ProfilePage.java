@@ -1,14 +1,5 @@
 package com.starstats.starstats;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -26,6 +17,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,10 +36,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProfilePage extends AppCompatActivity {
@@ -61,7 +59,6 @@ public class ProfilePage extends AppCompatActivity {
     AtomicBoolean isInstructionWindowOpen = new AtomicBoolean(false);
     String tag, tmpsp1, tmpsp2, tmpg1, tmpg2;
     JSONObject jsonObject, tmpStar1, tmpStar2, tmpGad1, tmpGad2;
-    private AdView mAdView;
     int tmpspeed, tmphealth, tmpdamage, tmpvision, tmpshield = 0;
     JSONArray jsonStarpowers, rarityFromJSON, jsonGadgets, jsonGears;
     JSONObject iconMapping;
@@ -88,7 +85,7 @@ public class ProfilePage extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
         }
 
-        mAdView = findViewById(R.id.adViewProfile);
+        AdView mAdView = findViewById(R.id.adViewProfile);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -96,8 +93,8 @@ public class ProfilePage extends AppCompatActivity {
 
         apiThread = new ApiThread(getApplicationContext(), tag, 1);
         apiThread.start();
-        try { apiThread.join(); } catch (InterruptedException e) { e.printStackTrace(); }
-
+        try { apiThread.join(); }
+        catch (InterruptedException e) { e.printStackTrace(); }
 
         raritySortText = findViewById(R.id.raritySortText); currentTrophies = findViewById(R.id.currentTrophiesExpanded); highestTrophies = findViewById(R.id.highestTrophiesExpanded); threeWins = findViewById(R.id.threeWins); soloWins = findViewById(R.id.soloWins); duoWins = findViewById(R.id.duoWins); playerTag = findViewById(R.id.playerTagExpanded); playerName = findViewById(R.id.playerNameExpanded); level = findViewById(R.id.playerLevel); clubName = findViewById(R.id.clubName); brawlersUnlocked = findViewById(R.id.brawlersUnlocked);
         profilePicture = findViewById(R.id.profilePicture); sortButton = findViewById(R.id.sortButton); con = findViewById(R.id.brawlersCon); follow = findViewById(R.id.follow); scrollView = findViewById(R.id.brawlersScroll); brawlers = findViewById(R.id.recyclerView);
@@ -117,42 +114,45 @@ public class ProfilePage extends AppCompatActivity {
 
         try {
             setValues(pref.getString("response", ""));
-            if(!pref.getBoolean("fromLeaderboards", false)) {
-                if (!pref.contains("recent1")) {
-                    edit.putString("recent1", tag).apply();
-                } else if (!pref.contains("recent2")) {
-                    edit.putString("recent2", tag).apply();
-                } else if (!pref.contains("recent3")) {
-                    edit.putString("recent3", tag).apply();
+                if(pref.contains("profileRecents")) {
+                    Set<String> fetch = pref.getStringSet("profileRecents", new HashSet<>());
+                    HashSet<String> profileRecents = new HashSet<>();
+                    profileRecents.addAll(fetch);
+                    if(profileRecents.size() >= 3) {
+                        Object[] tmp = profileRecents.toArray();
+                        ArrayList<String> tmp2 = new ArrayList<>();
+                        for(Object o : tmp) { tmp2.add((String) o); }
+                        tmp2.remove(0);
+                        tmp2.add(tag);
+                        HashSet<String> toAdd = new HashSet<>();
+                        toAdd.addAll(tmp2);
+                        edit.putStringSet("profileRecents", toAdd).apply();
+                    }
+                    else {
+                        profileRecents.add(tag);
+                        edit.putStringSet("profileRecents", profileRecents).apply();
+                    }
+                } else {
+                    Set<String> profileRecents = new HashSet<>();
+                    profileRecents.add(tag);
+                    edit.putStringSet("profileRecents", profileRecents).apply();
                 }
-                if (pref.contains("recent1") && pref.contains("recent2") && pref.contains("recent3") && !pref.getString("recent1", "").equals(tag) && !pref.getString("recent2", "").equals(tag) && !pref.getString("recent3", "").equals(tag)) {
-                    edit.putString("recent3", pref.getString("recent2", "")).apply();
-                    edit.putString("recent2", pref.getString("recent1", "")).apply();
-                    edit.putString("recent1", tag).apply();
-                }
-            }
         } catch (JSONException e) {
             toMainActivity();
-            Toast.makeText(getApplicationContext(),"Make sure you put in the correct tag!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Make sure you put in a correct tag!", Toast.LENGTH_SHORT).show();
         }
 
         try {
             JSONObject tmpID = jsonObject.getJSONObject("icon");
             String id = String.valueOf(tmpID.getInt("id"));
-
             String toSearch = iconMapping.getString(id);
-
-            System.out.println("toSearch: "+toSearch);
-
             char[] chars = toSearch.toCharArray();
-
             for (char c : chars) {
                 if (Character.isDigit(c)) {
                     toSearch = "i" + toSearch;
                     break;
                 }
             }
-            System.out.println("toSearch: "+toSearch);
             int id1 = getApplicationContext().getResources().getIdentifier(toSearch, "drawable", getApplicationContext().getPackageName());
             profilePicture.setImageResource(id1);
         } catch (JSONException e) { e.printStackTrace(); }
@@ -208,6 +208,7 @@ public class ProfilePage extends AppCompatActivity {
                 ArrayList<Brawler> tmp = null;
                 try { tmp = sortBrawlerListRarity(brawlerList); } catch (JSONException e) { e.printStackTrace(); }
                 brawlerList.clear();
+                assert tmp != null;
                 brawlerList.addAll(tmp);
                 adapter.notifyChanges();
                 edit.putString("sort", "r").apply();
@@ -251,13 +252,8 @@ public class ProfilePage extends AppCompatActivity {
         Intent toClub = new Intent(this, ClubPage.class);
         SharedPreferences pref = getSharedPreferences("def", Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
-
         JSONObject clubInfo = jsonObject.getJSONObject("club");
-
-        System.out.println(clubInfo.getString("tag"));
-
         edit.putString("tag", clubInfo.getString("tag").replace("#","")).apply();
-
         startActivity(toClub);
     }
 
@@ -274,7 +270,13 @@ public class ProfilePage extends AppCompatActivity {
                 isInstructionWindowOpen.set(false);
             }
             else if(pref.getBoolean("fromLeaderboards", false)) {
+                edit.putBoolean("fromLeaderboards", false).apply();
                 goToLeaderboards();
+            }
+            else if(pref.getBoolean("fromClubPage", false)) {
+                edit.putBoolean("fromClubPage", false).apply();
+                try { goToClub(); }
+                catch (JSONException e) { e.printStackTrace(); }
             }
             else {
                 super.onBackPressed();
@@ -408,8 +410,6 @@ public class ProfilePage extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public void setValues(String RESPONSE_FROM_API) throws JSONException {
-        System.out.println("response: "+RESPONSE_FROM_API);
-
         jsonObject = new JSONObject(RESPONSE_FROM_API);
         playerName.setText(jsonObject.getString("name"));
 
@@ -493,7 +493,6 @@ public class ProfilePage extends AppCompatActivity {
             try{ holder.brawlerPortrait.setImageResource(id); } catch(Error e) { holder.brawlerPortrait.setImageResource(R.drawable.bs_logo); }
 
             holder.itemView.setOnClickListener(view -> {
-                System.out.println(formatStringForFilename(brawler.name).toLowerCase(Locale.ROOT));
                 if(!isBrawlerWindowOpen.get()) {
                     brawlerPowers = BrawlerPowers.newInstance(brawler.starpower1, brawler.starpower2, brawler.gadget1, brawler.gadget2, brawler.speedgear, brawler.healthgear, brawler.damagegear, brawler.visiongear, brawler.shieldgear);
                     getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.enter_from_botton, R.anim.exit_to_bottom).replace(R.id.brawlerPowers, brawlerPowers).commit();

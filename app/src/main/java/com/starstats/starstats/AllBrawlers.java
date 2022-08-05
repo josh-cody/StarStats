@@ -39,7 +39,6 @@ public class AllBrawlers extends AppCompatActivity {
 
     private RecyclerView brawlers;
     private ArrayList<Brawler> brawlerList;
-    private AdView mAdView;
     private TextView brawlerDescriptionTitle;
     private ConstraintLayout allBrawlersBack;
     private BrawlerDescriptionFragment brawlerDescriptionFragment;
@@ -64,7 +63,7 @@ public class AllBrawlers extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "An error occurred", Toast.LENGTH_SHORT).show();
         }
 
-        mAdView = findViewById(R.id.adViewBrawlers);
+        AdView mAdView = findViewById(R.id.adViewBrawlers);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
